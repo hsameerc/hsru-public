@@ -1,5 +1,5 @@
 CXX      = g++
-CXXFLAGS = -O3 -Wall -std=c++17 -Iinclude
+CXXFLAGS = -O3 -Wall -std=c++17 -Iinclude -mmacosx-version-min=11.0
 LDFLAGS  = -Llib -lhsru_codec -Wl,-rpath,@executable_path/lib
 
 all: demo inference inference_stream
