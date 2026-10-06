@@ -1,0 +1,431 @@
+\documentclass[11pt]{article}
+
+% Core packages
+\usepackage{amsmath, amssymb, amsthm, bm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1.1in}
+
+% Typography
+\usepackage{microtype}
+\usepackage{times}
+\usepackage[dvipsnames]{xcolor}
+
+% Colored, box-free hyperlinks
+\usepackage[colorlinks=true, linkcolor=MidnightBlue, citecolor=MidnightBlue, urlcolor=MidnightBlue]{hyperref}
+\usepackage{cleveref}
+
+% Algorithm typesetting
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+% Better tables
+\usepackage{booktabs}
+
+% ------------------------------------------------------------------
+% Theorem environments
+% ------------------------------------------------------------------
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}[section]
+
+% ------------------------------------------------------------------
+\title{%
+    \textbf{HSRU: Mathematical Verification of the Neuromorphic\\
+    Split-Brain Spiking Recurrence Architecture}%
+}
+\author{%
+    Sameer Humagain \\[4pt]
+    \textit{Independent AI Researcher}%
+}
+\date{\today}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\begin{abstract}
+\noindent
+This paper rigorously derives and verifies the mathematical foundations of the \textbf{Hybrid State Recurrent Unit (HSRU)}, a neuromorphic sequence model designed to achieve strictly constant $\mathcal{O}(1)$ inference memory while maintaining competitive language modelling capacity.
+
+We establish three principal contributions.
+\textbf{(i)} We formally derive the Split-Brain architecture, proving that a biologically motivated decomposition into a \emph{spiking somatic} channel and a \emph{continuous dendritic} channel, combined with multiplicative gating, enables complete decoupling of digital latch logic from floating-point semantic compression.
+\textbf{(ii)} We prove that the causal Matrix Exponential Moving Average (EMA) in the Memory Layer provides a strictly bounded $\mathcal{O}(N^2 D)$ state representation regardless of temporal horizon $T$, and derive exact closed-form gradients without materialising the $\mathcal{O}(T N^2 D)$ trajectory tensor.
+\textbf{(iii)} We formalise the Spiking Linear Attention layer with Product Key Memory (PKM), demonstrating that Top-$K$ sparse addressing on an orthogonally initialised Cartesian codebook provides a deterministic $\mathcal{O}(1)$ associative recall mechanism that resolves the Pigeonhole Principle within the fixed state manifold.
+\end{abstract}
+
+\vspace{0.8cm}
+\tableofcontents
+\newpage
+\setcounter{page}{1}
+
+% ==================================================================
+\section{Introduction and Motivation}
+% ==================================================================
+Standard Transformer language models maintain an explicit Key-Value (KV) cache during autoregressive generation. For a sequence of length $T$, this cache has $\mathcal{O}(T)$ memory footprint and incurs $\mathcal{O}(T^2)$ computational cost during training. For recurrent networks such as LSTMs, the unbounded hidden state growth is avoided, but these architectures suffer from catastrophic forgetting as the sequence length grows because a fixed-size vector cannot losslessly compress an arbitrarily long history.
+
+The HSRU architecture addresses both shortcomings through a biologically inspired \emph{Split-Brain} design: a fixed-dimensional state matrix $\mathbf{S} \in \mathbb{R}^{N \times N \times D}$ acts as a compressed manifold for continuous associations, while a sparse spiking mechanism handles discrete, high-salience events. The key insight is that biological cortical circuits simultaneously operate in two regimes: dense, real-valued dendritic integration for semantic context, and sparse, all-or-nothing somatic spikes for discrete event encoding. HSRU instantiates both regimes in a single differentiable computation graph.
+
+% ==================================================================
+\section{Architectural Primitives}
+% ==================================================================
+
+\subsection{Hardware-Compatible Activation Functions}
+
+The HSRU codebase defines hardware-accurate approximations of standard non-linearities to ensure bitwise consistency between the PyTorch training environment and the fixed-point C++ Edge Engine.
+
+\begin{definition}[Hardware GELU]
+The standard GELU activation is approximated by the piecewise quadratic:
+\begin{equation}
+    \mathrm{GELU}_{\mathrm{hw}}(x) = \begin{cases}
+        0 & x \leq -2 \\
+        \dfrac{x}{2} + \dfrac{x^2}{8} & -2 < x < 2 \\
+        x & x \geq 2
+    \end{cases}
+\end{equation}
+This approximation deviates from the true $\mathrm{GELU}(x) = x \Phi(x)$ by at most $6 \times 10^{-3}$ in absolute error over $x \in [-3, 3]$, which is negligible under 8-bit fixed-point quantisation.
+\end{definition}
+
+\begin{definition}[Hardware Sigmoid]
+The sigmoid is approximated by a piecewise linear clamp:
+\begin{equation}
+    \sigma_{\mathrm{hw}}(x) = \mathrm{clamp}\!\left(0.5 + \frac{x}{8},\ 0,\ 1\right)
+\end{equation}
+This function is exactly representable in 8-bit arithmetic and eliminates all exponential computations from the inference path.
+\end{definition}
+
+\subsection{The Neuromorphic Logic Layer}
+
+\begin{definition}[Gated Logic Unit (GLU)]
+The Logic Layer $\mathcal{L} : \mathbb{R}^D \to \mathbb{R}^D$ with intermediate width $M$ computes:
+\begin{align}
+    \mathbf{g} &= \sigma\!\left(\mathbf{W}_{\mathrm{gate}}\, \mathbf{x}\right) \in (0,1)^M \label{eq:gate} \\
+    \mathbf{u} &= \mathbf{W}_{\mathrm{val}}\, \mathbf{x} \in \mathbb{R}^M \label{eq:val} \\
+    \mathcal{L}(\mathbf{x}) &= \mathbf{W}_{\mathrm{out}}\!\left( \mathbf{g} \odot \mathbf{u} \right) \in \mathbb{R}^D \label{eq:glm_out}
+\end{align}
+where $\mathbf{W}_{\mathrm{out}} \in \mathbb{R}^{D \times M}$ is initialised with $\mathcal{N}(0, 0.01^2)$ and its bias to $\mathbf{0}$, ensuring that the logic output is initially negligible and gradient flow begins through the identity path.
+
+The fused implementation computes $[\mathbf{g}; \mathbf{u}] = F_{\mathrm{linear}}(\mathbf{x}, [\mathbf{W}_{\mathrm{gate}};\mathbf{W}_{\mathrm{val}}])$ in a single matrix multiplication, halving the number of BLAS kernel launches.
+\end{definition}
+
+\begin{remark}
+This is strictly a \emph{Gated Linear Unit}, not SwiGLU. SwiGLU computes $\mathbf{g} \odot \mathrm{SiLU}(\mathbf{u})$ where both projections receive independent linear transformations. The HSRU Logic Layer applies the gate as a pure sigmoid selector on the value stream.
+\end{remark}
+
+% ==================================================================
+\section{The Split-Brain Memory Layer}
+% ==================================================================
+
+\subsection{Channel Decomposition}
+
+The Memory Layer $\mathcal{M} : \mathbb{R}^{B \times T \times D} \to \mathbb{R}^{B \times T \times D}$ maintains a hybrid internal state and partitions the hidden dimension $D$ at index $s$:
+
+\begin{definition}[Split-Brain Partition]
+\begin{equation}
+    \mathbf{h}_t = \underbrace{v_t^{(1:s)}}_{\text{Spiking Soma}} \;\big|\!\big|\; \underbrace{v_t^{(s+1:D)}}_{\text{Continuous Dendrite}}
+\end{equation}
+Spiking channels maintain a perfect digital latch ($\alpha = 1$), functioning as bistable memory elements. Continuous channels apply a data-dependent leak $\alpha_t \in (0,1)$, acting as exponentially decaying semantic accumulators. The split index $s = \lfloor D/2 \rfloor$ by default.
+\end{definition}
+
+\subsection{Fused Input Projection}
+
+Rather than computing five independent linear maps, the layer horizontally concatenates their weight matrices into a single fused projection:
+\begin{equation}
+    \mathbf{F}_t = \mathbf{x}_t \cdot \begin{bmatrix} \mathbf{W}_{\alpha}^\top \;|\; \mathbf{W}_{\kappa}^\top \;|\; \mathbf{W}_{in}^\top \;|\; \mathbf{W}_{d,in}^\top \;|\; \mathbf{W}_{d,\alpha}^\top \end{bmatrix} + \mathbf{b}
+\end{equation}
+and then slices $\mathbf{F}_t$ into five components $(\hat{\alpha}_t,\, \hat{\kappa}_t,\, \hat{s}_t,\, \hat{d}_t,\, \hat{\delta}_t)$, each $\in \mathbb{R}^D$. This reduces memory bandwidth overhead by a factor of 5 at the cost of a single, larger BLAS call.
+
+\subsection{Sinusoidal Positional Clock}
+
+To inject absolute positional information into the recurrent state without breaking the $\mathcal{O}(1)$ recurrent invariance, a sinusoidal positional clock is injected additively into the pre-activation input:
+\begin{align}
+    \mathbf{c}_{t, 2i} &= \sin\!\left( \frac{t}{10000^{2i/D}} \right) \\
+    \mathbf{c}_{t, 2i+1} &= \cos\!\left( \frac{t}{10000^{2i/D}} \right)
+\end{align}
+The clock is cached with an LRU-1 policy: when the (seq\_len, device, offset) key is identical across two consecutive calls—as it always is during TBPTT with fixed chunk size—the tensor is reused without recomputation, eliminating all trigonometric kernel launches.
+
+\subsection{Dendritic Computation}
+
+The dendritic state $d_{v,t} \in \mathbb{R}^D$ models a spatially integrated post-synaptic current that decays at an input-modulated rate:
+\begin{align}
+    d_{v,t} &= \delta_t \odot d_{v,t-1} + \hat{d}_t \label{eq:dendrite_state} \\
+    \mathbf{s}^{(d)}_t &= \varphi\!\left(d_{v,t} - \vartheta^{(d)}\right) \label{eq:dend_spike} \\
+    d_{v,t} &\leftarrow d_{v,t} - \mathbf{s}^{(d)}_t \odot \vartheta^{(d)} \label{eq:dend_reset}
+\end{align}
+where $\delta_t = \sigma(\hat{\delta}_t) \in (0,1)^D$ is the learned dendritic decay, $\vartheta^{(d)} = \mathrm{softplus}(\boldsymbol{\theta}_d) \in \mathbb{R}^D_{>0}$ is the learnable dendrite threshold with $\boldsymbol{\theta}_d$ initialised to $0.1$, and $\varphi(\cdot)$ is the surrogate gradient fast sigmoid with slope 25:
+\begin{equation}
+    \varphi(z) = \frac{1}{1 + e^{-25z}}, \quad \nabla_z \varphi(z) = \frac{25 \cdot e^{-25z}}{(1+e^{-25z})^2}
+\end{equation}
+The dendritic post-synaptic current (PSC) injected into the soma is:
+\begin{equation}
+    \mathrm{PSC}_t = \mathbf{s}^{(d)}_t \odot \mathbf{w}_{\mathrm{dend}} \in \mathbb{R}^D
+\end{equation}
+where $\mathbf{w}_{\mathrm{dend}} \in \mathbb{R}^D$ is a learnable per-channel weight initialised to $0.1$.
+
+\subsection{Somatic Membrane Potential and Spiking}
+
+The soma integrates the shunted input signal and the dendritic current into a membrane potential $v_t$. Critically, the shunting gate $\kappa_t$ acts as a multiplicative inhibitor on the entire afferent signal (input plus dendrite), \emph{not} on the previous membrane potential:
+\begin{align}
+    \mathbf{s}_{\mathrm{eff},t} &= \left( \hat{s}_t + \mathrm{PSC}_t \right) \odot \kappa_t \\
+    v_t &= \alpha_t \odot v_{t-1} + \mathbf{s}_{\mathrm{eff},t} \label{eq:soma}
+\end{align}
+where $\alpha_t = \sigma(\hat{\alpha}_t) \in (0,1)^D$ is the leak gate and $\kappa_t = \sigma(\hat{\kappa}_t) \in (0,1)^D$ is the shunting inhibition. The bias of $\mathbf{W}_\alpha$ is initialised to $1.0$, yielding an initial leak $\alpha_0 \approx \sigma(1.0) = 0.731$. This is critical: with $\alpha_0 = 0.982$ (bias 4.0), the steady-state voltage variance is $\sigma^2_v = \sigma^2_{in} / (1 - \alpha_0^2) \approx 27 \sigma^2_{in}$, causing universal saturation; with $\alpha_0 = 0.731$, we get $\sigma^2_v \approx 1.13 \sigma^2_{in}$, keeping the membrane below threshold for $\sim 90\%$ of inputs and achieving biologically realistic $\sim 10\%$ sparse firing.
+
+\paragraph{Spiking Half ($1 \leq j \leq s$), $k=1$ mode.}
+In the default single-threshold configuration (\texttt{k\_dims=1}), the spike is computed as a pure surrogate gradient approximation with no binary hard reset — the forward activation is the smooth sigmoid itself:
+\begin{equation}
+    \mathbf{s}^{(j)}_t = \varphi\!\left(v^{(j)}_t - \vartheta^{(j)}\right) \in (0, 1)
+\end{equation}
+The membrane reset subtracts the spike times the detached threshold:
+\begin{equation}
+    v^{(j)}_t \leftarrow v^{(j)}_t - \mathbf{s}^{(j)}_t \big|_{\mathrm{detached}} \odot \vartheta^{(j)}
+\end{equation}
+
+\paragraph{Spiking Half ($1 \leq j \leq s$), thermometer $k>1$ mode.}
+When \texttt{k\_dims}$>1$, the model uses thermometer-encoded thresholds $\vartheta^{(j)}_1 < \vartheta^{(j)}_2 < \dots < \vartheta^{(j)}_k$ and the full Straight-Through Estimator (STE):
+\begin{equation}
+    \mathbf{s}^{(j,k)}_t = \underbrace{\left[\!\left[ v^{(j)}_t > \vartheta^{(j)}_k \right]\!\right]}_{\text{hard, forward}} \;-\; \underbrace{\varphi\!\left(v^{(j)}_t - \vartheta^{(j)}_k\right)}_{\text{detached}}\; + \;\varphi\!\left(v^{(j)}_t - \vartheta^{(j)}_k\right)
+\end{equation}
+This yields a true discrete $\{0,1\}^k$ vector during the forward pass while routing gradients through the smooth surrogate. The membrane reset is proportional to the total number of threshold crossings.
+
+The spike density is penalised by a mean-squared auxiliary loss against a biologically motivated target rate $\rho^* = 0.1$:
+\begin{equation}
+    \mathcal{L}_{\mathrm{aux}} = \left( \frac{1}{T \cdot B \cdot s} \sum_{t,b,j} s^{(j)}_{t,b} - \rho^* \right)^2
+\end{equation}
+
+\paragraph{Continuous Half ($s+1 \leq j \leq D$).}
+The continuous channels set the leak gate to 1 (perfect digital latch):
+\begin{equation}
+    \alpha^{(j)}_t = 1.0, \quad s < j \leq D
+\end{equation}
+These channels accumulate floating-point semantic associations without information-destroying discrete thresholding.
+
+\subsection{Output Projection}
+
+The final output of the memory layer reads both the somatic membrane trace $\mathbf{v}_t \in \mathbb{R}^D$ and the collapsed dendritic spike trace $\mathbf{d}_t \in \mathbb{R}^s$:
+\begin{equation}
+    \mathbf{o}_t = \mathrm{GELU}\!\left( \mathbf{w}_v \odot \mathbf{v}_t + \mathrm{ZeroPad}(\mathbf{w}_d \odot \mathbf{d}_t) + \mathbf{b} \right)
+\end{equation}
+followed by a LayerNorm, and then a residual connection back to the original input.
+
+% ==================================================================
+\section{HSRUBlock: The Full Additive Forward Pass}
+% ==================================================================
+
+\begin{definition}[Additive Routing (Transformer-Parity)]
+Let $\mathbf{x}_t \in \mathbb{R}^{B \times D}$ be the input residual stream at layer $\ell$. The HSRUBlock forward pass is:
+\begin{align}
+    \mathbf{m}_t,\ \mathbf{S}_t &= \mathcal{M}\!\left(\mathrm{LN}_1(\mathbf{x}_t),\ \mathbf{S}_{t-1}\right) \\
+    \mathbf{x}'_t &= \mathbf{x}_t + \boldsymbol{\Sigma} \odot \mathbf{m}_t \\
+    \mathbf{l}_t,\ \_ &= \mathcal{L}\!\left(\mathrm{LN}_2(\mathbf{x}'_t)\right) \\
+    \mathbf{x}_{t+1} &= \mathbf{x}'_t + \mathbf{l}_t
+\end{align}
+where $\boldsymbol{\Sigma} \in \mathbb{R}^D$ is a learnable scaling parameter initialised to $0.1 \cdot \mathbf{1}$. The purpose of this near-zero initialisation is to establish a stable ``double-silent'' bootstrap: at step~0, both $\mathcal{M}$ and $\boldsymbol{\Sigma}$ output near-zero values, causing the model to begin training near an identity function, which prevents exploding activations in deep stacks.
+\end{definition}
+
+\begin{theorem}[Gradient Stability under Near-Zero Initialisation]
+In the limit $\boldsymbol{\Sigma} \to \mathbf{0}$, the Jacobian $\partial \mathbf{x}_{t+1} / \partial \mathbf{x}_t \to \mathbf{I}$, ensuring unit-magnitude singular values and preventing gradient vanishing or explosion at the start of training.
+\end{theorem}
+\begin{proof}
+$\mathbf{x}_{t+1} = \mathbf{x}_t + \boldsymbol{\Sigma} \odot \mathcal{M}(\cdot) + \mathcal{L}(\cdot)$. The Jacobian is $\mathbf{I} + \boldsymbol{\Sigma} \odot J_{\mathcal{M}} + J_{\mathcal{L}}$. Since $\mathbf{W}_{\mathrm{out}} \sim \mathcal{N}(0, 0.01^2)$, we have $\|J_{\mathcal{L}}\|_F \approx 0$, and $\|\boldsymbol{\Sigma} \odot J_{\mathcal{M}}\|_F = 0.1\|J_{\mathcal{M}}\|_F$. The dominant term is therefore $\mathbf{I}$, confirming the stability result.
+\end{proof}
+
+% ==================================================================
+\section{The Spiking Linear Attention Layer with Product Key Memory}
+% ==================================================================
+
+\subsection{Motivation: Associative Recall and the Pigeonhole Principle}
+
+The somatic memory layer compresses all past information into a fixed-size manifold. By the Data Processing Inequality, this lossy compression prevents exact associative recall of arbitrary past tokens. The Spiking Linear Attention layer provides a complementary sparse addressing mechanism.
+
+\subsection{Orthogonally Initialised Codebook}
+
+The attention layer maintains a pair of orthonormal codebooks $\mathbf{C}_1, \mathbf{C}_2 \in \mathbb{R}^{H \times C \times (D/2)}$, where $H$ is the number of heads and $C$ is the number of codes per codebook. Each $\mathbf{C}_r[h] \in \mathbb{R}^{C \times (D/2)}$ is initialised via orthogonal initialisation, ensuring maximally spread initial code vectors:
+\begin{equation}
+    \mathbf{C}_r[h]^\top \mathbf{C}_r[h] = \mathbf{I}_{C} \quad \forall r \in \{1, 2\},\ h \in [H]
+\end{equation}
+During the forward pass, codebooks are $\ell_2$-normalised to the unit sphere, maintaining hyperspherical uniform coverage of the query space as training proceeds.
+
+\subsection{Separable Product-Key Addressing}
+
+A query $\mathbf{q}_t \in \mathbb{R}^{D/2}$ (split into row-half $\mathbf{q}^{(1)}$ and column-half $\mathbf{q}^{(2)}$) computes inner-product scores against both codebooks:
+\begin{equation}
+    r_{t,n} = \mathbf{q}^{(1)}_t \cdot \hat{\mathbf{c}}_{1,n}, \qquad c_{t,n} = \mathbf{q}^{(2)}_t \cdot \hat{\mathbf{c}}_{2,n}
+\end{equation}
+The Top-$K$ row and column indices are retrieved:
+\begin{equation}
+    (w^r_k, i^r_k)_{k=1}^K = \mathrm{TopK}(\mathrm{softmax}(\mathbf{r}_t)), \qquad (w^c_k, i^c_k)_{k=1}^K = \mathrm{TopK}(\mathrm{softmax}(\mathbf{c}_t))
+\end{equation}
+This defines a $K^2$ Cartesian set of active cells in the $C \times C$ memory grid.
+
+\begin{theorem}[$\mathcal{O}(KC)$ Addressing Complexity]
+The PKM lookup has time complexity $\mathcal{O}(KC)$ and space complexity $\mathcal{O}(K^2)$ per query, independent of the sequence length $T$.
+\end{theorem}
+\begin{proof}
+Computing $\mathbf{r}_t$ and $\mathbf{c}_t$ requires $2C \cdot (D/2) = CD$ multiplications. The TopK operation is $\mathcal{O}(C)$ with a min-heap. The outer product over $K^2$ cells requires $\mathcal{O}(K^2)$ space and $\mathcal{O}(K^2 D_h)$ multiplications for value accumulation, where $D_h = D/H$ is the head dimension. Since $K \ll C$ by design ($K = 2$, $C = 16$ in the small configuration), this is $\mathcal{O}(C)$ in the dominant term.
+\end{proof}
+
+\subsection{Chunked Causal State Update}
+
+During training in chunkwise-parallel mode, the KV state grid $\mathbf{G} \in \mathbb{R}^{H \times C \times C \times D_h}$ is written with a causal decay:
+\begin{align}
+    \Lambda_{t} &= \exp\!\left(\sum_{\tau=1}^t \log g_\tau\right), \qquad g_\tau = \sigma(\mathbf{W}_g \mathbf{x}_\tau) \in (0,1) \label{eq:decay_prefix} \\
+    \mathrm{mask}_{st} &= \exp\!\left(\Lambda_t - \Lambda_s\right) \cdot \mathbf{1}[s \leq t] \label{eq:decay_mask} \\
+    A_{st} &= \left(\mathbf{R}_{Q,t} \cdot \mathbf{R}_{K,s}\right)\!\left(\mathbf{C}_{Q,t} \cdot \mathbf{C}_{K,s}\right) \cdot \mathrm{mask}_{st} / \sqrt{D_h}
+\end{align}
+The within-chunk output is:
+\begin{equation}
+    \mathbf{o}^{\mathrm{seq}}_t = \sum_{s \leq t} A_{st} \cdot \mathbf{v}_s
+\end{equation}
+The cross-chunk (state) output is:
+\begin{equation}
+    \mathbf{o}^{\mathrm{state}}_t = \Lambda_t \cdot \mathrm{AttnStateRead}(\mathbf{R}_{Q,t}, \mathbf{C}_{Q,t}, \mathbf{G})
+\end{equation}
+The state is updated at the end of each chunk:
+\begin{equation}
+    \mathbf{G} \leftarrow \mathbf{G} \cdot g_T + \mathrm{AttnKVUpdate}(\mathbf{R}_K, \mathbf{C}_K, \mathbf{v} \cdot \Lambda^{-1})
+\end{equation}
+
+% ==================================================================
+\section{Information Theory and the Data Processing Inequality}
+% ==================================================================
+
+\begin{theorem}[Upper Bound on Mutual Information]
+Let $\mathbf{X}_{1:T}$ denote the input sequence random variable and $\mathbf{S}_T$ the recurrent state at time $T$. Then:
+\begin{equation}
+    I(\mathbf{X}_{1:T}; \mathbf{S}_T) \leq \mathrm{Capacity}(N^2 D) = N^2 D \cdot \log_2 \mathcal{Q}
+\end{equation}
+where $\mathcal{Q}$ is the numerical precision of the state (32 bits for single precision).
+\end{theorem}
+\begin{proof}
+This follows directly from the Data Processing Inequality (DPI): for any Markov chain $\mathbf{X}_{1:T} \to \mathcal{M} \to \mathbf{S}_T$, we have $I(\mathbf{X}_{1:T};\mathbf{S}_T) \leq H(\mathbf{S}_T)$, and $H(\mathbf{S}_T)$ is bounded by the support cardinality of the state space.
+\end{proof}
+
+\begin{definition}[Information Bottleneck Lagrangian]
+The optimal training objective for HSRU is the Information Bottleneck Lagrangian:
+\begin{equation}
+    \mathcal{J}_{\mathrm{IB}} = \max_\theta \big[\, I(\mathbf{S}_t;\, \mathbf{x}_{t+1}) - \beta\, I(\mathbf{S}_t;\, \mathbf{X}_{1:t})\, \big]
+\end{equation}
+The leak gate $\mathbf{g}_t$ implicitly minimises $I(\mathbf{S}_t; \mathbf{X}_{1:t})$ by discarding low-relevance tokens, while the prediction head maximises $I(\mathbf{S}_t; \mathbf{x}_{t+1})$. The trade-off parameter $\beta$ is encoded implicitly in the entropy regularisation via the cross-entropy language modelling loss.
+\end{definition}
+
+% ==================================================================
+\section{CUDA-Fused Gradient Derivation}
+% ==================================================================
+
+\begin{theorem}[$\mathcal{O}(T)$ Exact Gradient Backpropagation]
+The exact parameter gradients of the Memory Layer can be computed in $\mathcal{O}(T \cdot N^2 \cdot D)$ time without materialising the temporal state trajectory $\{\mathbf{S}_0, \dots, \mathbf{S}_T\}$ in GPU VRAM.
+\end{theorem}
+\begin{proof}
+Let $\mathbf{m}_t = \sum_{r,c} R_{Q,r} C_{Q,c} S_{r,c,d}$ be the state readout. The gradient with respect to the KV state is:
+\begin{equation}
+    \nabla_{\mathbf{S}} \mathcal{L} = \sum_{t=1}^T \left(\nabla_{\mathbf{m}_t} \mathcal{L}\right) \otimes \mathbf{R}_{Q,t} \otimes \mathbf{C}_{Q,t}
+\end{equation}
+This is a sum of $T$ rank-1 outer products. The custom \texttt{AttnStateReadFn} autograd function saves only the raw inputs $(\mathbf{R}_Q, \mathbf{C}_Q, \mathbf{G})$ during the forward pass—not the intermediate $\mathbf{Q}_{\mathrm{outer}} = \mathbf{R}_Q \otimes \mathbf{C}_Q$, which would cost $\mathcal{O}(T N^2)$ VRAM. During backward, the two-step einsum contraction is recomputed inside L1 SRAM:
+\begin{align}
+    \text{step1}_{b,t,r,d} &= \sum_c C_{Q,b,t,c} \cdot S_{b,r,c,d} \\
+    m_{b,t,d} &= \sum_r R_{Q,b,t,r} \cdot \text{step1}_{b,t,r,d}
+\end{align}
+This \emph{gradient checkpointing} strategy recomputes step1 from saved inputs, exchanging $2\times$ FLOPs for $\mathcal{O}(N)$ rather than $\mathcal{O}(N^2)$ activation storage, achieving standard Transformer spatial complexity during training.
+\end{proof}
+
+% ==================================================================
+\section{Summary and Verification}
+% ==================================================================
+
+\begin{table}[h!]
+\centering
+\caption{Complexity comparison: Transformer vs.\ HSRU Small (26.3M parameters)}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Property} & \textbf{Transformer} & \textbf{HSRU} \\
+\midrule
+Inference Memory & $\mathcal{O}(T)$ KV-Cache & $\mathcal{O}(1)$ State Matrix \\
+Training Compute & $\mathcal{O}(T^2 D)$ & $\mathcal{O}(T D N^2)$ \\
+Gradient Storage & $\mathcal{O}(T N^2 D)$ & $\mathcal{O}(T D)$ (checkpointed) \\
+Spike Density & N/A & $\sim$10\% (sparse) \\
+Associative Recall & Full Attention & Top-$K$ PKM \\
+Edge Deployable & No (growing cache) & Yes ($\mathcal{O}(1)$ C++ binary) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The mathematical derivations in this document are verified to correspond exactly to the implementation in \texttt{dynamic\_hsru.py}. All equations are derived directly from the PyTorch forward and backward passes of \texttt{HSRUMemoryLayer}, \texttt{HSRULogicLayer}, \texttt{HSRUSpikingAttentionLayer}, and the CUDA autograd functions \texttt{AttnStateReadFn} / \texttt{AttnKVUpdateFn}.
+
+% ==================================================================
+\section{Empirical Verification: HSRU Small on TinyStories}
+% ==================================================================
+
+To validate that the mathematical claims in this document correspond to a genuinely trained model — not a theoretical construction — we record the complete empirical training results for the \textbf{HSRU Small} configuration (26.3M parameters) on the TinyStories dataset mixture.
+
+\subsection{Training Configuration}
+\begin{table}[h!]
+\centering
+\caption{HSRU Small hyperparameter configuration}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Hyperparameter} & \textbf{Value} \\
+\midrule
+Architecture & 12 HSRU Blocks, $D=256$, $M=1024$ \\
+Vocabulary & 50,257 tokens (GPT-2 BPE) \\
+Context (TBPTT chunk) & 1024 tokens (256 chunk size) \\
+Dataset & TinyStories pretrain mixture \\
+Total Training Steps & 16,000 \\
+Batch Size & 32 \\
+Peak Learning Rate & $1.06 \times 10^{-3}$ (Cosine decay) \\
+Min Learning Rate & $1.06 \times 10^{-4}$ \\
+Warmup Ratio & 2\% (320 steps) \\
+Weight Decay & 0.1 \\
+Gradient Clip & 1.0 \\
+Mixed Precision & \texttt{bfloat16} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Measured Training Metrics}
+All values below are taken directly from the raw training telemetry log (\texttt{Metrics/LLM\_Log.csv}) which accompanies this release.
+
+\begin{table}[h!]
+\centering
+\caption{Measured training metrics at key checkpoints}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Step} & \textbf{Class Loss} & \textbf{Perplexity} & \textbf{Spike Density} & \textbf{Steps/sec} \\
+\midrule
+1 (init) & 10.958 & 57,397 & 2.3\% & 0.05 \\
+100 & $\sim$5.2 & $\sim$181 & $\sim$8\% & 1.17 \\
+8,000 & $\sim$1.5 & $\sim$4.5 & $\sim$10\% & 1.17 \\
+16,000 (final) & \textbf{1.378} & \textbf{3.966} & \textbf{10.48\%} & 1.17 \\
+\midrule
+\textit{Validation (step 16,000)} & \textit{1.232} & \textit{3.427} & — & — \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Key Observations.}
+\begin{enumerate}
+    \item \textbf{Convergence:} The class loss descends from 10.958 (random initialization, $\log_2 50257 \approx 15.6$ bits) to 1.378 over 16,000 steps, demonstrating successful learning of the TinyStories distribution.
+    \item \textbf{Spike Density:} The measured spike density stabilises at $\approx 10.48\%$ after warmup, confirming that the auxiliary loss $\mathcal{L}_{\mathrm{aux}}$ correctly drives the network toward the target biological firing rate $\rho^* = 0.10$.
+    \item \textbf{Validation Generalization:} The validation perplexity of 3.427 is \emph{lower} than the training perplexity of 3.966, confirming the model is not overfitting and generalizes to unseen TinyStories documents.
+    \item \textbf{$\mathcal{O}(1)$ Inference Footprint:} During generation, the model maintains a constant GPU state of $\approx 1,598$ MB regardless of sequence length, confirming the memory-bounded recurrent architecture.
+\end{enumerate}
+
+\subsection{Independent Reproducibility Checklist}
+Any researcher can independently verify all claims in this document using the pre-compiled binary distributions included in the \texttt{Demos/} folder:
+
+\begin{enumerate}
+    \item \textbf{Verify $\mathcal{O}(1)$ Runtime:} Run the macOS demo and observe that GPU/CPU RAM remains flat as generation length grows. To achieve the peak 126 tokens/sec benchmark, run the raw C++ executable:
+    \begin{verbatim}
+  cd Demos/Mac_HSRU_Small
+  ./hsru_edge
+    \end{verbatim}
+    Alternatively, you can query the engine via the Python API wrapper (\texttt{python3 test\_api.py}).
+    \item \textbf{Verify Live Language Generation:} The demo will stream tokens from the compiled C++ Black Box engine. Token throughput is $\geq 126$ tokens/sec on Apple Silicon.
+    \item \textbf{Inspect Raw Training Telemetry:} The full 16,000-step training log is included at \texttt{Metrics/LLM\_Log.csv}. All columns (loss, perplexity, spike density, learning rate, gradient norm, RAM usage) are recorded at every step.
+    \item \textbf{Inspect Training Dashboard:} A visual Neural Dashboard summary of the full training run is available at \texttt{Metrics/LLM\_Dashboard.png}.
+    \item \textbf{Cross-reference Architecture:} The mathematical equations in this document correspond exactly to \texttt{HSRUMemoryLayer} in \texttt{dynamic\_hsru.py}. The PyTorch training weights are publicly available at \href{https://huggingface.co/hsameer/hsru-small}{huggingface.co/hsameer/hsru-small}.
+\end{enumerate}
+
+\end{document}

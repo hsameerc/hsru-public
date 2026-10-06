@@ -1,0 +1,6403 @@
+{
+  "format": "hsru_codec_v2",
+  "note": "v2=codec  v1=LLM  incompatible. Codec uses libhsru_codec.so.",
+  "client": "HSRUCodec",
+  "model_version": "v1",
+  "precision": "INT8 (--fxp)",
+  "fxp": true,
+  "arch": {
+    "dim": 512,
+    "codebook_size": 1024,
+    "num_quantizers": 12,
+    "num_blocks": 8,
+    "k_dims": 1,
+    "codebook_dim": 64,
+    "sample_rate": 24000,
+    "downsample_factor": 320,
+    "frame_rate_hz": 75.0
+  },
+  "total_bytes": 86964268,
+  "tensors": [
+    {
+      "name": "enc.hsru.0.norm1.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 48,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.0.norm1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 2096,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.0.mem.w_leak.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 4144,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.0.mem.w_leak.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 268340,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.0.mem.w_shunt.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 270388,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.0.mem.w_shunt.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 534584,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.0.mem.linear_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 536632,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.0.mem.linear_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 800828,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.0.mem.w_dend_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 802876,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.0.mem.w_dend_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 1067072,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.0.mem.w_dend_decay.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 1069120,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.0.mem.w_dend_decay.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 1333316,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.0.mem.w_dend_out",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 1335364,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.0.mem.dendrite_thresh",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 1337412,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.0.mem._target_rate",
+      "shape": [],
+      "dtype": "float32",
+      "offset": 1339460,
+      "bytes": 4
+    },
+    {
+      "name": "enc.hsru.0.mem.threshold",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 1339464,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.hsru.0.mem.w_v",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 1340488,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.0.mem.w_d",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 1342536,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.hsru.0.mem.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 1343560,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.0.mem.out_norm.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 1345608,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.0.mem.out_norm.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 1347656,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.0.norm2.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 1349704,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.0.norm2.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 1351752,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.0.log.w_gate.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 1353800,
+      "bytes": 1056772
+    },
+    {
+      "name": "enc.hsru.0.log.w_gate.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 2410572,
+      "bytes": 8192
+    },
+    {
+      "name": "enc.hsru.0.log.w_value.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 2418764,
+      "bytes": 1056772
+    },
+    {
+      "name": "enc.hsru.0.log.w_value.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 3475536,
+      "bytes": 8192
+    },
+    {
+      "name": "enc.hsru.0.log.w_out.weight",
+      "shape": [
+        512,
+        2048
+      ],
+      "dtype": "int8",
+      "offset": 3483728,
+      "bytes": 1050628
+    },
+    {
+      "name": "enc.hsru.0.log.w_out.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 4534356,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.0.mem_scale",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 4536404,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.1.norm1.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 4538452,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.1.norm1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 4540500,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.1.mem.w_leak.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 4542548,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.1.mem.w_leak.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 4806744,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.1.mem.w_shunt.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 4808792,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.1.mem.w_shunt.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 5072988,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.1.mem.linear_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 5075036,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.1.mem.linear_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 5339232,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.1.mem.w_dend_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 5341280,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.1.mem.w_dend_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 5605476,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.1.mem.w_dend_decay.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 5607524,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.1.mem.w_dend_decay.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 5871720,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.1.mem.w_dend_out",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 5873768,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.1.mem.dendrite_thresh",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 5875816,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.1.mem._target_rate",
+      "shape": [],
+      "dtype": "float32",
+      "offset": 5877864,
+      "bytes": 4
+    },
+    {
+      "name": "enc.hsru.1.mem.threshold",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 5877868,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.hsru.1.mem.w_v",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 5878892,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.1.mem.w_d",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 5880940,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.hsru.1.mem.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 5881964,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.1.mem.out_norm.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 5884012,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.1.mem.out_norm.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 5886060,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.1.norm2.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 5888108,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.1.norm2.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 5890156,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.1.log.w_gate.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 5892204,
+      "bytes": 1056772
+    },
+    {
+      "name": "enc.hsru.1.log.w_gate.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 6948976,
+      "bytes": 8192
+    },
+    {
+      "name": "enc.hsru.1.log.w_value.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 6957168,
+      "bytes": 1056772
+    },
+    {
+      "name": "enc.hsru.1.log.w_value.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 8013940,
+      "bytes": 8192
+    },
+    {
+      "name": "enc.hsru.1.log.w_out.weight",
+      "shape": [
+        512,
+        2048
+      ],
+      "dtype": "int8",
+      "offset": 8022132,
+      "bytes": 1050628
+    },
+    {
+      "name": "enc.hsru.1.log.w_out.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 9072760,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.1.mem_scale",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 9074808,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.2.norm1.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 9076856,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.2.norm1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 9078904,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.2.mem.w_leak.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 9080952,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.2.mem.w_leak.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 9345148,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.2.mem.w_shunt.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 9347196,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.2.mem.w_shunt.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 9611392,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.2.mem.linear_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 9613440,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.2.mem.linear_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 9877636,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.2.mem.w_dend_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 9879684,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.2.mem.w_dend_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 10143880,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.2.mem.w_dend_decay.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 10145928,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.2.mem.w_dend_decay.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 10410124,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.2.mem.w_dend_out",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 10412172,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.2.mem.dendrite_thresh",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 10414220,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.2.mem._target_rate",
+      "shape": [],
+      "dtype": "float32",
+      "offset": 10416268,
+      "bytes": 4
+    },
+    {
+      "name": "enc.hsru.2.mem.threshold",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 10416272,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.hsru.2.mem.w_v",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 10417296,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.2.mem.w_d",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 10419344,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.hsru.2.mem.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 10420368,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.2.mem.out_norm.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 10422416,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.2.mem.out_norm.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 10424464,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.2.norm2.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 10426512,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.2.norm2.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 10428560,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.2.log.w_gate.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 10430608,
+      "bytes": 1056772
+    },
+    {
+      "name": "enc.hsru.2.log.w_gate.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 11487380,
+      "bytes": 8192
+    },
+    {
+      "name": "enc.hsru.2.log.w_value.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 11495572,
+      "bytes": 1056772
+    },
+    {
+      "name": "enc.hsru.2.log.w_value.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 12552344,
+      "bytes": 8192
+    },
+    {
+      "name": "enc.hsru.2.log.w_out.weight",
+      "shape": [
+        512,
+        2048
+      ],
+      "dtype": "int8",
+      "offset": 12560536,
+      "bytes": 1050628
+    },
+    {
+      "name": "enc.hsru.2.log.w_out.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 13611164,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.2.mem_scale",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 13613212,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.3.norm1.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 13615260,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.3.norm1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 13617308,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.3.mem.w_leak.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 13619356,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.3.mem.w_leak.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 13883552,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.3.mem.w_shunt.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 13885600,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.3.mem.w_shunt.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 14149796,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.3.mem.linear_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 14151844,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.3.mem.linear_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 14416040,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.3.mem.w_dend_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 14418088,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.3.mem.w_dend_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 14682284,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.3.mem.w_dend_decay.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 14684332,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.3.mem.w_dend_decay.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 14948528,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.3.mem.w_dend_out",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 14950576,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.3.mem.dendrite_thresh",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 14952624,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.3.mem._target_rate",
+      "shape": [],
+      "dtype": "float32",
+      "offset": 14954672,
+      "bytes": 4
+    },
+    {
+      "name": "enc.hsru.3.mem.threshold",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 14954676,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.hsru.3.mem.w_v",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 14955700,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.3.mem.w_d",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 14957748,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.hsru.3.mem.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 14958772,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.3.mem.out_norm.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 14960820,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.3.mem.out_norm.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 14962868,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.3.norm2.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 14964916,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.3.norm2.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 14966964,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.3.log.w_gate.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 14969012,
+      "bytes": 1056772
+    },
+    {
+      "name": "enc.hsru.3.log.w_gate.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 16025784,
+      "bytes": 8192
+    },
+    {
+      "name": "enc.hsru.3.log.w_value.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 16033976,
+      "bytes": 1056772
+    },
+    {
+      "name": "enc.hsru.3.log.w_value.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 17090748,
+      "bytes": 8192
+    },
+    {
+      "name": "enc.hsru.3.log.w_out.weight",
+      "shape": [
+        512,
+        2048
+      ],
+      "dtype": "int8",
+      "offset": 17098940,
+      "bytes": 1050628
+    },
+    {
+      "name": "enc.hsru.3.log.w_out.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 18149568,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.3.mem_scale",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 18151616,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.4.norm1.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 18153664,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.4.norm1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 18155712,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.4.mem.w_leak.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 18157760,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.4.mem.w_leak.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 18421956,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.4.mem.w_shunt.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 18424004,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.4.mem.w_shunt.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 18688200,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.4.mem.linear_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 18690248,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.4.mem.linear_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 18954444,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.4.mem.w_dend_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 18956492,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.4.mem.w_dend_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 19220688,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.4.mem.w_dend_decay.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 19222736,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.4.mem.w_dend_decay.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 19486932,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.4.mem.w_dend_out",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 19488980,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.4.mem.dendrite_thresh",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 19491028,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.4.mem._target_rate",
+      "shape": [],
+      "dtype": "float32",
+      "offset": 19493076,
+      "bytes": 4
+    },
+    {
+      "name": "enc.hsru.4.mem.threshold",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 19493080,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.hsru.4.mem.w_v",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 19494104,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.4.mem.w_d",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 19496152,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.hsru.4.mem.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 19497176,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.4.mem.out_norm.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 19499224,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.4.mem.out_norm.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 19501272,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.4.norm2.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 19503320,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.4.norm2.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 19505368,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.4.log.w_gate.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 19507416,
+      "bytes": 1056772
+    },
+    {
+      "name": "enc.hsru.4.log.w_gate.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 20564188,
+      "bytes": 8192
+    },
+    {
+      "name": "enc.hsru.4.log.w_value.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 20572380,
+      "bytes": 1056772
+    },
+    {
+      "name": "enc.hsru.4.log.w_value.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 21629152,
+      "bytes": 8192
+    },
+    {
+      "name": "enc.hsru.4.log.w_out.weight",
+      "shape": [
+        512,
+        2048
+      ],
+      "dtype": "int8",
+      "offset": 21637344,
+      "bytes": 1050628
+    },
+    {
+      "name": "enc.hsru.4.log.w_out.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 22687972,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.4.mem_scale",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 22690020,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.5.norm1.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 22692068,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.5.norm1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 22694116,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.5.mem.w_leak.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 22696164,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.5.mem.w_leak.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 22960360,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.5.mem.w_shunt.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 22962408,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.5.mem.w_shunt.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 23226604,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.5.mem.linear_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 23228652,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.5.mem.linear_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 23492848,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.5.mem.w_dend_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 23494896,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.5.mem.w_dend_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 23759092,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.5.mem.w_dend_decay.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 23761140,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.5.mem.w_dend_decay.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 24025336,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.5.mem.w_dend_out",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 24027384,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.5.mem.dendrite_thresh",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 24029432,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.5.mem._target_rate",
+      "shape": [],
+      "dtype": "float32",
+      "offset": 24031480,
+      "bytes": 4
+    },
+    {
+      "name": "enc.hsru.5.mem.threshold",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 24031484,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.hsru.5.mem.w_v",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 24032508,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.5.mem.w_d",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 24034556,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.hsru.5.mem.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 24035580,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.5.mem.out_norm.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 24037628,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.5.mem.out_norm.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 24039676,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.5.norm2.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 24041724,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.5.norm2.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 24043772,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.5.log.w_gate.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 24045820,
+      "bytes": 1056772
+    },
+    {
+      "name": "enc.hsru.5.log.w_gate.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 25102592,
+      "bytes": 8192
+    },
+    {
+      "name": "enc.hsru.5.log.w_value.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 25110784,
+      "bytes": 1056772
+    },
+    {
+      "name": "enc.hsru.5.log.w_value.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 26167556,
+      "bytes": 8192
+    },
+    {
+      "name": "enc.hsru.5.log.w_out.weight",
+      "shape": [
+        512,
+        2048
+      ],
+      "dtype": "int8",
+      "offset": 26175748,
+      "bytes": 1050628
+    },
+    {
+      "name": "enc.hsru.5.log.w_out.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 27226376,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.5.mem_scale",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 27228424,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.6.norm1.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 27230472,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.6.norm1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 27232520,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.6.mem.w_leak.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 27234568,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.6.mem.w_leak.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 27498764,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.6.mem.w_shunt.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 27500812,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.6.mem.w_shunt.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 27765008,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.6.mem.linear_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 27767056,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.6.mem.linear_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 28031252,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.6.mem.w_dend_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 28033300,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.6.mem.w_dend_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 28297496,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.6.mem.w_dend_decay.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 28299544,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.6.mem.w_dend_decay.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 28563740,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.6.mem.w_dend_out",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 28565788,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.6.mem.dendrite_thresh",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 28567836,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.6.mem._target_rate",
+      "shape": [],
+      "dtype": "float32",
+      "offset": 28569884,
+      "bytes": 4
+    },
+    {
+      "name": "enc.hsru.6.mem.threshold",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 28569888,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.hsru.6.mem.w_v",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 28570912,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.6.mem.w_d",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 28572960,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.hsru.6.mem.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 28573984,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.6.mem.out_norm.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 28576032,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.6.mem.out_norm.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 28578080,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.6.norm2.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 28580128,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.6.norm2.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 28582176,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.6.log.w_gate.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 28584224,
+      "bytes": 1056772
+    },
+    {
+      "name": "enc.hsru.6.log.w_gate.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 29640996,
+      "bytes": 8192
+    },
+    {
+      "name": "enc.hsru.6.log.w_value.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 29649188,
+      "bytes": 1056772
+    },
+    {
+      "name": "enc.hsru.6.log.w_value.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 30705960,
+      "bytes": 8192
+    },
+    {
+      "name": "enc.hsru.6.log.w_out.weight",
+      "shape": [
+        512,
+        2048
+      ],
+      "dtype": "int8",
+      "offset": 30714152,
+      "bytes": 1050628
+    },
+    {
+      "name": "enc.hsru.6.log.w_out.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 31764780,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.6.mem_scale",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 31766828,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.7.norm1.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 31768876,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.7.norm1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 31770924,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.7.mem.w_leak.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 31772972,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.7.mem.w_leak.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 32037168,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.7.mem.w_shunt.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 32039216,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.7.mem.w_shunt.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 32303412,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.7.mem.linear_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 32305460,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.7.mem.linear_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 32569656,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.7.mem.w_dend_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 32571704,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.7.mem.w_dend_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 32835900,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.7.mem.w_dend_decay.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 32837948,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.hsru.7.mem.w_dend_decay.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 33102144,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.7.mem.w_dend_out",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 33104192,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.7.mem.dendrite_thresh",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 33106240,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.7.mem._target_rate",
+      "shape": [],
+      "dtype": "float32",
+      "offset": 33108288,
+      "bytes": 4
+    },
+    {
+      "name": "enc.hsru.7.mem.threshold",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 33108292,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.hsru.7.mem.w_v",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 33109316,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.7.mem.w_d",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 33111364,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.hsru.7.mem.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 33112388,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.7.mem.out_norm.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 33114436,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.7.mem.out_norm.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 33116484,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.7.norm2.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 33118532,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.7.norm2.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 33120580,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.7.log.w_gate.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 33122628,
+      "bytes": 1056772
+    },
+    {
+      "name": "enc.hsru.7.log.w_gate.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 34179400,
+      "bytes": 8192
+    },
+    {
+      "name": "enc.hsru.7.log.w_value.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 34187592,
+      "bytes": 1056772
+    },
+    {
+      "name": "enc.hsru.7.log.w_value.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 35244364,
+      "bytes": 8192
+    },
+    {
+      "name": "enc.hsru.7.log.w_out.weight",
+      "shape": [
+        512,
+        2048
+      ],
+      "dtype": "int8",
+      "offset": 35252556,
+      "bytes": 1050628
+    },
+    {
+      "name": "enc.hsru.7.log.w_out.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 36303184,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.hsru.7.mem_scale",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 36305232,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.conv.0.weight",
+      "shape": [
+        32,
+        1,
+        7
+      ],
+      "dtype": "int8",
+      "offset": 36307280,
+      "bytes": 356
+    },
+    {
+      "name": "enc.conv.0.bias",
+      "shape": [
+        32
+      ],
+      "dtype": "float32",
+      "offset": 36307636,
+      "bytes": 128
+    },
+    {
+      "name": "enc.conv.1.alpha",
+      "shape": [
+        1,
+        32,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 36307764,
+      "bytes": 128
+    },
+    {
+      "name": "enc.conv.2.weight",
+      "shape": [
+        64,
+        32,
+        4
+      ],
+      "dtype": "int8",
+      "offset": 36307892,
+      "bytes": 8452
+    },
+    {
+      "name": "enc.conv.2.bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "offset": 36316344,
+      "bytes": 256
+    },
+    {
+      "name": "enc.conv.3.alpha",
+      "shape": [
+        1,
+        64,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 36316600,
+      "bytes": 256
+    },
+    {
+      "name": "enc.conv.4.blocks.0.0.alpha",
+      "shape": [
+        1,
+        64,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 36316856,
+      "bytes": 256
+    },
+    {
+      "name": "enc.conv.4.blocks.0.1.weight",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 36317112,
+      "bytes": 12548
+    },
+    {
+      "name": "enc.conv.4.blocks.0.1.bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "offset": 36329660,
+      "bytes": 256
+    },
+    {
+      "name": "enc.conv.4.blocks.0.2.alpha",
+      "shape": [
+        1,
+        64,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 36329916,
+      "bytes": 256
+    },
+    {
+      "name": "enc.conv.4.blocks.0.3.weight",
+      "shape": [
+        64,
+        64,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 36330172,
+      "bytes": 4356
+    },
+    {
+      "name": "enc.conv.4.blocks.0.3.bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "offset": 36334528,
+      "bytes": 256
+    },
+    {
+      "name": "enc.conv.4.blocks.1.0.alpha",
+      "shape": [
+        1,
+        64,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 36334784,
+      "bytes": 256
+    },
+    {
+      "name": "enc.conv.4.blocks.1.1.weight",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 36335040,
+      "bytes": 12548
+    },
+    {
+      "name": "enc.conv.4.blocks.1.1.bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "offset": 36347588,
+      "bytes": 256
+    },
+    {
+      "name": "enc.conv.4.blocks.1.2.alpha",
+      "shape": [
+        1,
+        64,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 36347844,
+      "bytes": 256
+    },
+    {
+      "name": "enc.conv.4.blocks.1.3.weight",
+      "shape": [
+        64,
+        64,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 36348100,
+      "bytes": 4356
+    },
+    {
+      "name": "enc.conv.4.blocks.1.3.bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "offset": 36352456,
+      "bytes": 256
+    },
+    {
+      "name": "enc.conv.4.blocks.2.0.alpha",
+      "shape": [
+        1,
+        64,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 36352712,
+      "bytes": 256
+    },
+    {
+      "name": "enc.conv.4.blocks.2.1.weight",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 36352968,
+      "bytes": 12548
+    },
+    {
+      "name": "enc.conv.4.blocks.2.1.bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "offset": 36365516,
+      "bytes": 256
+    },
+    {
+      "name": "enc.conv.4.blocks.2.2.alpha",
+      "shape": [
+        1,
+        64,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 36365772,
+      "bytes": 256
+    },
+    {
+      "name": "enc.conv.4.blocks.2.3.weight",
+      "shape": [
+        64,
+        64,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 36366028,
+      "bytes": 4356
+    },
+    {
+      "name": "enc.conv.4.blocks.2.3.bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "offset": 36370384,
+      "bytes": 256
+    },
+    {
+      "name": "enc.conv.5.weight",
+      "shape": [
+        128,
+        64,
+        8
+      ],
+      "dtype": "int8",
+      "offset": 36370640,
+      "bytes": 66052
+    },
+    {
+      "name": "enc.conv.5.bias",
+      "shape": [
+        128
+      ],
+      "dtype": "float32",
+      "offset": 36436692,
+      "bytes": 512
+    },
+    {
+      "name": "enc.conv.6.alpha",
+      "shape": [
+        1,
+        128,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 36437204,
+      "bytes": 512
+    },
+    {
+      "name": "enc.conv.7.blocks.0.0.alpha",
+      "shape": [
+        1,
+        128,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 36437716,
+      "bytes": 512
+    },
+    {
+      "name": "enc.conv.7.blocks.0.1.weight",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 36438228,
+      "bytes": 49668
+    },
+    {
+      "name": "enc.conv.7.blocks.0.1.bias",
+      "shape": [
+        128
+      ],
+      "dtype": "float32",
+      "offset": 36487896,
+      "bytes": 512
+    },
+    {
+      "name": "enc.conv.7.blocks.0.2.alpha",
+      "shape": [
+        1,
+        128,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 36488408,
+      "bytes": 512
+    },
+    {
+      "name": "enc.conv.7.blocks.0.3.weight",
+      "shape": [
+        128,
+        128,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 36488920,
+      "bytes": 16900
+    },
+    {
+      "name": "enc.conv.7.blocks.0.3.bias",
+      "shape": [
+        128
+      ],
+      "dtype": "float32",
+      "offset": 36505820,
+      "bytes": 512
+    },
+    {
+      "name": "enc.conv.7.blocks.1.0.alpha",
+      "shape": [
+        1,
+        128,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 36506332,
+      "bytes": 512
+    },
+    {
+      "name": "enc.conv.7.blocks.1.1.weight",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 36506844,
+      "bytes": 49668
+    },
+    {
+      "name": "enc.conv.7.blocks.1.1.bias",
+      "shape": [
+        128
+      ],
+      "dtype": "float32",
+      "offset": 36556512,
+      "bytes": 512
+    },
+    {
+      "name": "enc.conv.7.blocks.1.2.alpha",
+      "shape": [
+        1,
+        128,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 36557024,
+      "bytes": 512
+    },
+    {
+      "name": "enc.conv.7.blocks.1.3.weight",
+      "shape": [
+        128,
+        128,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 36557536,
+      "bytes": 16900
+    },
+    {
+      "name": "enc.conv.7.blocks.1.3.bias",
+      "shape": [
+        128
+      ],
+      "dtype": "float32",
+      "offset": 36574436,
+      "bytes": 512
+    },
+    {
+      "name": "enc.conv.7.blocks.2.0.alpha",
+      "shape": [
+        1,
+        128,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 36574948,
+      "bytes": 512
+    },
+    {
+      "name": "enc.conv.7.blocks.2.1.weight",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 36575460,
+      "bytes": 49668
+    },
+    {
+      "name": "enc.conv.7.blocks.2.1.bias",
+      "shape": [
+        128
+      ],
+      "dtype": "float32",
+      "offset": 36625128,
+      "bytes": 512
+    },
+    {
+      "name": "enc.conv.7.blocks.2.2.alpha",
+      "shape": [
+        1,
+        128,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 36625640,
+      "bytes": 512
+    },
+    {
+      "name": "enc.conv.7.blocks.2.3.weight",
+      "shape": [
+        128,
+        128,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 36626152,
+      "bytes": 16900
+    },
+    {
+      "name": "enc.conv.7.blocks.2.3.bias",
+      "shape": [
+        128
+      ],
+      "dtype": "float32",
+      "offset": 36643052,
+      "bytes": 512
+    },
+    {
+      "name": "enc.conv.8.weight",
+      "shape": [
+        256,
+        128,
+        10
+      ],
+      "dtype": "int8",
+      "offset": 36643564,
+      "bytes": 328708
+    },
+    {
+      "name": "enc.conv.8.bias",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 36972272,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.conv.9.alpha",
+      "shape": [
+        1,
+        256,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 36973296,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.conv.10.blocks.0.0.alpha",
+      "shape": [
+        1,
+        256,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 36974320,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.conv.10.blocks.0.1.weight",
+      "shape": [
+        256,
+        256,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 36975344,
+      "bytes": 197636
+    },
+    {
+      "name": "enc.conv.10.blocks.0.1.bias",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 37172980,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.conv.10.blocks.0.2.alpha",
+      "shape": [
+        1,
+        256,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 37174004,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.conv.10.blocks.0.3.weight",
+      "shape": [
+        256,
+        256,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 37175028,
+      "bytes": 66564
+    },
+    {
+      "name": "enc.conv.10.blocks.0.3.bias",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 37241592,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.conv.10.blocks.1.0.alpha",
+      "shape": [
+        1,
+        256,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 37242616,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.conv.10.blocks.1.1.weight",
+      "shape": [
+        256,
+        256,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 37243640,
+      "bytes": 197636
+    },
+    {
+      "name": "enc.conv.10.blocks.1.1.bias",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 37441276,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.conv.10.blocks.1.2.alpha",
+      "shape": [
+        1,
+        256,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 37442300,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.conv.10.blocks.1.3.weight",
+      "shape": [
+        256,
+        256,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 37443324,
+      "bytes": 66564
+    },
+    {
+      "name": "enc.conv.10.blocks.1.3.bias",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 37509888,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.conv.10.blocks.2.0.alpha",
+      "shape": [
+        1,
+        256,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 37510912,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.conv.10.blocks.2.1.weight",
+      "shape": [
+        256,
+        256,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 37511936,
+      "bytes": 197636
+    },
+    {
+      "name": "enc.conv.10.blocks.2.1.bias",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 37709572,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.conv.10.blocks.2.2.alpha",
+      "shape": [
+        1,
+        256,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 37710596,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.conv.10.blocks.2.3.weight",
+      "shape": [
+        256,
+        256,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 37711620,
+      "bytes": 66564
+    },
+    {
+      "name": "enc.conv.10.blocks.2.3.bias",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 37778184,
+      "bytes": 1024
+    },
+    {
+      "name": "enc.conv.11.weight",
+      "shape": [
+        512,
+        256,
+        16
+      ],
+      "dtype": "int8",
+      "offset": 37779208,
+      "bytes": 2099204
+    },
+    {
+      "name": "enc.conv.11.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 39878412,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.conv.12.alpha",
+      "shape": [
+        1,
+        512,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 39880460,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.conv.13.blocks.0.0.alpha",
+      "shape": [
+        1,
+        512,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 39882508,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.conv.13.blocks.0.1.weight",
+      "shape": [
+        512,
+        512,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 39884556,
+      "bytes": 788484
+    },
+    {
+      "name": "enc.conv.13.blocks.0.1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 40673040,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.conv.13.blocks.0.2.alpha",
+      "shape": [
+        1,
+        512,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 40675088,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.conv.13.blocks.0.3.weight",
+      "shape": [
+        512,
+        512,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 40677136,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.conv.13.blocks.0.3.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 40941332,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.conv.13.blocks.1.0.alpha",
+      "shape": [
+        1,
+        512,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 40943380,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.conv.13.blocks.1.1.weight",
+      "shape": [
+        512,
+        512,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 40945428,
+      "bytes": 788484
+    },
+    {
+      "name": "enc.conv.13.blocks.1.1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 41733912,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.conv.13.blocks.1.2.alpha",
+      "shape": [
+        1,
+        512,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 41735960,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.conv.13.blocks.1.3.weight",
+      "shape": [
+        512,
+        512,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 41738008,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.conv.13.blocks.1.3.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 42002204,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.conv.13.blocks.2.0.alpha",
+      "shape": [
+        1,
+        512,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 42004252,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.conv.13.blocks.2.1.weight",
+      "shape": [
+        512,
+        512,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 42006300,
+      "bytes": 788484
+    },
+    {
+      "name": "enc.conv.13.blocks.2.1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 42794784,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.conv.13.blocks.2.2.alpha",
+      "shape": [
+        1,
+        512,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 42796832,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.conv.13.blocks.2.3.weight",
+      "shape": [
+        512,
+        512,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 42798880,
+      "bytes": 264196
+    },
+    {
+      "name": "enc.conv.13.blocks.2.3.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 43063076,
+      "bytes": 2048
+    },
+    {
+      "name": "enc.conv.14.weight",
+      "shape": [
+        512,
+        512,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 43065124,
+      "bytes": 788484
+    },
+    {
+      "name": "enc.conv.14.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 43853608,
+      "bytes": 2048
+    },
+    {
+      "name": "pre_norm.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 43855656,
+      "bytes": 2048
+    },
+    {
+      "name": "pre_norm.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 43857704,
+      "bytes": 2048
+    },
+    {
+      "name": "rvq.proj_in.weight",
+      "shape": [
+        64,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 43859752,
+      "bytes": 33028
+    },
+    {
+      "name": "rvq.proj_out.weight",
+      "shape": [
+        512,
+        64
+      ],
+      "dtype": "int8",
+      "offset": 43892780,
+      "bytes": 34820
+    },
+    {
+      "name": "rvq.codebook_0",
+      "shape": [
+        1024,
+        64
+      ],
+      "dtype": "float32",
+      "offset": 43927600,
+      "bytes": 262144
+    },
+    {
+      "name": "rvq.codebook_1",
+      "shape": [
+        1024,
+        64
+      ],
+      "dtype": "float32",
+      "offset": 44189744,
+      "bytes": 262144
+    },
+    {
+      "name": "rvq.codebook_2",
+      "shape": [
+        1024,
+        64
+      ],
+      "dtype": "float32",
+      "offset": 44451888,
+      "bytes": 262144
+    },
+    {
+      "name": "rvq.codebook_3",
+      "shape": [
+        1024,
+        64
+      ],
+      "dtype": "float32",
+      "offset": 44714032,
+      "bytes": 262144
+    },
+    {
+      "name": "rvq.codebook_4",
+      "shape": [
+        1024,
+        64
+      ],
+      "dtype": "float32",
+      "offset": 44976176,
+      "bytes": 262144
+    },
+    {
+      "name": "rvq.codebook_5",
+      "shape": [
+        1024,
+        64
+      ],
+      "dtype": "float32",
+      "offset": 45238320,
+      "bytes": 262144
+    },
+    {
+      "name": "rvq.codebook_6",
+      "shape": [
+        1024,
+        64
+      ],
+      "dtype": "float32",
+      "offset": 45500464,
+      "bytes": 262144
+    },
+    {
+      "name": "rvq.codebook_7",
+      "shape": [
+        1024,
+        64
+      ],
+      "dtype": "float32",
+      "offset": 45762608,
+      "bytes": 262144
+    },
+    {
+      "name": "rvq.codebook_8",
+      "shape": [
+        1024,
+        64
+      ],
+      "dtype": "float32",
+      "offset": 46024752,
+      "bytes": 262144
+    },
+    {
+      "name": "rvq.codebook_9",
+      "shape": [
+        1024,
+        64
+      ],
+      "dtype": "float32",
+      "offset": 46286896,
+      "bytes": 262144
+    },
+    {
+      "name": "rvq.codebook_10",
+      "shape": [
+        1024,
+        64
+      ],
+      "dtype": "float32",
+      "offset": 46549040,
+      "bytes": 262144
+    },
+    {
+      "name": "rvq.codebook_11",
+      "shape": [
+        1024,
+        64
+      ],
+      "dtype": "float32",
+      "offset": 46811184,
+      "bytes": 262144
+    },
+    {
+      "name": "dec.hsru.0.norm1.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 47073328,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.0.norm1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 47075376,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.0.mem.w_leak.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 47077424,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.0.mem.w_leak.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 47341620,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.0.mem.w_shunt.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 47343668,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.0.mem.w_shunt.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 47607864,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.0.mem.linear_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 47609912,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.0.mem.linear_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 47874108,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.0.mem.w_dend_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 47876156,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.0.mem.w_dend_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 48140352,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.0.mem.w_dend_decay.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 48142400,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.0.mem.w_dend_decay.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 48406596,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.0.mem.w_dend_out",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 48408644,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.0.mem.dendrite_thresh",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 48410692,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.0.mem._target_rate",
+      "shape": [],
+      "dtype": "float32",
+      "offset": 48412740,
+      "bytes": 4
+    },
+    {
+      "name": "dec.hsru.0.mem.threshold",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 48412744,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.hsru.0.mem.w_v",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 48413768,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.0.mem.w_d",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 48415816,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.hsru.0.mem.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 48416840,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.0.mem.out_norm.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 48418888,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.0.mem.out_norm.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 48420936,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.0.norm2.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 48422984,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.0.norm2.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 48425032,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.0.log.w_gate.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 48427080,
+      "bytes": 1056772
+    },
+    {
+      "name": "dec.hsru.0.log.w_gate.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 49483852,
+      "bytes": 8192
+    },
+    {
+      "name": "dec.hsru.0.log.w_value.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 49492044,
+      "bytes": 1056772
+    },
+    {
+      "name": "dec.hsru.0.log.w_value.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 50548816,
+      "bytes": 8192
+    },
+    {
+      "name": "dec.hsru.0.log.w_out.weight",
+      "shape": [
+        512,
+        2048
+      ],
+      "dtype": "int8",
+      "offset": 50557008,
+      "bytes": 1050628
+    },
+    {
+      "name": "dec.hsru.0.log.w_out.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 51607636,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.0.mem_scale",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 51609684,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.1.norm1.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 51611732,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.1.norm1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 51613780,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.1.mem.w_leak.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 51615828,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.1.mem.w_leak.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 51880024,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.1.mem.w_shunt.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 51882072,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.1.mem.w_shunt.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 52146268,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.1.mem.linear_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 52148316,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.1.mem.linear_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 52412512,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.1.mem.w_dend_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 52414560,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.1.mem.w_dend_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 52678756,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.1.mem.w_dend_decay.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 52680804,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.1.mem.w_dend_decay.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 52945000,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.1.mem.w_dend_out",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 52947048,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.1.mem.dendrite_thresh",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 52949096,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.1.mem._target_rate",
+      "shape": [],
+      "dtype": "float32",
+      "offset": 52951144,
+      "bytes": 4
+    },
+    {
+      "name": "dec.hsru.1.mem.threshold",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 52951148,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.hsru.1.mem.w_v",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 52952172,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.1.mem.w_d",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 52954220,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.hsru.1.mem.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 52955244,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.1.mem.out_norm.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 52957292,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.1.mem.out_norm.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 52959340,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.1.norm2.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 52961388,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.1.norm2.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 52963436,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.1.log.w_gate.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 52965484,
+      "bytes": 1056772
+    },
+    {
+      "name": "dec.hsru.1.log.w_gate.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 54022256,
+      "bytes": 8192
+    },
+    {
+      "name": "dec.hsru.1.log.w_value.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 54030448,
+      "bytes": 1056772
+    },
+    {
+      "name": "dec.hsru.1.log.w_value.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 55087220,
+      "bytes": 8192
+    },
+    {
+      "name": "dec.hsru.1.log.w_out.weight",
+      "shape": [
+        512,
+        2048
+      ],
+      "dtype": "int8",
+      "offset": 55095412,
+      "bytes": 1050628
+    },
+    {
+      "name": "dec.hsru.1.log.w_out.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 56146040,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.1.mem_scale",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 56148088,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.2.norm1.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 56150136,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.2.norm1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 56152184,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.2.mem.w_leak.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 56154232,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.2.mem.w_leak.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 56418428,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.2.mem.w_shunt.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 56420476,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.2.mem.w_shunt.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 56684672,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.2.mem.linear_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 56686720,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.2.mem.linear_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 56950916,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.2.mem.w_dend_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 56952964,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.2.mem.w_dend_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 57217160,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.2.mem.w_dend_decay.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 57219208,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.2.mem.w_dend_decay.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 57483404,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.2.mem.w_dend_out",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 57485452,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.2.mem.dendrite_thresh",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 57487500,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.2.mem._target_rate",
+      "shape": [],
+      "dtype": "float32",
+      "offset": 57489548,
+      "bytes": 4
+    },
+    {
+      "name": "dec.hsru.2.mem.threshold",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 57489552,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.hsru.2.mem.w_v",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 57490576,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.2.mem.w_d",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 57492624,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.hsru.2.mem.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 57493648,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.2.mem.out_norm.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 57495696,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.2.mem.out_norm.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 57497744,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.2.norm2.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 57499792,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.2.norm2.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 57501840,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.2.log.w_gate.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 57503888,
+      "bytes": 1056772
+    },
+    {
+      "name": "dec.hsru.2.log.w_gate.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 58560660,
+      "bytes": 8192
+    },
+    {
+      "name": "dec.hsru.2.log.w_value.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 58568852,
+      "bytes": 1056772
+    },
+    {
+      "name": "dec.hsru.2.log.w_value.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 59625624,
+      "bytes": 8192
+    },
+    {
+      "name": "dec.hsru.2.log.w_out.weight",
+      "shape": [
+        512,
+        2048
+      ],
+      "dtype": "int8",
+      "offset": 59633816,
+      "bytes": 1050628
+    },
+    {
+      "name": "dec.hsru.2.log.w_out.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 60684444,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.2.mem_scale",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 60686492,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.3.norm1.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 60688540,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.3.norm1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 60690588,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.3.mem.w_leak.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 60692636,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.3.mem.w_leak.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 60956832,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.3.mem.w_shunt.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 60958880,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.3.mem.w_shunt.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 61223076,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.3.mem.linear_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 61225124,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.3.mem.linear_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 61489320,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.3.mem.w_dend_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 61491368,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.3.mem.w_dend_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 61755564,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.3.mem.w_dend_decay.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 61757612,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.3.mem.w_dend_decay.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 62021808,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.3.mem.w_dend_out",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 62023856,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.3.mem.dendrite_thresh",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 62025904,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.3.mem._target_rate",
+      "shape": [],
+      "dtype": "float32",
+      "offset": 62027952,
+      "bytes": 4
+    },
+    {
+      "name": "dec.hsru.3.mem.threshold",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 62027956,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.hsru.3.mem.w_v",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 62028980,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.3.mem.w_d",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 62031028,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.hsru.3.mem.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 62032052,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.3.mem.out_norm.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 62034100,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.3.mem.out_norm.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 62036148,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.3.norm2.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 62038196,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.3.norm2.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 62040244,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.3.log.w_gate.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 62042292,
+      "bytes": 1056772
+    },
+    {
+      "name": "dec.hsru.3.log.w_gate.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 63099064,
+      "bytes": 8192
+    },
+    {
+      "name": "dec.hsru.3.log.w_value.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 63107256,
+      "bytes": 1056772
+    },
+    {
+      "name": "dec.hsru.3.log.w_value.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 64164028,
+      "bytes": 8192
+    },
+    {
+      "name": "dec.hsru.3.log.w_out.weight",
+      "shape": [
+        512,
+        2048
+      ],
+      "dtype": "int8",
+      "offset": 64172220,
+      "bytes": 1050628
+    },
+    {
+      "name": "dec.hsru.3.log.w_out.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 65222848,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.3.mem_scale",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 65224896,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.4.norm1.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 65226944,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.4.norm1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 65228992,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.4.mem.w_leak.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 65231040,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.4.mem.w_leak.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 65495236,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.4.mem.w_shunt.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 65497284,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.4.mem.w_shunt.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 65761480,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.4.mem.linear_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 65763528,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.4.mem.linear_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 66027724,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.4.mem.w_dend_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 66029772,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.4.mem.w_dend_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 66293968,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.4.mem.w_dend_decay.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 66296016,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.4.mem.w_dend_decay.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 66560212,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.4.mem.w_dend_out",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 66562260,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.4.mem.dendrite_thresh",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 66564308,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.4.mem._target_rate",
+      "shape": [],
+      "dtype": "float32",
+      "offset": 66566356,
+      "bytes": 4
+    },
+    {
+      "name": "dec.hsru.4.mem.threshold",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 66566360,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.hsru.4.mem.w_v",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 66567384,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.4.mem.w_d",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 66569432,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.hsru.4.mem.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 66570456,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.4.mem.out_norm.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 66572504,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.4.mem.out_norm.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 66574552,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.4.norm2.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 66576600,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.4.norm2.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 66578648,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.4.log.w_gate.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 66580696,
+      "bytes": 1056772
+    },
+    {
+      "name": "dec.hsru.4.log.w_gate.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 67637468,
+      "bytes": 8192
+    },
+    {
+      "name": "dec.hsru.4.log.w_value.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 67645660,
+      "bytes": 1056772
+    },
+    {
+      "name": "dec.hsru.4.log.w_value.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 68702432,
+      "bytes": 8192
+    },
+    {
+      "name": "dec.hsru.4.log.w_out.weight",
+      "shape": [
+        512,
+        2048
+      ],
+      "dtype": "int8",
+      "offset": 68710624,
+      "bytes": 1050628
+    },
+    {
+      "name": "dec.hsru.4.log.w_out.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 69761252,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.4.mem_scale",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 69763300,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.5.norm1.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 69765348,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.5.norm1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 69767396,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.5.mem.w_leak.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 69769444,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.5.mem.w_leak.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 70033640,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.5.mem.w_shunt.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 70035688,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.5.mem.w_shunt.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 70299884,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.5.mem.linear_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 70301932,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.5.mem.linear_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 70566128,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.5.mem.w_dend_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 70568176,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.5.mem.w_dend_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 70832372,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.5.mem.w_dend_decay.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 70834420,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.5.mem.w_dend_decay.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 71098616,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.5.mem.w_dend_out",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 71100664,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.5.mem.dendrite_thresh",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 71102712,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.5.mem._target_rate",
+      "shape": [],
+      "dtype": "float32",
+      "offset": 71104760,
+      "bytes": 4
+    },
+    {
+      "name": "dec.hsru.5.mem.threshold",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 71104764,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.hsru.5.mem.w_v",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 71105788,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.5.mem.w_d",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 71107836,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.hsru.5.mem.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 71108860,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.5.mem.out_norm.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 71110908,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.5.mem.out_norm.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 71112956,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.5.norm2.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 71115004,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.5.norm2.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 71117052,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.5.log.w_gate.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 71119100,
+      "bytes": 1056772
+    },
+    {
+      "name": "dec.hsru.5.log.w_gate.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 72175872,
+      "bytes": 8192
+    },
+    {
+      "name": "dec.hsru.5.log.w_value.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 72184064,
+      "bytes": 1056772
+    },
+    {
+      "name": "dec.hsru.5.log.w_value.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 73240836,
+      "bytes": 8192
+    },
+    {
+      "name": "dec.hsru.5.log.w_out.weight",
+      "shape": [
+        512,
+        2048
+      ],
+      "dtype": "int8",
+      "offset": 73249028,
+      "bytes": 1050628
+    },
+    {
+      "name": "dec.hsru.5.log.w_out.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 74299656,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.5.mem_scale",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 74301704,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.6.norm1.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 74303752,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.6.norm1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 74305800,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.6.mem.w_leak.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 74307848,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.6.mem.w_leak.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 74572044,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.6.mem.w_shunt.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 74574092,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.6.mem.w_shunt.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 74838288,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.6.mem.linear_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 74840336,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.6.mem.linear_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 75104532,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.6.mem.w_dend_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 75106580,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.6.mem.w_dend_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 75370776,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.6.mem.w_dend_decay.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 75372824,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.6.mem.w_dend_decay.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 75637020,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.6.mem.w_dend_out",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 75639068,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.6.mem.dendrite_thresh",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 75641116,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.6.mem._target_rate",
+      "shape": [],
+      "dtype": "float32",
+      "offset": 75643164,
+      "bytes": 4
+    },
+    {
+      "name": "dec.hsru.6.mem.threshold",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 75643168,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.hsru.6.mem.w_v",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 75644192,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.6.mem.w_d",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 75646240,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.hsru.6.mem.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 75647264,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.6.mem.out_norm.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 75649312,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.6.mem.out_norm.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 75651360,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.6.norm2.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 75653408,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.6.norm2.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 75655456,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.6.log.w_gate.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 75657504,
+      "bytes": 1056772
+    },
+    {
+      "name": "dec.hsru.6.log.w_gate.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 76714276,
+      "bytes": 8192
+    },
+    {
+      "name": "dec.hsru.6.log.w_value.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 76722468,
+      "bytes": 1056772
+    },
+    {
+      "name": "dec.hsru.6.log.w_value.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 77779240,
+      "bytes": 8192
+    },
+    {
+      "name": "dec.hsru.6.log.w_out.weight",
+      "shape": [
+        512,
+        2048
+      ],
+      "dtype": "int8",
+      "offset": 77787432,
+      "bytes": 1050628
+    },
+    {
+      "name": "dec.hsru.6.log.w_out.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 78838060,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.6.mem_scale",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 78840108,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.7.norm1.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 78842156,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.7.norm1.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 78844204,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.7.mem.w_leak.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 78846252,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.7.mem.w_leak.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 79110448,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.7.mem.w_shunt.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 79112496,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.7.mem.w_shunt.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 79376692,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.7.mem.linear_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 79378740,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.7.mem.linear_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 79642936,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.7.mem.w_dend_in.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 79644984,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.7.mem.w_dend_in.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 79909180,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.7.mem.w_dend_decay.weight",
+      "shape": [
+        512,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 79911228,
+      "bytes": 264196
+    },
+    {
+      "name": "dec.hsru.7.mem.w_dend_decay.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 80175424,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.7.mem.w_dend_out",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 80177472,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.7.mem.dendrite_thresh",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 80179520,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.7.mem._target_rate",
+      "shape": [],
+      "dtype": "float32",
+      "offset": 80181568,
+      "bytes": 4
+    },
+    {
+      "name": "dec.hsru.7.mem.threshold",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 80181572,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.hsru.7.mem.w_v",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 80182596,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.7.mem.w_d",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 80184644,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.hsru.7.mem.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 80185668,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.7.mem.out_norm.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 80187716,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.7.mem.out_norm.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 80189764,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.7.norm2.weight",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 80191812,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.7.norm2.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 80193860,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.7.log.w_gate.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 80195908,
+      "bytes": 1056772
+    },
+    {
+      "name": "dec.hsru.7.log.w_gate.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 81252680,
+      "bytes": 8192
+    },
+    {
+      "name": "dec.hsru.7.log.w_value.weight",
+      "shape": [
+        2048,
+        512
+      ],
+      "dtype": "int8",
+      "offset": 81260872,
+      "bytes": 1056772
+    },
+    {
+      "name": "dec.hsru.7.log.w_value.bias",
+      "shape": [
+        2048
+      ],
+      "dtype": "float32",
+      "offset": 82317644,
+      "bytes": 8192
+    },
+    {
+      "name": "dec.hsru.7.log.w_out.weight",
+      "shape": [
+        512,
+        2048
+      ],
+      "dtype": "int8",
+      "offset": 82325836,
+      "bytes": 1050628
+    },
+    {
+      "name": "dec.hsru.7.log.w_out.bias",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 83376464,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.hsru.7.mem_scale",
+      "shape": [
+        512
+      ],
+      "dtype": "float32",
+      "offset": 83378512,
+      "bytes": 2048
+    },
+    {
+      "name": "dec.conv.0.weight",
+      "shape": [
+        256,
+        512,
+        16
+      ],
+      "dtype": "int8",
+      "offset": 83380560,
+      "bytes": 2098180
+    },
+    {
+      "name": "dec.conv.0.bias",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 85478740,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.conv.1.alpha",
+      "shape": [
+        1,
+        256,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 85479764,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.conv.2.blocks.0.0.alpha",
+      "shape": [
+        1,
+        256,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 85480788,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.conv.2.blocks.0.1.weight",
+      "shape": [
+        256,
+        256,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 85481812,
+      "bytes": 197636
+    },
+    {
+      "name": "dec.conv.2.blocks.0.1.bias",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 85679448,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.conv.2.blocks.0.2.alpha",
+      "shape": [
+        1,
+        256,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 85680472,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.conv.2.blocks.0.3.weight",
+      "shape": [
+        256,
+        256,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 85681496,
+      "bytes": 66564
+    },
+    {
+      "name": "dec.conv.2.blocks.0.3.bias",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 85748060,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.conv.2.blocks.1.0.alpha",
+      "shape": [
+        1,
+        256,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 85749084,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.conv.2.blocks.1.1.weight",
+      "shape": [
+        256,
+        256,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 85750108,
+      "bytes": 197636
+    },
+    {
+      "name": "dec.conv.2.blocks.1.1.bias",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 85947744,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.conv.2.blocks.1.2.alpha",
+      "shape": [
+        1,
+        256,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 85948768,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.conv.2.blocks.1.3.weight",
+      "shape": [
+        256,
+        256,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 85949792,
+      "bytes": 66564
+    },
+    {
+      "name": "dec.conv.2.blocks.1.3.bias",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 86016356,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.conv.2.blocks.2.0.alpha",
+      "shape": [
+        1,
+        256,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86017380,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.conv.2.blocks.2.1.weight",
+      "shape": [
+        256,
+        256,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 86018404,
+      "bytes": 197636
+    },
+    {
+      "name": "dec.conv.2.blocks.2.1.bias",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 86216040,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.conv.2.blocks.2.2.alpha",
+      "shape": [
+        1,
+        256,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86217064,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.conv.2.blocks.2.3.weight",
+      "shape": [
+        256,
+        256,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 86218088,
+      "bytes": 66564
+    },
+    {
+      "name": "dec.conv.2.blocks.2.3.bias",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "offset": 86284652,
+      "bytes": 1024
+    },
+    {
+      "name": "dec.conv.3.weight",
+      "shape": [
+        128,
+        256,
+        10
+      ],
+      "dtype": "int8",
+      "offset": 86285676,
+      "bytes": 328196
+    },
+    {
+      "name": "dec.conv.3.bias",
+      "shape": [
+        128
+      ],
+      "dtype": "float32",
+      "offset": 86613872,
+      "bytes": 512
+    },
+    {
+      "name": "dec.conv.4.alpha",
+      "shape": [
+        1,
+        128,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86614384,
+      "bytes": 512
+    },
+    {
+      "name": "dec.conv.5.blocks.0.0.alpha",
+      "shape": [
+        1,
+        128,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86614896,
+      "bytes": 512
+    },
+    {
+      "name": "dec.conv.5.blocks.0.1.weight",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 86615408,
+      "bytes": 49668
+    },
+    {
+      "name": "dec.conv.5.blocks.0.1.bias",
+      "shape": [
+        128
+      ],
+      "dtype": "float32",
+      "offset": 86665076,
+      "bytes": 512
+    },
+    {
+      "name": "dec.conv.5.blocks.0.2.alpha",
+      "shape": [
+        1,
+        128,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86665588,
+      "bytes": 512
+    },
+    {
+      "name": "dec.conv.5.blocks.0.3.weight",
+      "shape": [
+        128,
+        128,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 86666100,
+      "bytes": 16900
+    },
+    {
+      "name": "dec.conv.5.blocks.0.3.bias",
+      "shape": [
+        128
+      ],
+      "dtype": "float32",
+      "offset": 86683000,
+      "bytes": 512
+    },
+    {
+      "name": "dec.conv.5.blocks.1.0.alpha",
+      "shape": [
+        1,
+        128,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86683512,
+      "bytes": 512
+    },
+    {
+      "name": "dec.conv.5.blocks.1.1.weight",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 86684024,
+      "bytes": 49668
+    },
+    {
+      "name": "dec.conv.5.blocks.1.1.bias",
+      "shape": [
+        128
+      ],
+      "dtype": "float32",
+      "offset": 86733692,
+      "bytes": 512
+    },
+    {
+      "name": "dec.conv.5.blocks.1.2.alpha",
+      "shape": [
+        1,
+        128,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86734204,
+      "bytes": 512
+    },
+    {
+      "name": "dec.conv.5.blocks.1.3.weight",
+      "shape": [
+        128,
+        128,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 86734716,
+      "bytes": 16900
+    },
+    {
+      "name": "dec.conv.5.blocks.1.3.bias",
+      "shape": [
+        128
+      ],
+      "dtype": "float32",
+      "offset": 86751616,
+      "bytes": 512
+    },
+    {
+      "name": "dec.conv.5.blocks.2.0.alpha",
+      "shape": [
+        1,
+        128,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86752128,
+      "bytes": 512
+    },
+    {
+      "name": "dec.conv.5.blocks.2.1.weight",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 86752640,
+      "bytes": 49668
+    },
+    {
+      "name": "dec.conv.5.blocks.2.1.bias",
+      "shape": [
+        128
+      ],
+      "dtype": "float32",
+      "offset": 86802308,
+      "bytes": 512
+    },
+    {
+      "name": "dec.conv.5.blocks.2.2.alpha",
+      "shape": [
+        1,
+        128,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86802820,
+      "bytes": 512
+    },
+    {
+      "name": "dec.conv.5.blocks.2.3.weight",
+      "shape": [
+        128,
+        128,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 86803332,
+      "bytes": 16900
+    },
+    {
+      "name": "dec.conv.5.blocks.2.3.bias",
+      "shape": [
+        128
+      ],
+      "dtype": "float32",
+      "offset": 86820232,
+      "bytes": 512
+    },
+    {
+      "name": "dec.conv.6.weight",
+      "shape": [
+        64,
+        128,
+        8
+      ],
+      "dtype": "int8",
+      "offset": 86820744,
+      "bytes": 65796
+    },
+    {
+      "name": "dec.conv.6.bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "offset": 86886540,
+      "bytes": 256
+    },
+    {
+      "name": "dec.conv.7.alpha",
+      "shape": [
+        1,
+        64,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86886796,
+      "bytes": 256
+    },
+    {
+      "name": "dec.conv.8.blocks.0.0.alpha",
+      "shape": [
+        1,
+        64,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86887052,
+      "bytes": 256
+    },
+    {
+      "name": "dec.conv.8.blocks.0.1.weight",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 86887308,
+      "bytes": 12548
+    },
+    {
+      "name": "dec.conv.8.blocks.0.1.bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "offset": 86899856,
+      "bytes": 256
+    },
+    {
+      "name": "dec.conv.8.blocks.0.2.alpha",
+      "shape": [
+        1,
+        64,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86900112,
+      "bytes": 256
+    },
+    {
+      "name": "dec.conv.8.blocks.0.3.weight",
+      "shape": [
+        64,
+        64,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 86900368,
+      "bytes": 4356
+    },
+    {
+      "name": "dec.conv.8.blocks.0.3.bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "offset": 86904724,
+      "bytes": 256
+    },
+    {
+      "name": "dec.conv.8.blocks.1.0.alpha",
+      "shape": [
+        1,
+        64,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86904980,
+      "bytes": 256
+    },
+    {
+      "name": "dec.conv.8.blocks.1.1.weight",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 86905236,
+      "bytes": 12548
+    },
+    {
+      "name": "dec.conv.8.blocks.1.1.bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "offset": 86917784,
+      "bytes": 256
+    },
+    {
+      "name": "dec.conv.8.blocks.1.2.alpha",
+      "shape": [
+        1,
+        64,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86918040,
+      "bytes": 256
+    },
+    {
+      "name": "dec.conv.8.blocks.1.3.weight",
+      "shape": [
+        64,
+        64,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 86918296,
+      "bytes": 4356
+    },
+    {
+      "name": "dec.conv.8.blocks.1.3.bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "offset": 86922652,
+      "bytes": 256
+    },
+    {
+      "name": "dec.conv.8.blocks.2.0.alpha",
+      "shape": [
+        1,
+        64,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86922908,
+      "bytes": 256
+    },
+    {
+      "name": "dec.conv.8.blocks.2.1.weight",
+      "shape": [
+        64,
+        64,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 86923164,
+      "bytes": 12548
+    },
+    {
+      "name": "dec.conv.8.blocks.2.1.bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "offset": 86935712,
+      "bytes": 256
+    },
+    {
+      "name": "dec.conv.8.blocks.2.2.alpha",
+      "shape": [
+        1,
+        64,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86935968,
+      "bytes": 256
+    },
+    {
+      "name": "dec.conv.8.blocks.2.3.weight",
+      "shape": [
+        64,
+        64,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 86936224,
+      "bytes": 4356
+    },
+    {
+      "name": "dec.conv.8.blocks.2.3.bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "offset": 86940580,
+      "bytes": 256
+    },
+    {
+      "name": "dec.conv.9.weight",
+      "shape": [
+        32,
+        64,
+        4
+      ],
+      "dtype": "int8",
+      "offset": 86940836,
+      "bytes": 8324
+    },
+    {
+      "name": "dec.conv.9.bias",
+      "shape": [
+        32
+      ],
+      "dtype": "float32",
+      "offset": 86949160,
+      "bytes": 128
+    },
+    {
+      "name": "dec.conv.10.alpha",
+      "shape": [
+        1,
+        32,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86949288,
+      "bytes": 128
+    },
+    {
+      "name": "dec.conv.11.blocks.0.0.alpha",
+      "shape": [
+        1,
+        32,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86949416,
+      "bytes": 128
+    },
+    {
+      "name": "dec.conv.11.blocks.0.1.weight",
+      "shape": [
+        32,
+        32,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 86949544,
+      "bytes": 3204
+    },
+    {
+      "name": "dec.conv.11.blocks.0.1.bias",
+      "shape": [
+        32
+      ],
+      "dtype": "float32",
+      "offset": 86952748,
+      "bytes": 128
+    },
+    {
+      "name": "dec.conv.11.blocks.0.2.alpha",
+      "shape": [
+        1,
+        32,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86952876,
+      "bytes": 128
+    },
+    {
+      "name": "dec.conv.11.blocks.0.3.weight",
+      "shape": [
+        32,
+        32,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 86953004,
+      "bytes": 1156
+    },
+    {
+      "name": "dec.conv.11.blocks.0.3.bias",
+      "shape": [
+        32
+      ],
+      "dtype": "float32",
+      "offset": 86954160,
+      "bytes": 128
+    },
+    {
+      "name": "dec.conv.11.blocks.1.0.alpha",
+      "shape": [
+        1,
+        32,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86954288,
+      "bytes": 128
+    },
+    {
+      "name": "dec.conv.11.blocks.1.1.weight",
+      "shape": [
+        32,
+        32,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 86954416,
+      "bytes": 3204
+    },
+    {
+      "name": "dec.conv.11.blocks.1.1.bias",
+      "shape": [
+        32
+      ],
+      "dtype": "float32",
+      "offset": 86957620,
+      "bytes": 128
+    },
+    {
+      "name": "dec.conv.11.blocks.1.2.alpha",
+      "shape": [
+        1,
+        32,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86957748,
+      "bytes": 128
+    },
+    {
+      "name": "dec.conv.11.blocks.1.3.weight",
+      "shape": [
+        32,
+        32,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 86957876,
+      "bytes": 1156
+    },
+    {
+      "name": "dec.conv.11.blocks.1.3.bias",
+      "shape": [
+        32
+      ],
+      "dtype": "float32",
+      "offset": 86959032,
+      "bytes": 128
+    },
+    {
+      "name": "dec.conv.11.blocks.2.0.alpha",
+      "shape": [
+        1,
+        32,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86959160,
+      "bytes": 128
+    },
+    {
+      "name": "dec.conv.11.blocks.2.1.weight",
+      "shape": [
+        32,
+        32,
+        3
+      ],
+      "dtype": "int8",
+      "offset": 86959288,
+      "bytes": 3204
+    },
+    {
+      "name": "dec.conv.11.blocks.2.1.bias",
+      "shape": [
+        32
+      ],
+      "dtype": "float32",
+      "offset": 86962492,
+      "bytes": 128
+    },
+    {
+      "name": "dec.conv.11.blocks.2.2.alpha",
+      "shape": [
+        1,
+        32,
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86962620,
+      "bytes": 128
+    },
+    {
+      "name": "dec.conv.11.blocks.2.3.weight",
+      "shape": [
+        32,
+        32,
+        1
+      ],
+      "dtype": "int8",
+      "offset": 86962748,
+      "bytes": 1156
+    },
+    {
+      "name": "dec.conv.11.blocks.2.3.bias",
+      "shape": [
+        32
+      ],
+      "dtype": "float32",
+      "offset": 86963904,
+      "bytes": 128
+    },
+    {
+      "name": "dec.conv.12.weight",
+      "shape": [
+        1,
+        32,
+        7
+      ],
+      "dtype": "int8",
+      "offset": 86964032,
+      "bytes": 232
+    },
+    {
+      "name": "dec.conv.12.bias",
+      "shape": [
+        1
+      ],
+      "dtype": "float32",
+      "offset": 86964264,
+      "bytes": 4
+    }
+  ]
+}
