@@ -1,5 +1,5 @@
 CXX ?= g++
-CXXFLAGS = -O3 -std=c++11 -Wall -Iinclude -fopenmp
+CXXFLAGS = -O3 -std=c++11 -Wall -Iinclude -fopenmp -static -static-libgcc -static-libstdc++
 
 all: hsru_edge.exe
 
