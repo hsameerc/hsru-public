@@ -2,7 +2,7 @@
   <h1>🚀 HSRU: Hybrid State Recurrent Unit</h1>
   <h3>The Post-Transformer Foundation Architecture for Edge AI</h3>
   
-  [![License](https://img.shields.io/badge/License-MIT-blue.svg)](#)
+  [![License](https://img.shields.io/badge/Binaries-Evaluation%20Use%20Only-lightgrey.svg)](#-license--usage)
   [![C++ Edge](https://img.shields.io/badge/Engine-C%2B%2B%20%7C%20Zero%20Deps-orange)](#)
   [![Looking for Investors](https://img.shields.io/badge/Status-Seeking%20Seed%20Funding-success)](#)
   [![Collab](https://img.shields.io/badge/Collaboration-Open-purple)](#)
@@ -21,6 +21,15 @@ HSRU is a true multi-modal foundation architecture built to natively process lan
 
 If you are an investor, grant officer, or a passionate engineer who sees the potential of replacing Transformers on edge devices, let's talk!
 
+### 📬 Contact
+| | |
+|---|---|
+| **Author** | Sameer Humagain |
+| **Email** | [hsameernp@gmail.com](mailto:hsameernp@gmail.com?subject=HSRU%20-%20Investment%20%2F%20Collaboration) |
+| **GitHub** | [@hsameerc](https://github.com/hsameerc) |
+
+*Typical reply time: within a few days. For investment or grant inquiries, please use the subject line "HSRU - Investment / Collaboration".*
+
 ---
 
 ### 1. Key Architectural Innovations
@@ -33,6 +42,13 @@ Transformers rely on unbounded attention matrices, making them mathematically un
 ---
 
 ### 2. Edge C++ SDK Demonstrations
+
+| Demo | macOS (Apple Silicon) | Linux | Windows |
+|---|:---:|:---:|:---:|
+| HSRU-Encodec (audio) | ✅ Current | — | — |
+| HSRU-Small (text) | ✅ Current | ⚠️ Older build | ⚠️ Older build |
+| HSRU-Drone (UAV) | — | ✅ Current | — |
+
 To prove the architecture's efficiency, I have built fully self-contained C++ executables. These demos run the pre-trained integer-quantized (`--fxp`) weights natively on your CPU. 
 
 **Zero dependencies required. No Python, no PyTorch, no GPU.**
@@ -76,3 +92,8 @@ Inside the `Whitepapers/` directory, you will find the mathematical proofs for t
 The PyTorch training infrastructure, highly-optimized CUDA kernels, distributed data pipelines, and multi-node training scripts are currently proprietary. I am looking for the right partners to open-source, commercialize, or scale this. 
 
 **Let's build the post-Transformer era of Edge AI together.**
+
+---
+
+### 📄 License & Usage
+The pre-built binaries, weights, and whitepapers in this repository are provided for **evaluation and research review only**. Redistribution, reverse engineering, or commercial use requires written permission from the author. The training code and CUDA kernels are proprietary and not included. For licensing or commercial terms, see [Contact](#-contact).
