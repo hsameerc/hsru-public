@@ -71,6 +71,7 @@ A microscopic 26M parameter language model trained on the TinyStories corpus. Th
 *   **How to run (macOS):**
     ```bash
     cd Demos/Mac_HSRU_Small
+    xattr -cr .  # Clears Apple's quarantine flag (fixes "damaged/malware" errors)
     ./hsru_edge
     ```
 
@@ -81,6 +82,7 @@ An 82.6M parameter continuous audio codec proving the architecture's ability to 
 *   **How to run (macOS):**
     ```bash
     cd Demos/Mac_HSRU_Encodec
+    xattr -cr .  # Clears Apple's quarantine flag (fixes "damaged/malware" errors)
     ./inference test.wav out.wav
     ```
 
