@@ -17,7 +17,12 @@ I am a solo researcher who has built a novel, mathematically stable $\mathcal{O}
 HSRU is a true multi-modal foundation architecture built to natively process language, continuous audio waveforms, and drone/robotics telemetry using a unified Spiking Memory engine.
 
 ## 🤝 Call for Collaboration & Investment
-**I am currently building this alone and am actively seeking financial support, venture capital, deep-tech grants (NSF/DARPA), and technical collaborators to help scale HSRU to the 1B+ parameter regime and commercialize this technology.**
+**I am currently building this alone and am actively seeking financial support, venture capital, deep-tech grants (NSF/DARPA), and technical collaborators to commercialize this technology.**
+
+### 🗺️ Technical Roadmap
+*   ✅ **Phase 1 (Complete):** Prove the mathematics in the microscopic regime (26M - 80M parameters) across three distinct modalities (Text, Audio, Telemetry) to guarantee $\mathcal{O}(1)$ memory and hardware stability.
+*   ✅ **Phase 2 (Complete):** Build the secure, Zero-Dependency C++ Black Box deployment pipeline for edge integrators.
+*   🚀 **Phase 3 (Current Goal):** Secure Seed funding to purchase the H100 compute cluster necessary to scale the HSRU architecture to the **1B - 3B parameter regime** and challenge Transformer state-of-the-art benchmarks directly.
 
 If you are an investor, grant officer, or a passionate engineer who sees the potential of replacing Transformers on edge devices, let's talk!
 
@@ -41,15 +46,15 @@ Transformers rely on unbounded attention matrices, making them mathematically un
 
 ---
 
-### 2. Edge C++ SDK Demonstrations
+### 2. Edge C++ SDK Demonstrations (Proof of Concepts)
 
 | Demo | macOS (Apple Silicon) | Linux | Windows |
 |---|:---:|:---:|:---:|
 | HSRU-Encodec (audio) | ✅ Current | — | — |
-| HSRU-Small (text) | ✅ Current | ⚠️ Older build | ⚠️ Older build |
+| HSRU-Small (text) | ✅ Current | ✅ Current | ✅ Current |
 | HSRU-Drone (UAV) | — | ✅ Current | — |
 
-To prove the architecture's efficiency, I have built fully self-contained C++ executables. These demos run the pre-trained integer-quantized (`--fxp`) weights natively on your CPU. 
+To prove the architecture's efficiency in highly constrained environments, I have built fully self-contained C++ executables. These demos run the pre-trained integer-quantized (`--fxp`) Proof-of-Concept weights natively on your CPU. 
 
 **Zero dependencies required. No Python, no PyTorch, no GPU.**
 
@@ -59,9 +64,9 @@ A real-time edge anomaly detector running on raw drone IMU telemetry. Instead of
 *   **Detection Rate:** 100% on UAV Propeller Fault Dataset
 *   **Safety Features:** Dynamic Six Sigma Auto-Calibration & TBPTT
 
-#### 💬 B. HSRU-Small (Text Generation)
-A 26M parameter language model trained on the TinyStories corpus to prove discrete logic capabilities.
-*   **Inference Speed:** ~126 tokens/sec (Tested on Apple Silicon)
+#### 💬 B. HSRU-Small (Text Generation PoC)
+A microscopic 26M parameter language model trained on the TinyStories corpus. This is not designed to compete with GPT-4; rather, it is a mathematical validation that HSRU possesses discrete logic and associative recall capabilities inside a strictly bounded footprint.
+*   **Inference Speed:** ~130 tokens/sec (Tested on Apple Silicon)
 *   **Memory Profile:** $\mathcal{O}(1)$ Constant Memory
 *   **How to run (macOS):**
     ```bash
