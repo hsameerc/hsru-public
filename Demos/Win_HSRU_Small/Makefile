@@ -4,6 +4,7 @@ LDFLAGS =
 
 ifeq ($(OS), Windows_NT)
     CXXFLAGS += -fopenmp -static-libgcc -static-libstdc++
+    LDFLAGS += -Wl,-Bstatic -lgomp -lpthread -Wl,-Bdynamic
     RM = del /Q /F
 else ifeq ($(shell uname -s), Darwin)
     ifneq ($(wildcard /opt/homebrew/opt/llvm/bin/clang++),)
