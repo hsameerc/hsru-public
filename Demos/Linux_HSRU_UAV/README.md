@@ -2,6 +2,8 @@
 
 You have successfully exported this payload for your Drone's onboard computer.
 
+**OS Compatibility Note:** This SDK was compiled on Linux. The demo executable is fully statically linked and will run on any Linux distribution. However, the shared library (`libhsru_drone.so`) must dynamically link to the system `glibc`. To avoid `GLIBC_X.XX not found` errors when using the `.so` on other machines, ensure you compile this deployment folder on an OS version that is equal to or older than your deployment target.
+
 ## Folder Structure
 - **`weights/`**: `drone_weights.bin` (Trained model weights)
 - **`include/`**: `hsru.h` (C++ Engine Public API)
@@ -91,11 +93,23 @@ python3 dashboard.py
 ```
 
 ### How to Run the C++ Demo
+We have provided a pre-compiled `demo_run` executable that you can run instantly. If you modify `demo.cpp`, you can recompile it using the command shown below.
+
+**For Windows:**
+```bash
+cd demo
+.\\demo_run.exe
+```
+
 **For Linux / macOS:**
 ```bash
 cd demo
-g++ -O3 -Wall -std=c++11 -I../include demo.cpp -L../lib -lhsru_drone -Wl,-rpath,../lib -o demo_run
 ./demo_run
+```
+
+*(Optional) To Recompile after editing demo.cpp:*
+```bash
+g++ -O3 -Wall -std=c++11 -I../include demo.cpp -L../lib -lhsru_drone -Wl,-rpath,../lib -o demo_run
 ```
 
 ## Systems Integration Guidelines

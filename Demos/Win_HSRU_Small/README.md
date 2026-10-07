@@ -43,11 +43,22 @@ python assistant_controller.py
 
 ## 🛠 True Zero-Dependency Route (C++ Only)
 
-To run without Python entirely:
-1. Write a pure C++ frontend (`main.cpp`) to handle text tokenization and terminal I/O.
-2. Include `hsru.h` and link against `libhsru_llm.so`.
-3. Distribute the executable and `.bin` weights. 
+We have provided a complete standalone C++ entrypoint (`main.cpp`) that natively handles model execution and text decoding.
+
+To compile and run the interactive C++ demo:
+
+**For Windows:**
+```bash
+make
+.\hsru_edge.exe
+```
+
+**For Linux / macOS:**
+```bash
+./build.sh
+./hsru_edge
+```
 
 ## ⚙️ Technical Details
-- **macOS Users:** The binaries provided here are compiled targeting `macOS 11.0+` (Big Sur) and above, ensuring maximum compatibility across Apple Silicon and older Intel machines. The `libomp` parallel threading library is fully static.
+- **Windows Deployment:** This SDK was compiled on Windows. It statically links `libgcc`, `libstdc++`, and `libwinpthread` (OpenMP), meaning it has ZERO external dependencies and will run perfectly out of the box on any Windows machine.
 - **Quantization:** If exported with `--fxp`, the weights are stored in INT8 precision, further cutting RAM usage and bandwidth bottlenecks in half.
