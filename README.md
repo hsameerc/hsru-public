@@ -65,7 +65,9 @@ A real-time edge anomaly detector running on raw drone IMU telemetry. Instead of
 *   **Safety Features:** Dynamic Six Sigma Auto-Calibration & TBPTT
 
 #### 💬 B. HSRU-Small (Text Generation PoC)
-A microscopic 26M parameter language model trained on the TinyStories corpus. This is not designed to compete with GPT-4; rather, it is a mathematical validation that HSRU possesses discrete logic and associative recall capabilities inside a strictly bounded footprint.
+A microscopic 26M parameter language model trained **from scratch** on the TinyStories corpus. Instead of using traditional PyTorch Transformer blocks, the entire network was built and trained using custom proprietary HSRU recurrent math. The resulting weights were then integer-quantized and decoupled from Python, meaning the inference is driven exclusively by pure C++ pointer arithmetic. 
+
+This is not designed to compete with GPT-4; rather, it is a mathematical validation that HSRU possesses discrete logic and associative recall capabilities inside a strictly bounded footprint.
 *   **Inference Speed:** ~130 tokens/sec (Tested on Apple Silicon)
 *   **Memory Profile:** $\mathcal{O}(1)$ Constant Memory
 *   **How to run (macOS):**
@@ -85,6 +87,14 @@ An 82.6M parameter continuous audio codec proving the architecture's ability to 
     xattr -cr .  # Clears Apple's quarantine flag (fixes "damaged/malware" errors)
     ./inference test.wav out.wav
     ```
+
+---
+
+### ⚠️ Troubleshooting
+
+*   **Linux: `Exec format error`:** This occurs if you try to run the provided binaries on an ARM server (like a Raspberry Pi or an Oracle Cloud Ampere A1 instance). The binaries in this repo are pre-compiled for **Intel/AMD (`x86_64`)**. To run on ARM, the core C++ engine must be natively recompiled on your machine.
+*   **Linux: `Permission denied`:** Run `chmod +x hsru_edge` if Git did not automatically set the executable bit on your filesystem.
+*   **macOS: "Damaged or Malware" Error:** Apple Gatekeeper blocks binaries downloaded from the internet that lack full notarization. Run `xattr -cr .` inside the demo folder to clear the quarantine flag before executing.
 
 ---
 
