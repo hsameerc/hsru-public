@@ -51,7 +51,31 @@ xattr -cr .
 - **Sample Rate:** 24,000 Hz (Downsample Factor: 320)
 - **Latent Frame Rate:** 75 Hz (1 frame every 13.3 ms)
 - **RVQ Quantization:** 12 Codebooks × 1024 entries (Codebook Dim: 64)
-- **Bitrate:** ~1.8 kbps (speech tokenized)
+- **Compressed Token Bitrate:** ~9.0 kbps (speech tokenized down to ~1.5 kbps)
 - **Correlation with PyTorch Reference:** **>97.0%**
 - **Signal-to-Noise Ratio (SNR):** **8.8+ dB**
 - **Inference Speed:** **>4.1x real-time** on Apple Silicon CPU (RTF: 0.24x)
+
+---
+
+## 🎙️ Input Audio Compatibility & Requirements
+
+The engine features an intelligent, universal audio ingestion pipeline:
+
+| Property | Supported Input | Engine Behavior |
+|---|---|---|
+| **Container** | **`.wav`** (RIFF Waveform) | Directly loaded via zero-dependency C++ parser. |
+| **Sample Rate** | **Any** (16 kHz, 24 kHz, 44.1 kHz, 48 kHz, 96 kHz) | **Auto-Resampled:** Non-24kHz inputs are automatically linearly resampled to 24,000 Hz on the fly. |
+| **Channels** | **Mono (1ch) or Stereo (2ch)** | **Auto-Downmixed:** Stereo tracks are automatically averaged and downmixed to mono. |
+| **Bit Depth** | **16-bit PCM, 24-bit PCM, 32-bit Float** | Fully supported and normalized to $[-1.0, 1.0]$. |
+
+### 💡 Processing MP3 / AAC / M4A / FLAC:
+If your audio is in a compressed format (e.g. `.mp3`, `.m4a`, `.aac`), convert it to `.wav` first using `ffmpeg`:
+```bash
+# Convert any audio file to WAV
+ffmpeg -i speech.mp3 input.wav
+
+# Process through HSRU Neural Codec
+./hsru_ggml models/codec_weights_fxp.gguf input.wav out.wav
+```
+*The output audio `out.wav` will always be written as a studio-grade, uncompressed 24,000 Hz 16-bit WAV file.*

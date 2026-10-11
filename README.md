@@ -110,6 +110,7 @@ An 82.6M parameter end-to-end neural audio codec proving HSRU's ability to compr
 * **Fidelity:** **>96.9% numerical correlation** with PyTorch reference, **8.8+ dB SNR**.
 * **Memory Buffer:** **<270 MB** compute memory via topological graph allocator.
 * **Quantization:** INT8 / FP16 GGUF payload (97 MB, zero-LFS direct Git tracking).
+* **Audio Ingestion:** Supports any `.wav` input (mono or stereo, 16/24/32-bit); automatically downmixes to mono and linearly resamples non-24kHz audio (e.g. 16 kHz, 44.1 kHz, 48 kHz) to 24,000 Hz.
 
 ```bash
 # Navigate to demo folder
