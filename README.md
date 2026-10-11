@@ -109,7 +109,7 @@ An 82.6M parameter end-to-end neural audio codec proving HSRU's ability to compr
 * **Performance:** **>4.1x faster than real-time** on Apple Silicon CPU (RTF: $0.24\times$).
 * **Fidelity:** **>96.9% numerical correlation** with PyTorch reference, **8.8+ dB SNR**.
 * **Memory Buffer:** **<270 MB** compute memory via topological graph allocator.
-* **Quantization:** INT8 (Q8_0) GGUF payload (198 MB).
+* **Quantization:** INT8 / FP16 GGUF payload (97 MB, zero-LFS direct Git tracking).
 
 ```bash
 # Navigate to demo folder
@@ -117,9 +117,6 @@ cd Demos/Mac_HSRU_Encodec
 
 # Clear Apple Gatekeeper quarantine flag (for fresh downloads)
 xattr -cr .
-
-# Pull model weights via Git LFS (if cloned from Git)
-git lfs pull
 
 # Run end-to-end Audio Roundtrip (Encoder -> Quantizer -> Decoder)
 ./hsru_ggml models/codec_weights_fxp.gguf test.wav out.wav
@@ -183,14 +180,6 @@ chmod +x hsru_drone
 
 ## 🛠️ Troubleshooting & Platform Notes
 
-* **Git LFS / Invalid Magic Characters ('vers'):** If you see `gguf_init_from_reader: invalid magic characters: 'vers'`, your git clone only downloaded the 130-byte Git LFS pointer instead of the 198 MB weights file. You can download the weights directly using standard `curl` (no git-lfs needed):
-  ```bash
-  curl -L -o Demos/Mac_HSRU_Encodec/models/codec_weights_fxp.gguf "https://media.githubusercontent.com/media/hsameerc/hsru-public/main/Demos/Mac_HSRU_Encodec/models/codec_weights_fxp.gguf"
-  ```
-  Or if you have Homebrew installed:
-  ```bash
-  brew install git-lfs && git lfs pull
-  ```
 * **macOS Gatekeeper Warning:** If macOS displays a *"cannot be opened because the developer cannot be verified"* alert on downloaded binaries, clear the quarantine extended attribute:
   ```bash
   xattr -cr .

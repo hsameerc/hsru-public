@@ -19,7 +19,7 @@ Welcome to the **HSRU Neural Audio Codec Edge SDK** for macOS (Apple Silicon). T
 .
 ├── hsru_ggml                     # Standalone high-performance GGML runner (codesigned)
 ├── models/
-│   └── codec_weights_fxp.gguf    # Quantized INT8 (Q8_0) GGUF model payload (198 MB)
+│   └── codec_weights_fxp.gguf    # Quantized INT8 / FP16 GGUF model payload (97 MB)
 ├── test.wav                      # Reference 24,000 Hz input audio
 ├── out.wav                       # Reconstructed high-fidelity output waveform
 └── README.md                     # This documentation
@@ -29,23 +29,13 @@ Welcome to the **HSRU Neural Audio Codec Edge SDK** for macOS (Apple Silicon). T
 
 ## 🚀 Quick Start
 
-> 💡 **Notice on Model Weights:**  
-> The GGUF weights (`*.gguf`, 198 MB) are tracked via **Git LFS**. If your system does not have `git-lfs` installed, download the weights directly with `curl` (no external tools required):
-> ```bash
-> curl -L -o models/codec_weights_fxp.gguf "https://media.githubusercontent.com/media/hsameerc/hsru-public/main/Demos/Mac_HSRU_Encodec/models/codec_weights_fxp.gguf"
-> ```
-> *(Or if you have Git LFS: `git lfs pull`)*
-
 Run the standalone executable directly in your terminal:
 
 ```bash
 # 1. Clear Gatekeeper quarantine (if freshly downloaded/unzipped)
 xattr -cr .
 
-# 2. Download weights (if cloning without git-lfs)
-curl -L -o models/codec_weights_fxp.gguf "https://media.githubusercontent.com/media/hsameerc/hsru-public/main/Demos/Mac_HSRU_Encodec/models/codec_weights_fxp.gguf"
-
-# 3. Run end-to-end Neural Audio roundtrip (Encoder -> RVQ Quantizer -> Decoder)
+# 2. Run end-to-end Neural Audio roundtrip (Encoder -> RVQ Quantizer -> Decoder)
 ./hsru_ggml models/codec_weights_fxp.gguf test.wav out.wav
 ```
 
