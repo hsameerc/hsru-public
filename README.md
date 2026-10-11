@@ -183,10 +183,13 @@ chmod +x hsru_drone
 
 ## 🛠️ Troubleshooting & Platform Notes
 
-* **Git LFS / Invalid Magic Characters ('vers'):** If you see `gguf_init_from_reader: invalid magic characters: 'vers'`, your git clone only downloaded the 130-byte Git LFS pointer instead of the 198 MB weights file. Install and pull LFS weights:
+* **Git LFS / Invalid Magic Characters ('vers'):** If you see `gguf_init_from_reader: invalid magic characters: 'vers'`, your git clone only downloaded the 130-byte Git LFS pointer instead of the 198 MB weights file. You can download the weights directly using standard `curl` (no git-lfs needed):
   ```bash
-  git lfs install
-  git lfs pull
+  curl -L -o Demos/Mac_HSRU_Encodec/models/codec_weights_fxp.gguf "https://media.githubusercontent.com/media/hsameerc/hsru-public/main/Demos/Mac_HSRU_Encodec/models/codec_weights_fxp.gguf"
+  ```
+  Or if you have Homebrew installed:
+  ```bash
+  brew install git-lfs && git lfs pull
   ```
 * **macOS Gatekeeper Warning:** If macOS displays a *"cannot be opened because the developer cannot be verified"* alert on downloaded binaries, clear the quarantine extended attribute:
   ```bash
