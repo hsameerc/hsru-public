@@ -29,13 +29,22 @@ Welcome to the **HSRU Neural Audio Codec Edge SDK** for macOS (Apple Silicon). T
 
 ## 🚀 Quick Start
 
+> 💡 **Cloning via Git?**  
+> Model weights (`*.gguf`) are tracked with **Git LFS**. If you recently cloned the repository and see `invalid magic characters: 'vers'`, run:
+> ```bash
+> git lfs install && git lfs pull
+> ```
+
 Run the standalone executable directly in your terminal:
 
 ```bash
-# Clear Gatekeeper quarantine (if freshly downloaded/unzipped)
+# 1. Clear Gatekeeper quarantine (if freshly downloaded/unzipped)
 xattr -cr .
 
-# Run end-to-end Neural Audio roundtrip (Encoder -> RVQ Quantizer -> Decoder)
+# 2. Ensure weights are fetched via Git LFS (if cloned from Git)
+git lfs pull
+
+# 3. Run end-to-end Neural Audio roundtrip (Encoder -> RVQ Quantizer -> Decoder)
 ./hsru_ggml models/codec_weights_fxp.gguf test.wav out.wav
 ```
 

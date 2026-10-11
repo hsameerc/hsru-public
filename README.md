@@ -118,6 +118,9 @@ cd Demos/Mac_HSRU_Encodec
 # Clear Apple Gatekeeper quarantine flag (for fresh downloads)
 xattr -cr .
 
+# Pull model weights via Git LFS (if cloned from Git)
+git lfs pull
+
 # Run end-to-end Audio Roundtrip (Encoder -> Quantizer -> Decoder)
 ./hsru_ggml models/codec_weights_fxp.gguf test.wav out.wav
 ```
@@ -180,6 +183,11 @@ chmod +x hsru_drone
 
 ## 🛠️ Troubleshooting & Platform Notes
 
+* **Git LFS / Invalid Magic Characters ('vers'):** If you see `gguf_init_from_reader: invalid magic characters: 'vers'`, your git clone only downloaded the 130-byte Git LFS pointer instead of the 198 MB weights file. Install and pull LFS weights:
+  ```bash
+  git lfs install
+  git lfs pull
+  ```
 * **macOS Gatekeeper Warning:** If macOS displays a *"cannot be opened because the developer cannot be verified"* alert on downloaded binaries, clear the quarantine extended attribute:
   ```bash
   xattr -cr .
