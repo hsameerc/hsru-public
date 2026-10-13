@@ -7,11 +7,11 @@ You have successfully exported this payload for your Drone's onboard computer.
 | Property | Specification |
 |:---|:---|
 | **Target OS** | **`Linux`** |
-| **Architecture** | **`x86_64 (x86_64)`** |
-| **Intended Hardware** | **Linux x86_64 (Servers, Industrial PCs, Ubuntu/Debian/Fedora)** |
+| **Architecture** | **`ARM64 (aarch64)`** |
+| **Intended Hardware** | **Raspberry Pi 3/4/5, NVIDIA Jetson Nano/Xavier/Orin, ARM64 Edge SBCs** |
 | **Static Linkage** | **✅ Enabled** (Standalone binary has ZERO external runtime dependencies) |
 
-> 📌 **Compatibility Summary:** This SDK was compiled for Linux x86_64. The standalone binary is fully statically linked and will run on any 64-bit Linux distribution.
+> 📌 **Compatibility Summary:** This SDK was cross-compiled specifically for Linux ARM64 (aarch64) edge hardware. The standalone binary (`hsru_drone` / `demo_run`) is fully statically linked and will run out-of-the-box on Raspberry Pi OS, Ubuntu ARM64, and Debian ARM64 with ZERO external dependencies.
 
 ## 📂 Folder Structure
 - **`hsru_drone`**: Pre-compiled standalone C++ executable (**Zero Dependencies**, statically linked).
