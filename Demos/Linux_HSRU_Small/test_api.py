@@ -25,11 +25,50 @@ def test_api():
         return
 
     print(f"Loading {dll_path}...")
-    if sys.platform == "win32" and sys.version_info >= (3, 8):
-        # Python 3.8+ requires winmode=0 to search the system PATH for DLL dependencies (like MinGW libs)
-        hsru = ctypes.CDLL(dll_path, winmode=0)
-    else:
-        hsru = ctypes.CDLL(dll_path)
+    try:
+        if sys.platform == "win32" and sys.version_info >= (3, 8):
+            hsru = ctypes.CDLL(dll_path, winmode=0)
+        else:
+            hsru = ctypes.CDLL(dll_path)
+    except OSError as e:
+        lib_dir = os.path.dirname(os.path.abspath(dll_path))
+        candidate_archives = [
+            os.path.join(lib_dir, "libhsru_llm.a"),
+            os.path.join(os.path.dirname(lib_dir), "libhsru_llm.a")
+        ]
+        static_a = next((p for p in candidate_archives if os.path.exists(p)), None)
+        if static_a and sys.platform not in ["win32", "darwin"]:
+            print(f"[HSRU LLM] Note: Pre-built shared library could not be loaded ({e}).")
+            print(f"[HSRU LLM] Linking {dll_path} natively on this device from {static_a}...")
+            import shutil
+            import subprocess
+            cxx = os.environ.get("CXX", shutil.which("g++") or shutil.which("gcc") or shutil.which("clang++"))
+            if cxx:
+                cmd = [cxx, "-shared", "-fPIC", "-o", dll_path, "-Wl,--whole-archive", static_a, "-Wl,--no-whole-archive", "-fopenmp", "-lpthread", "-lm"]
+                res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+                if res.returncode == 0:
+                    print("[HSRU LLM] Successfully linked native shared library!")
+                    hsru = ctypes.CDLL(dll_path)
+                else:
+                    cmd_fallback = [cxx, "-shared", "-fPIC", "-o", dll_path, "-Wl,--whole-archive", static_a, "-Wl,--no-whole-archive", "-lpthread", "-lm"]
+                    res2 = subprocess.run(cmd_fallback, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+                    if res2.returncode == 0:
+                        print("[HSRU LLM] Successfully linked native shared library!")
+                        hsru = ctypes.CDLL(dll_path)
+                    else:
+                        print(f"❌ Rebuild failed:\n{res.stderr}\n{res2.stderr}")
+                        print("\n💡 Tip: To run Python on the Raspberry Pi, ensure build tools are installed:")
+                        print("   sudo apt update && sudo apt install -y build-essential libgomp1")
+                        print("Or run the standalone compiled engine directly:")
+                        print("   ./hsru_edge\n")
+                        raise OSError(f"Failed to load or rebuild engine shared library: {e}\nCompiler error:\n{res.stderr}")
+            else:
+                print("❌ No C++ compiler (g++) found on this device to link native shared library.")
+                print("💡 Install with: sudo apt update && sudo apt install -y build-essential libgomp1")
+                print("Or run the pre-compiled standalone binary directly: ./hsru_edge\n")
+                raise e
+        else:
+            raise e
 
     # API: void* hsru_llm_init_context(const char* weights_path);
     hsru.hsru_llm_init_context.argtypes = [ctypes.c_char_p]

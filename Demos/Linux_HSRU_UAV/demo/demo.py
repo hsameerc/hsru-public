@@ -47,8 +47,25 @@ def main():
         engine = HSRUEdgeEngine(lib_path, weights_path, num_layers, hidden_size, sensor_dim, hwid=hwid)
         print(f"Loaded Brain Weights from {weights_path}")
     except Exception as e:
-        print(f"Error initializing engine: {e}")
-        return
+        # If ctypes shared library fails on target device (e.g. GLIBC version mismatch),
+        # seamlessly fallback to the pre-compiled static executable (demo_run or hsru_drone)!
+        candidates = [
+            "./demo_run", "./hsru_drone", "../hsru_drone",
+            os.path.join(os.path.dirname(__file__), "demo_run"),
+            os.path.join(os.path.dirname(__file__), "hsru_drone"),
+            os.path.join(os.path.dirname(__file__), "..", "hsru_drone")
+        ]
+        exe = next((x for x in candidates if os.path.exists(x)), None)
+        if exe:
+            print(f"[HSRU Edge] Note: Shared library (.so) could not be loaded ({e}).")
+            print(f"[HSRU Edge] Seamlessly streaming telemetry using pre-compiled static engine '{exe}'...\n")
+            import subprocess
+            proc = subprocess.Popen([exe])
+            proc.wait()
+            return
+        else:
+            print(f"Error initializing engine: {e}")
+            return
         
     # 3. Load Flight Data
     live_stream = load_csv_stream(stream_path, sensor_dim)

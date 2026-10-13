@@ -38,14 +38,50 @@ class HSRUEdgeEngine:
 
         # Load the C++ shared library
         if not os.path.exists(lib_path):
-            raise FileNotFoundError(f"Engine library not found at {lib_path}")
+            alt_path = os.path.join(os.path.dirname(__file__), os.path.basename(lib_path))
+            if os.path.exists(alt_path):
+                lib_path = alt_path
+            else:
+                raise FileNotFoundError(f"Engine library not found at {lib_path}")
 
         import sys
         abs_lib = os.path.abspath(lib_path)
-        if sys.platform == "win32" and sys.version_info >= (3, 8):
-            self.lib = ctypes.CDLL(abs_lib, winmode=0)
-        else:
-            self.lib = ctypes.cdll.LoadLibrary(abs_lib)
+        try:
+            if sys.platform == "win32" and sys.version_info >= (3, 8):
+                self.lib = ctypes.CDLL(abs_lib, winmode=0)
+            else:
+                self.lib = ctypes.cdll.LoadLibrary(abs_lib)
+        except OSError as e:
+            # If dynamic linker failed on target device (e.g. GLIBC version mismatch),
+            # check if the static archive libhsru_drone.a is present to link natively on this machine
+            lib_dir = os.path.dirname(abs_lib)
+            candidate_archives = [
+                os.path.join(lib_dir, "libhsru_drone.a"),
+                os.path.join(os.path.dirname(lib_dir), "lib", "libhsru_drone.a"),
+                os.path.join(os.path.dirname(__file__), "libhsru_drone.a"),
+                os.path.join(os.path.dirname(__file__), "..", "lib", "libhsru_drone.a")
+            ]
+            static_a = next((p for p in candidate_archives if os.path.exists(p)), None)
+            if static_a and sys.platform not in ["win32", "darwin"]:
+                print(f"[HSRU Edge] Note: Host shared library could not be loaded ({e}).")
+                print(f"[HSRU Edge] Linking {abs_lib} natively on this device from {static_a}...")
+                import shutil
+                import subprocess
+                cxx = os.environ.get("CXX", shutil.which("g++") or shutil.which("gcc") or shutil.which("clang++"))
+                if cxx:
+                    cmd = [cxx, "-shared", "-fPIC", "-o", abs_lib, "-Wl,--whole-archive", static_a, "-Wl,--no-whole-archive", "-lm"]
+                    res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+                    if res.returncode == 0:
+                        print("[HSRU Edge] Successfully linked native shared library!")
+                        self.lib = ctypes.cdll.LoadLibrary(abs_lib)
+                    else:
+                        print(f"❌ Native link failed:\n{res.stderr}")
+                        raise OSError(f"Failed to load or rebuild engine shared library: {e}\nCompiler output:\n{res.stderr}")
+                else:
+                    print("❌ No C++ compiler (g++) found on this device to link native shared library.")
+                    raise e
+            else:
+                raise e
 
         # ── C-API bindings ────────────────────────────────────────────────────
         self.lib.hsru_authenticate.argtypes = [ctypes.c_char_p]
