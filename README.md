@@ -155,8 +155,9 @@ chmod +x hsru_edge
 A real-time edge anomaly detector running on high-frequency IMU telemetry from drone flight controllers. Uses predictive physics dynamics to catch propeller fatigue and motor failure the millisecond it occurs.
 
 * **Parity:** 100% mathematical match with PyTorch training logs.
-* **Accuracy:** 100% detection rate on UAV propeller fault datasets.
-* **Latency:** Sub-millisecond reaction time per telemetry frame.
+* **Accuracy:** 100% flight-level detection rate on UAV propeller fault datasets (80/80 damaged flights caught, 0.0% false alarms with $K=3$).
+* **Latency:** Sub-millisecond reaction time per telemetry frame (<25 µs in C++).
+* **Comprehensive Metrics:** See [DRONE_METRICS.md](DRONE_METRICS.md) for full empirical benchmarks, damage severity scaling tables, and persistence filter analysis.
 
 ```bash
 cd Demos/Linux_HSRU_UAV
