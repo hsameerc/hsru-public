@@ -6,7 +6,7 @@
   [![Memory Footprint](https://img.shields.io/badge/Memory-%F0%9F%AA%84%20O(1)%20Constant%20Footprint-blue.svg)](#-architectural-breakthrough)
   [![Safety Certified](https://img.shields.io/badge/Safety-DO--178C%20Certifiable-emerald.svg)](#-safety--mathematical-guarantees)
   [![License](https://img.shields.io/badge/Release-Evaluation%20Use%20Only-lightgrey.svg)](#-license--evaluation-terms)
-  [![Status](https://img.shields.io/badge/Status-Seeking%20Seed%20Investment-success.svg)](#-call-for-collaboration--investment)
+  [![Status](https://img.shields.io/badge/Status-Open%20for%20Collaboration-success.svg)](#-open-collaboration--taking-it-further)
 </div>
 
 ---
@@ -25,22 +25,26 @@ To generate tokens or process audio streams, a Transformer must store the entire
 
 ---
 
-## 🤝 Call for Collaboration & Investment
+## 🤝 Open Collaboration — Taking HSRU Further
 
-> **"I built HSRU from scratch as an independent researcher to prove that the post-Transformer era of edge artificial intelligence is not only theoretically possible—it is here, working, and running in pure C++ today."**
+> **"I have brought HSRU from raw mathematical equations on paper all the way to a working, multi-modal foundation architecture with zero-dependency C++ runtimes and validated benchmarks across Language, Continuous Audio, and UAV Robotics. If you find this exciting and want to explore, experiment, or take it even further together—reach out anytime. No formality, no hesitation."**
 
 ### 🗺️ The Roadmap
-*   ✅ **Phase 1 — Microscopic Verification (Complete):** Proved mathematical stability and expressive parity across 3 distinct modalities (Text, Audio, Telemetry) in the 26M–83M parameter regime.
-*   ✅ **Phase 2 — Standalone Edge SDK (Complete):** Built the production-grade, zero-dependency C++ runtime powered by **GGML and GGUF**, completely decoupling inference from Python, PyTorch, or CUDA runtimes.
-*   🚀 **Phase 3 — Compute Scaling (Current Goal):** Seeking **Seed Capital, Deep-Tech Grants (NSF/DARPA), and Strategic Compute Partnerships** to train the architecture in the **1B to 3B parameter regime** on an H100 GPU cluster.
+*   ✅ **Phase 1 — Mathematical Foundations & Verification (Complete):** Proved mathematical stability, bounded Jacobians, and expressive parity across multiple modalities (Text, Audio, Telemetry) in the 26M–83M parameter regime.
+*   ✅ **Phase 2 — Zero-Dependency Standalone Edge SDK (Complete):** Built production-grade, standalone C++ and **GGML/GGUF** runtimes, completely decoupling high-speed inference from heavy Python, PyTorch, or CUDA dependencies with strictly bounded $\mathcal{O}(1)$ RAM.
+*   🚀 **Phase 3 — Multi-Modal Scaling & Frontier Deployments (Current Focus):**
+    *   **🚁 Autonomous Drones & Avionics:** Hardware-in-the-loop flight controller integration (Pixhawk / PX4 / ArduPilot) for live, sub-millisecond structural health monitoring and zero-false-alarm propeller fault detection.
+    *   **🎵 Continuous Neural Audio:** High-efficiency, ultra-low-latency neural speech and music codecs running on embedded DSPs and consumer wearables.
+    *   **💬 Language & Foundation Models:** Scaling parameter count and context length with flat linear memory, entirely eliminating the KV-cache bottleneck.
+    *   **🫀 Biomedical Telemetry (ECG / Cardiac Health):** Applying continuous $\mathcal{O}(1)$ spiking recurrence to 24/7 wearable cardiac telemetry for instantaneous arrhythmia and anomaly detection without battery drain.
 
-If you are an investor, grant officer, or a deep-tech engineer excited about replacing Transformers with a safer, lighter, and vastly more scalable paradigm, let's talk.
+Whether you are a robotics engineer, audio researcher, medical tech innovator, or simply passionate about pioneering post-Transformer edge AI—my inbox is open. Let's connect, share ideas, and build.
 
 ### 📬 Direct Contact
 | | |
 |---|---|
 | **Author & Architect** | **Sameer Humagain** |
-| **Email** | [hsameernp@gmail.com](mailto:hsameernp@gmail.com?subject=HSRU%20-%20Investment%20%2F%20Collaboration) |
+| **Email** | [hsameernp@gmail.com](mailto:hsameernp@gmail.com?subject=HSRU%20-%20Collaboration%20%26%20Inquiry) |
 | **GitHub** | [@hsameerc](https://github.com/hsameerc) |
 
 ---
