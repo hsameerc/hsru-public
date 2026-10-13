@@ -7,19 +7,18 @@ You have successfully exported this payload for your Drone's onboard computer.
 | Property | Specification |
 |:---|:---|
 | **Target OS** | **`Linux`** |
-| **Architecture** | **`ARM64 (aarch64)`** |
-| **Intended Hardware** | **Raspberry Pi 3/4/5, NVIDIA Jetson Nano/Xavier/Orin, ARM64 Edge SBCs** |
+| **Architecture** | **`x86_64 (x86_64)`** |
+| **Intended Hardware** | **Linux x86_64 (Servers, Industrial PCs, Ubuntu/Debian/Fedora)** |
 | **Static Linkage** | **✅ Enabled** (Standalone binary has ZERO external runtime dependencies) |
 
-> 📌 **Compatibility Summary:** This SDK was cross-compiled specifically for Linux ARM64 (aarch64) edge hardware. The standalone binary (`hsru_drone` / `demo_run`) is fully statically linked and will run out-of-the-box on Raspberry Pi OS, Ubuntu ARM64, and Debian ARM64 with ZERO external dependencies.
+> 📌 **Compatibility Summary:** This SDK was compiled for Linux x86_64. The standalone binary is fully statically linked and will run on any 64-bit Linux distribution.
 
 ## 📂 Folder Structure
-- **`hsru_drone` / `demo/demo_run`**: Pre-compiled standalone C++ executable (**Zero Dependencies**, statically linked).
+- **`hsru_drone`**: Pre-compiled standalone C++ executable (**Zero Dependencies**, statically linked).
 - **`weights/`**: `drone_weights.bin` (Trained model weights)
 - **`include/`**: `hsru.h` (C++ Engine Public API)
-- **`lib/`**: `libhsru_drone.so` (Dynamic shared library) & `libhsru_drone.a` (Static archive for native re-linking)
-- **`demo/`**: C++ and Python integration examples (`demo.py`, `dashboard.py`, `demo.cpp`).
-- **`rebuild_lib.sh`**: 1-second native shared library linker for Raspberry Pi / Linux edge boards.
+- **`lib/`**: `libhsru_drone.so` (Dynamic shared library), `libhsru_drone.a` (Static archive for native re-linking), & `rebuild_lib.sh` (1-second native relink script).
+- **`demo/`**: `demo_run` (Pre-compiled C++ demo executable), `demo.cpp`, and Python integration scripts (`demo.py`, `dashboard.py`).
 - **`docs/`**: Executive Analytics Report for stakeholders.
 
 ## 🍓 Raspberry Pi & Linux Edge Quickstart
@@ -30,7 +29,7 @@ To run the AI anomaly detector directly without Python or external dependencies:
 # Run directly from deploy root:
 ./hsru_drone
 
-# Or run from the demo/ folder:
+# Or run the demo binary:
 cd demo
 ./demo_run
 ```
@@ -53,17 +52,16 @@ OSError: /lib/aarch64-linux-gnu/libm.so.6: version 'GLIBC_2.43' not found (requi
 ```
 
 **Instant Fix (Takes < 1 second on Raspberry Pi):**
-The static engine archive `libhsru_drone.a` is already included. You can instantly link it natively on the Raspberry Pi:
+The static engine archive `libhsru_drone.a` is located in `lib/`. You can instantly link it natively on the Raspberry Pi:
 ```bash
 # 1. Ensure standard build tools are installed on the Raspberry Pi:
 sudo apt update && sudo apt install -y build-essential
 
-# 2. Run the rebuild script from the deploy root or demo/ folder:
-./rebuild_lib.sh
-# or inside demo/:
-cd demo && ./rebuild_lib.sh
+# 2. Run the rebuild script inside the lib/ directory:
+./lib/rebuild_lib.sh
+# or: cd lib && ./rebuild_lib.sh
 ```
-This generates a fresh `libhsru_drone.so` tied to your Raspberry Pi's exact system C library in under one second. Then re-run `python3 demo.py` or `python3 dashboard.py`.
+This generates a fresh `lib/libhsru_drone.so` tied to your Raspberry Pi's exact system C library in under one second. Then re-run `python3 demo.py` or `python3 dashboard.py`.
 
 ## How to deploy on Live Hardware
 To deploy this AI on a real drone, you must integrate the C++ AI Engine directly into your firmware's Real-Time flight loop (e.g., ArduPilot, PX4).

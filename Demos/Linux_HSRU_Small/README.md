@@ -7,11 +7,11 @@ Welcome to the **HSRU LLM True Black Box SDK**. This directory contains everythi
 | Property | Specification |
 |:---|:---|
 | **Target OS** | **`Linux`** |
-| **Architecture** | **`ARM64 (aarch64)`** |
-| **Intended Hardware** | **`Raspberry Pi 3/4/5, NVIDIA Jetson Nano/Xavier/Orin, ARM64 Edge SBCs`** |
+| **Architecture** | **`x86_64 (x86_64)`** |
+| **Intended Hardware** | **`Linux x86_64 (Servers, Industrial PCs, Ubuntu/Debian/Fedora)`** |
 | **Static Linkage** | **✅ Enabled** (Standalone binary has ZERO external runtime dependencies) |
 
-> 📌 **Compatibility Summary:** - **Linux ARM64 Deployment:** This SDK was cross-compiled specifically for Linux ARM64 (aarch64) edge hardware. The standalone binary (`hsru_edge`) is fully statically linked and will run out-of-the-box on Raspberry Pi OS, Ubuntu ARM64, and Debian ARM64 with ZERO external dependencies.
+> 📌 **Compatibility Summary:** - **Linux x86_64 Deployment:** This SDK was compiled on Linux x86_64. The standalone binary (`hsru_edge`) is fully statically linked and will run on any 64-bit Linux distribution.
 
 ## 🌟 Key Features
 
@@ -97,5 +97,5 @@ This generates a fresh `libhsru_llm.so` tied to your Raspberry Pi's exact system
 ---
 
 ## ⚙️ Technical Details
-- **Linux ARM64 Deployment:** This SDK was cross-compiled specifically for Linux ARM64 (aarch64) edge hardware. The standalone binary (`hsru_edge`) is fully statically linked and will run out-of-the-box on Raspberry Pi OS, Ubuntu ARM64, and Debian ARM64 with ZERO external dependencies.
+- **Linux x86_64 Deployment:** This SDK was compiled on Linux x86_64. The standalone binary (`hsru_edge`) is fully statically linked and will run on any 64-bit Linux distribution.
 - **Quantization:** If exported with `--fxp`, the weights are stored in INT8 precision, cutting RAM usage and bandwidth in half.
