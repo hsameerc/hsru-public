@@ -1,57 +1,57 @@
 <div align="center">
   <h1>⚡ HSRU: Hybrid State Recurrent Unit</h1>
-  <h3>The Post-Transformer Multi-Modal Foundation Architecture for Edge AI</h3>
+  <h3>A post-Transformer multi-modal foundation architecture for edge AI</h3>
   
   [![C++ Edge Engine](https://img.shields.io/badge/Runtime-C%2B%2B%20%7C%20GGML%20%7C%20Zero--Deps-orange.svg)](#-edge-c-sdk-demonstrations)
-  [![Memory Footprint](https://img.shields.io/badge/Memory-%F0%9F%AA%84%20O(1)%20Constant%20Footprint-blue.svg)](#-architectural-breakthrough)
-  [![Safety Certified](https://img.shields.io/badge/Safety-DO--178C%20Certifiable-emerald.svg)](#-safety--mathematical-guarantees)
-  [![License](https://img.shields.io/badge/Release-Evaluation%20Use%20Only-lightgrey.svg)](#-license--evaluation-terms)
-  [![Status](https://img.shields.io/badge/Status-Open%20for%20Collaboration-success.svg)](#-open-collaboration--taking-it-further)
+  [![Memory Footprint](https://img.shields.io/badge/Memory-%F0%9F%AA%84%20O(1)%20Constant%20Footprint-blue.svg)](#-architecture-overview)
+  [![Safety Certified](https://img.shields.io/badge/Safety-DO--178C%20Certifiable-emerald.svg)](#-safety-and-stability-guarantees)
+  [![License](https://img.shields.io/badge/Release-Evaluation%20Use%20Only-lightgrey.svg)](#-evaluation-terms)
+  [![Status](https://img.shields.io/badge/Status-Open%20for%20Collaboration-success.svg)](#-open-collaboration-taking-hsru-further)
 </div>
 
 ---
 
 ## 💡 The Core Thesis
 
-Transformers are magnificent algorithms, but they have hit an inescapable thermodynamic and economic wall on edge devices: **the quadratic $O(T^2)$ computational complexity and the explosive memory growth of the Key-Value (KV) Cache**. 
+Transformers work well in cloud data centers, but they run into real thermodynamic and memory bottlenecks on edge hardware: **quadratic $O(T^2)$ computational complexity and the fast-growing Key-Value (KV) cache**. 
 
-To generate tokens or process audio streams, a Transformer must store the entire history of preceding timesteps in active RAM. On an embedded drone, a smart hearable, a mobile phone, or a low-power microcontroller, the KV-Cache quickly consumes all available memory, causing memory thrashing, severe thermal throttling, and battery drain.
+To generate tokens or stream audio, standard self-attention must retain preceding timesteps in active RAM. On an embedded drone, wearable, phone, or microcontroller, the KV cache quickly consumes available memory, leading to thermal throttling, latency spikes, and battery drain.
 
-**HSRU (Hybrid State Recurrent Unit)** is a mathematically proven, biologically inspired foundation architecture engineered to break this bottleneck. By synthesizing **biological leaky integration**, **thermometer spiking thresholds**, and **continuous non-linear logic gates**, HSRU achieves:
+**HSRU (Hybrid State Recurrent Unit)** is an alternative recurrent architecture built to remove this bottleneck. By combining **biological leaky integrate-and-fire dynamics**, **discrete threshold gates**, and **continuous non-linear logic pathways**, HSRU delivers:
 
-1. **$\mathcal{O}(1)$ Constant Inference Memory:** Whether your sequence is 10 seconds or 10 hours, RAM consumption never grows.
-2. **Linear $\mathcal{O}(T)$ Time Complexity:** Flat, deterministic latency per token or frame.
-3. **True Multi-Modal Expressiveness:** A single unified mathematical primitive successfully processes **Discrete Language**, **Continuous Audio Waveforms**, and **High-Frequency Robotics Telemetry**.
+1. **$\mathcal{O}(1)$ Constant Memory:** RAM usage stays flat whether the sequence runs for 10 seconds or 10 hours.
+2. **Linear $\mathcal{O}(T)$ Time:** Deterministic, flat latency per token or telemetry frame.
+3. **Multi-Modal Processing:** A single shared mathematical core handles **Language Tokens**, **Continuous Audio Waveforms**, and **High-Frequency Drone IMU Telemetry**.
 
 ---
 
-## 🤝 Open Collaboration — Taking HSRU Further
+## 🤝 Open Collaboration: Taking HSRU Further
 
-> **"I have brought HSRU from raw mathematical equations on paper all the way to a working, multi-modal foundation architecture with zero-dependency C++ runtimes and validated benchmarks across Language, Continuous Audio, and UAV Robotics. If you find this exciting and want to explore, experiment, or take it even further together—reach out anytime. No formality, no hesitation."**
+> "I built HSRU from first principles, taking it from raw equations on paper all the way to working, zero-dependency C++ runtimes and benchmarked models across Language, Continuous Audio, and UAV Telemetry. If you find this work interesting and want to explore, experiment, or take it even further together, feel free to reach out anytime. No formality, no hesitation."
 
 ### 🗺️ The Roadmap
-*   ✅ **Phase 1 — Mathematical Foundations & Verification (Complete):** Proved mathematical stability, bounded Jacobians, and expressive parity across multiple modalities (Text, Audio, Telemetry) in the 26M–83M parameter regime.
-*   ✅ **Phase 2 — Zero-Dependency Standalone Edge SDK (Complete):** Built production-grade, standalone C++ and **GGML/GGUF** runtimes, completely decoupling high-speed inference from heavy Python, PyTorch, or CUDA dependencies with strictly bounded $\mathcal{O}(1)$ RAM.
-*   🚀 **Phase 3 — Multi-Modal Scaling & Frontier Deployments (Current Focus):**
-    *   **🚁 Autonomous Drones & Avionics:** Hardware-in-the-loop flight controller integration (Pixhawk / PX4 / ArduPilot) for live, sub-millisecond structural health monitoring and zero-false-alarm propeller fault detection.
-    *   **🎵 Continuous Neural Audio:** High-efficiency, ultra-low-latency neural speech and music codecs running on embedded DSPs and consumer wearables.
-    *   **💬 Language & Foundation Models:** Scaling parameter count and context length with flat linear memory, entirely eliminating the KV-cache bottleneck.
-    *   **🫀 Biomedical Telemetry (ECG / Cardiac Health):** Applying continuous $\mathcal{O}(1)$ spiking recurrence to 24/7 wearable cardiac telemetry for instantaneous arrhythmia and anomaly detection without battery drain.
+* ✅ **Phase 1: Foundations and Verification (Complete):** Validated mathematical stability, bounded Jacobians, and expressive parity across Text, Audio, and Telemetry in the 26M to 83M parameter range.
+* ✅ **Phase 2: Standalone Edge SDK (Complete):** Built native C++ and **GGML/GGUF** runtimes, completely decoupling high-speed inference from Python, PyTorch, or CUDA with bounded $\mathcal{O}(1)$ RAM.
+* 🚀 **Phase 3: Multi-Modal Scaling and Real-World Deployments (Current Focus):**
+    * **Autonomous Drones and Avionics:** Hardware-in-the-loop flight controller integration (Pixhawk / PX4 / ArduPilot) for live, sub-millisecond structural health monitoring and zero-false-alarm propeller fault detection.
+    * **Continuous Neural Audio:** High-efficiency, ultra-low-latency neural speech and music codecs running on embedded DSPs and consumer wearables.
+    * **Language and Foundation Models:** Scaling parameter count and context length with flat linear memory, removing the KV-cache bottleneck.
+    * **Biomedical Telemetry (ECG / Cardiac Health):** Applying continuous $\mathcal{O}(1)$ spiking recurrence to 24/7 wearable cardiac telemetry for instantaneous arrhythmia and anomaly detection without battery drain.
 
-Whether you are a robotics engineer, audio researcher, medical tech innovator, or simply passionate about pioneering post-Transformer edge AI—my inbox is open. Let's connect, share ideas, and build.
+Whether you are a robotics engineer, audio researcher, medical tech developer, or someone interested in alternative edge architectures, my inbox is open. Let's connect, share ideas, and build.
 
 ### 📬 Direct Contact
 | | |
 |---|---|
-| **Author & Architect** | **Sameer Humagain** |
-| **Email** | [hsameernp@gmail.com](mailto:hsameernp@gmail.com?subject=HSRU%20-%20Collaboration%20%26%20Inquiry) |
+| **Author** | **Sameer Humagain** |
+| **Email** | [hsameernp@gmail.com](mailto:hsameernp@gmail.com?subject=HSRU%20Collaboration) |
 | **GitHub** | [@hsameerc](https://github.com/hsameerc) |
 
 ---
 
-## 🧠 Architectural Breakthrough
+## 🧠 Architecture Overview
 
-Traditional RNNs suffer from vanishing gradients and poor associative recall. Transformers solve recall but explode in memory. HSRU resolves both through a three-part biological formulation:
+Standard RNNs often struggle with vanishing gradients and poor recall, while Transformers solve recall at the cost of high memory usage. HSRU addresses both by combining three core mechanisms:
 
 ```text
 Input Feature Vector x[t]
@@ -78,43 +78,43 @@ Reconstructed Output Vector h[t]
 ```
 
 ### Key Technical Pillars:
-* **Neuromorphic Thermometer Thresholding ($k\_dims$):** Channels $0$ to $\frac{\text{dim}}{2}$ use discrete voltage thresholds to create sparse, event-driven firing patterns. This gives the network sharp associative memory routing without requiring dense attention matrices.
-* **Continuous Semantic Mode:** Channels $\frac{\text{dim}}{2}$ to $\text{dim}$ integrate smooth semantic floating-point representations, enabling rich contextual understanding.
-* **Snake Periodic Activations:** Custom periodic activation functions ($\text{Snake1d}$) capture periodic phase dynamics and high-frequency harmonics without phase distortion.
-* **Topological Graph Allocation (`ggml_gallocr`):** Memory slots are dynamically recycled across computation nodes, cutting runtime RAM footprints from multi-gigabytes down to **<270 MB**.
+* **Spiking Thresholds ($k\_dims$):** Channels $0$ to $\frac{\text{dim}}{2}$ use discrete voltage thresholds to create sparse, event-driven firing. This provides selective memory routing without dense attention matrices.
+* **Continuous Semantic Channels:** Channels $\frac{\text{dim}}{2}$ to $\text{dim}$ integrate continuous floating-point state for smooth contextual reasoning.
+* **Snake Periodic Activations:** Custom periodic activation functions ($\text{Snake1d}$) preserve periodic phase dynamics and high-frequency harmonics without phase distortion.
+* **Topological Graph Allocation (`ggml_gallocr`):** Memory buffers are dynamically recycled across computation steps, keeping runtime RAM footprints below **270 MB**.
 
 ---
 
-## 🛡️ Safety & Mathematical Guarantees
+## 🛡️ Safety and Stability Guarantees
 
-In avionics, robotics, and medical devices, neural networks must be certifiable. Traditional softmax attention outputs can diverge under out-of-distribution inputs.
+In avionics, robotics, and medical devices, model behavior must remain bounded. Unconstrained attention mechanisms can behave unpredictably on out-of-distribution inputs.
 
-* **BIBO Stability (Bounded-Input Bounded-Output):** The HSRU `blend` mode strictly constrains recurrent state transitions using convex combinations ($\beta \in [0, 1]$), guaranteeing that internal states cannot numerically blow up.
-* **DO-178C Compliance:** Internal mathematical operations utilize hardware-bounded approximations ($\sigma_{hw}$) with no unbounded transcendental loops, ensuring deterministic execution budgets.
-* **Full Proofs:** Derivations and proofs are available in [Whitepapers/hsru_mathematics.pdf](Whitepapers/hsru_mathematics.pdf) and [Whitepapers/hsru_verification.pdf](Whitepapers/hsru_verification.pdf).
+* **BIBO Stability (Bounded-Input Bounded-Output):** The HSRU `blend` mode strictly constrains recurrent state updates using convex combinations ($\beta \in [0, 1]$), ensuring internal states cannot numerically diverge.
+* **DO-178C Alignment:** Core mathematical operations use hardware-bounded approximations ($\sigma_{hw}$) with no unbounded transcendental loops, ensuring deterministic execution time.
+* **Full Derivations:** Mathematical proofs and derivations are available in [Whitepapers/hsru_mathematics.pdf](Whitepapers/hsru_mathematics.pdf) and [Whitepapers/hsru_verification.pdf](Whitepapers/hsru_verification.pdf).
 
 ---
 
 ## 💻 Edge C++ SDK Demonstrations
 
-To verify the architecture without installation friction, this repository contains pre-compiled, standalone C++ edge binaries. **No Python, no PyTorch, no CUDA required.**
+To test the architecture easily, this repository includes pre-compiled, standalone C++ binaries. **No Python, PyTorch, or CUDA installation is required.**
 
 | Demo Module | Modality | macOS (Apple Silicon) | Linux (x86_64) | Windows (x64) | Engine |
 |---|---|:---:|:---:|:---:|:---:|
 | **HSRU-Encodec** | 24 kHz Neural Audio | ✅ Current | 🔄 In SDK | 🔄 In SDK | **GGML + GGUF v3** |
 | **HSRU-Small** | 26M Autoregressive Text | ✅ Current | ✅ Current | ✅ Current | **Native C++ v1** |
-| **HSRU-Drone** | UAV Propeller Anomaly Detection | — | ✅ Current | — | **Native C++ v1** |
+| **HSRU-Drone** | UAV Propeller Anomaly Detection | - | ✅ Current | - | **Native C++ v1** |
 
 ---
 
 ### 🎵 1. HSRU-Encodec (Continuous Neural Audio Compression)
-An 82.6M parameter end-to-end neural audio codec proving HSRU's ability to compress and reconstruct continuous 24,000 Hz waveforms.
+An 82.6M parameter end-to-end neural audio codec demonstrating HSRU's ability to compress and reconstruct continuous 24,000 Hz waveforms.
 
 * **Performance:** **>4.1x faster than real-time** on Apple Silicon CPU (RTF: $0.24\times$).
 * **Fidelity:** **>96.9% numerical correlation** with PyTorch reference, **8.8+ dB SNR**.
 * **Memory Buffer:** **<270 MB** compute memory via topological graph allocator.
-* **Quantization:** INT8 / FP16 GGUF payload (97 MB, zero-LFS direct Git tracking).
-* **Audio Ingestion:** Supports any `.wav` input (mono or stereo, 16/24/32-bit); automatically downmixes to mono and linearly resamples non-24kHz audio (e.g. 16 kHz, 44.1 kHz, 48 kHz) to 24,000 Hz.
+* **Quantization:** INT8 / FP16 GGUF payload (97 MB, direct Git tracking without Git LFS).
+* **Audio Ingestion:** Supports standard `.wav` files (mono or stereo, 16/24/32-bit); downmixes to mono and linearly resamples non-24kHz inputs to 24,000 Hz.
 
 ```bash
 # Navigate to demo folder
@@ -126,16 +126,16 @@ xattr -cr .
 # Run end-to-end Audio Roundtrip (Encoder -> Quantizer -> Decoder)
 ./hsru_ggml models/codec_weights_fxp.gguf test.wav out.wav
 ```
-*The synthesized waveform will be written directly to `out.wav`.*
+*The synthesized waveform is saved directly to `out.wav`.*
 
 ---
 
 ### 💬 2. HSRU-Small (Autoregressive Language Generation)
-A 26M parameter language model trained completely from scratch on the TinyStories corpus using pure HSRU recurrent equations. 
+A 26M parameter language model trained from scratch on the TinyStories corpus using pure HSRU recurrent equations.
 
 * **Throughput:** **~130 tokens/second** on standard CPU.
-* **Memory Profile:** Flat $\mathcal{O}(1)$ memory (no KV-cache).
-* **Decoupled:** Zero Python runtime; runs purely via C++ pointer arithmetic.
+* **Memory Profile:** Flat $\mathcal{O}(1)$ memory (no KV cache).
+* **Decoupled:** Zero Python runtime; runs purely via native C++ pointer arithmetic.
 
 ```bash
 # macOS
@@ -156,12 +156,12 @@ chmod +x hsru_edge
 ---
 
 ### 🚁 3. HSRU-Drone (Predictive Anomaly Detection on UAVs)
-A real-time edge anomaly detector running on high-frequency IMU telemetry from drone flight controllers. Uses predictive physics dynamics to catch propeller fatigue and motor failure the millisecond it occurs.
+A real-time edge anomaly detector running on high-frequency IMU telemetry from drone flight controllers. Uses predictive physics dynamics to catch propeller damage and motor failure immediately upon takeoff.
 
-* **Parity:** 100% mathematical match with PyTorch training logs.
-* **Accuracy:** 100% flight-level detection rate on UAV propeller fault datasets (80/80 damaged flights caught, 0.0% false alarms with $K=3$).
+* **Parity:** Exact mathematical match with PyTorch training logs.
+* **Accuracy:** 100% flight-level detection rate on propeller fault datasets (80/80 damaged flights caught, 0.0% false alarms with $K=3$).
 * **Latency:** Sub-millisecond reaction time per telemetry frame (<25 µs in C++).
-* **Comprehensive Metrics:** See [DRONE_METRICS.md](DRONE_METRICS.md) for full empirical benchmarks, damage severity scaling tables, and persistence filter analysis.
+* **Detailed Metrics:** See [DRONE_METRICS.md](DRONE_METRICS.md) for benchmark tables, damage severity scaling, and persistence filter analysis.
 
 ```bash
 cd Demos/Linux_HSRU_UAV
@@ -184,9 +184,9 @@ chmod +x hsru_drone
 
 ---
 
-## 🛠️ Troubleshooting & Platform Notes
+## 🛠️ Troubleshooting and Platform Notes
 
-* **macOS Gatekeeper Warning:** If macOS displays a *"cannot be opened because the developer cannot be verified"* alert on downloaded binaries, clear the quarantine extended attribute:
+* **macOS Gatekeeper Alert:** If macOS displays a *"cannot be opened because the developer cannot be verified"* alert on downloaded binaries, clear the quarantine attribute:
   ```bash
   xattr -cr .
   ```
@@ -194,12 +194,10 @@ chmod +x hsru_drone
   ```bash
   chmod +x hsru_edge hsru_drone
   ```
-* **CPU Architecture:** Pre-compiled Linux binaries are compiled for `x86_64` (AVX2/FMA). For ARM Linux (Raspberry Pi, Jetson), source compilation is available upon request.
+* **CPU Architecture:** Pre-compiled Linux binaries are built for `x86_64` (AVX2/FMA). For ARM Linux (Raspberry Pi, Jetson), source compilation is available upon request.
 
 ---
 
-## 📄 License & Evaluation Terms
+## 📄 Evaluation Terms
 
-The pre-compiled binary engines, model weights, and mathematical whitepapers in this release are provided solely for **evaluation, peer review, and technical due diligence**. Commercial licensing, embedding into enterprise hardware, and access to the complete PyTorch training code and CUDA kernels are available via direct inquiry.
-
-**Together, let's build the post-Transformer foundation of Edge AI.**
+The pre-compiled binary engines, model weights, and technical whitepapers in this release are provided for evaluation, peer review, and technical due diligence. If you are interested in commercial licensing, hardware integration, or access to training pipelines and CUDA kernels, feel free to reach out directly.

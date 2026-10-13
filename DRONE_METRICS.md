@@ -25,11 +25,11 @@ Using high-frequency raw 6-DOF Inertial Measurement Unit (IMU) telemetry ($3\tim
 
 Evaluations were conducted on the peer-reviewed **UAV Realistic Fault Dataset (ICRA 2023)**, encompassing 99 physical quadrotor flight missions ($\sim$1.79 million telemetry frames) across 5 distinct physical structural states:
 
-* **Class 0:** Normal Flight (0 broken propellers) — 19 flight missions.
-* **Class 1:** 1 Broken Propeller Blade — 20 flight missions.
-* **Class 2:** 2 Broken Propeller Blades — 20 flight missions.
-* **Class 3:** 3 Broken Propeller Blades — 20 flight missions.
-* **Class 4:** 4 Broken Propeller Blades — 20 flight missions.
+* **Class 0:** Normal Flight (0 broken propellers) (19 flight missions)
+* **Class 1:** 1 Broken Propeller Blade (20 flight missions)
+* **Class 2:** 2 Broken Propeller Blades (20 flight missions)
+* **Class 3:** 3 Broken Propeller Blades (20 flight missions)
+* **Class 4:** 4 Broken Propeller Blades (20 flight missions)
 
 ### 🔬 Rigorous 3-Way Split (Zero Data Leakage)
 To prevent statistical leakage and ensure genuine generalization, the 19 normal flight missions were partitioned into three non-overlapping subsets:
@@ -48,7 +48,7 @@ Prediction error scales monotonically with physical fracture severity, proving t
 
 | Group | Evaluated Flights | Evaluated Windows (1s) | Mean MSE | Error Surge vs. Normal | AUROC | Flights Alarmed ($K=3$) | Status |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Class 0: Normal (Held-Out Test)** | 3 | 1,081 | 0.2549 | **$1.0\times$** | — | **0 / 3** | **0.0% False Alarm** |
+| **Class 0: Normal (Held-Out Test)** | 3 | 1,081 | 0.2549 | **$1.0\times$** | N/A | **0 / 3** | **0.0% False Alarm** |
 | **Class 1: 1 Broken Propeller** | 20 | 7,388 | 13.0796 | **$51.3\times$** | 0.8745 | **20 / 20** | **100% Caught** |
 | **Class 2: 2 Broken Propellers** | 20 | 7,186 | 20.9375 | **$82.1\times$** | 0.8710 | **20 / 20** | **100% Caught** |
 | **Class 3: 3 Broken Propellers** | 20 | 7,259 | 31.4259 | **$123.3\times$** | 0.8846 | **20 / 20** | **100% Caught** |
