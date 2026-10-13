@@ -2,8 +2,8 @@
     "client_name": "UAV_PropFault",
     "description": "UAV Realistic Propeller Fault Dataset (ICRA 2023) - Binary: Normal vs Broken Propeller",
     "data_parsing": {
-        "raw_data_path": "/Volumes/personal_folder/Data/UAV-Realistic-Fault-Dataset-main/Dataset",
-        "output_csv":    "data/UAV_PropFault/normalized_training_data.csv",
+        "raw_data_path": "\\\\SAMNAS\\personal_folder\\Data\\UAV-Realistic-Fault-Dataset-main\\Dataset",
+        "output_csv": "data/UAV_PropFault/normalized_training_data.csv",
         "classes": {
             "0": "normal",
             "1": "fault_1_broken",
@@ -13,8 +13,12 @@
         },
         "label_mode": "binary",
         "sensors": [
-            "gyro_x", "gyro_y", "gyro_z",
-            "accel_x", "accel_y", "accel_z"
+            "gyro_x",
+            "gyro_y",
+            "gyro_z",
+            "accel_x",
+            "accel_y",
+            "accel_z"
         ],
         "source_file": "SensorCombined",
         "seq_len": 100
@@ -22,11 +26,15 @@
     "training": {
         "seq_len": 100,
         "batch_size": 128,
-        "epochs": 10,
+        "epochs": 20,
         "lr": 0.001,
         "sensor_dim": 6,
         "hidden_size": 64,
-        "num_layers": 4
+        "num_layers": 4,
+        "mode": "blend",
+        "k_dims": 1,
+        "spiking_channels": 64,
+        "logic_dim": 16
     },
     "authorized_hwids": [
         "MAC:00-11-22-33-44-55",

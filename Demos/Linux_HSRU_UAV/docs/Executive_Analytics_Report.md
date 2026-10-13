@@ -3,7 +3,7 @@
 This report provides a verified summary of the AHSRU Pilot Program results, ready for engineering leadership review.
 
 ## 1. Predictive Accuracy & Anomaly Detection
-- **Final Normalized Training MSE Loss:** `0.178330`
+- **Final Normalized Training MSE Loss:** `0.233902`
 - **Anomaly Threshold Method:** Dynamic Six Sigma Auto-Calibration (no manual tuning required)
 - **Calibration Window:** First 500 milliseconds of each flight
 - **Threshold Formula:** `Mean(MSE) + 6 × StdDev(MSE)` — locked automatically at runtime

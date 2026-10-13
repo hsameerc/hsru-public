@@ -19,6 +19,8 @@ def load_csv_stream(path, sensor_dim):
                     stream.append([float(x) for x in parts])
                 except ValueError:
                     pass
+            if len(stream) >= 10000:  # Only load what we need — prevents OOM on large datasets
+                break
     return stream
 
 def main():
@@ -32,7 +34,9 @@ def main():
     hidden_size = 128
     num_layers = 3
     
-    lib_path = os.path.join("..", "lib", "libhsru_drone.so")
+    import sys
+    lib_ext = ".dll" if sys.platform == "win32" else ".dylib" if sys.platform == "darwin" else ".so"
+    lib_path = os.path.join("..", "lib", f"libhsru_drone{lib_ext}")
     weights_path = os.path.join("..", "weights", "drone_weights.bin")
     stream_path = os.path.join("..", "data", "demo_flight.csv")
     

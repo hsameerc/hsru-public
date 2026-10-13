@@ -22,6 +22,7 @@ extern "C" {
     HSRU_API void hsru_step(void* ctx, const float* input, float* output);
     HSRU_API void hsru_step_fxp(void* ctx, const int32_t* input, int32_t* output);
     HSRU_API float hsru_get_sensor_std(int i);
+    HSRU_API float hsru_get_sensor_std_fxp(int i);
     HSRU_API float hsru_compute_normalized_mse_fxp(const float* actual, const float* predicted, int sensor_dim);
 #ifdef __cplusplus
 }
