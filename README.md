@@ -66,7 +66,7 @@ Whether you are a robotics engineer, audio researcher, medical tech developer, o
 | | |
 |---|---|
 | **Author** | **Sameer Humagain** |
-| **Email** | [hsameernp@gmail.com](mailto:hsameernp@gmail.com?subject=HSRU%20Collaboration) |
+| **Email** | [im@hsameer.com.np](mailto:im@hsameer.com.np?subject=HSRU%20Collaboration) |
 | **GitHub** | [@hsameerc](https://github.com/hsameerc) |
 
 ---
@@ -231,5 +231,5 @@ chmod +x hsru_drone
 
 If you are interested in reviewing the source code, running custom training runs, or collaborating on scaling the architecture, please reach out directly:
 
-* **Email:** [hsameernp@gmail.com](mailto:hsameernp@gmail.com?subject=HSRU%20Source%20Code%20Access%20and%20Collaboration)
+* **Email:** [im@hsameer.com.np](mailto:im@hsameer.com.np?subject=HSRU%20Source%20Code%20Access%20and%20Collaboration)
 * **GitHub:** [@hsameerc](https://github.com/hsameerc)
