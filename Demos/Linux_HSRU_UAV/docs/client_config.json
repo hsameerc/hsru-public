@@ -2,7 +2,7 @@
     "client_name": "UAV_PropFault",
     "description": "UAV Realistic Propeller Fault Dataset (ICRA 2023) - Binary: Normal vs Broken Propeller",
     "data_parsing": {
-        "raw_data_path": "\\\\SAMNAS\\personal_folder\\Data\\UAV-Realistic-Fault-Dataset-main\\Dataset",
+	"raw_data_path": "/mnt/samnas/Data/UAV-Realistic-Fault-Dataset-main/Dataset",
         "output_csv": "data/UAV_PropFault/normalized_training_data.csv",
         "classes": {
             "0": "normal",
