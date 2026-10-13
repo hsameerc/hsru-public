@@ -2,10 +2,10 @@
   <h1>⚡ HSRU: Hybrid State Recurrent Unit</h1>
   <h3>A post-Transformer multi-modal foundation architecture for edge AI</h3>
   
-  [![C++ Edge Engine](https://img.shields.io/badge/Runtime-C%2B%2B%20%7C%20GGML%20%7C%20Zero--Deps-orange.svg)](#-edge-c-sdk-demonstrations)
+  [![C++ Edge Engine](https://img.shields.io/badge/Runtime-C%2B%2B%20%7C%20GGML%20%7C%20Zero--Deps-orange.svg)](#-edge-c-sdk-demonstrations-black-box-evaluation)
   [![Memory Footprint](https://img.shields.io/badge/Memory-%F0%9F%AA%84%20O(1)%20Constant%20Footprint-blue.svg)](#-architecture-overview)
-  [![Safety Certified](https://img.shields.io/badge/Safety-DO--178C%20Certifiable-emerald.svg)](#-safety-and-stability-guarantees)
-  [![License](https://img.shields.io/badge/Release-Evaluation%20Use%20Only-lightgrey.svg)](#-evaluation-terms)
+  [![Mathematics](https://img.shields.io/badge/Mathematics-Fully%20Open-brightgreen.svg)](#-repository-scope-what-is-public-vs-proprietary)
+  [![Source Code](https://img.shields.io/badge/Source-Proprietary%20%7C%20Open%20for%20Collaboration-purple.svg)](#-repository-scope-what-is-public-vs-proprietary)
   [![Status](https://img.shields.io/badge/Status-Open%20for%20Collaboration-success.svg)](#-open-collaboration-taking-hsru-further)
 </div>
 
@@ -22,6 +22,28 @@ To generate tokens or stream audio, standard self-attention must retain precedin
 1. **$\mathcal{O}(1)$ Constant Memory:** RAM usage stays flat whether the sequence runs for 10 seconds or 10 hours.
 2. **Linear $\mathcal{O}(T)$ Time:** Deterministic, flat latency per token or telemetry frame.
 3. **Multi-Modal Processing:** A single shared mathematical core handles **Language Tokens**, **Continuous Audio Waveforms**, and **High-Frequency Drone IMU Telemetry**.
+
+---
+
+## 📦 Repository Scope: What is Public vs. Proprietary
+
+To ensure full transparency for researchers, engineers, and collaborators, here is how this repository is structured:
+
+| Component | Status | Location & Details |
+|---|:---:|---|
+| **Mathematical Whitepapers & Proofs** | **Fully Open** | [Whitepapers/](Whitepapers/) (Complete derivations for BIBO stability, convex blending, and bounded Jacobians) |
+| **Pre-Compiled Black-Box Demos** | **Public Evaluation Binaries** | [Demos/](Demos/) (Standalone native C++ binaries across macOS, Linux, and Windows for zero-setup testing) |
+| **Benchmark Logs & Metrics** | **Fully Open** | [DRONE_METRICS.md](DRONE_METRICS.md), [TRAINING_METRICS.md](TRAINING_METRICS.md), and [Metrics/](Metrics/) |
+| **Model Weights & GGUF Payloads** | **Public Evaluation Use** | Pre-trained weights included inside [Demos/](Demos/) for direct execution |
+| **Core Training Framework (PyTorch)** | **Proprietary** | Private repository; available for research partnerships and pilot collaborations |
+| **Custom Fused CUDA Kernels** | **Proprietary** | Private repository; available for compute scaling and acceleration partnerships |
+| **C++ Inference Engine Source Code** | **Proprietary** | Private repository; available under collaboration or licensing agreements |
+
+### Why Open Mathematics with Black-Box Demos?
+
+* **Open Scientific Verification:** The theoretical foundations, equations, and mathematical safety guarantees are completely open in the whitepapers. You can independently review the math, verify the stability bounds, and audit the derivations without restrictions.
+* **Immediate Zero-Friction Testing:** The standalone binaries in [Demos/](Demos/) operate as self-contained black-box builds. You can test inference throughput, verify sub-millisecond reaction latency, and inspect the flat $\mathcal{O}(1)$ RAM footprint on your local machine without configuring Python virtual environments, PyTorch versions, or CUDA drivers.
+* **Proprietary Implementation & Open Collaboration:** The underlying source code (training framework, custom CUDA kernels, and native C++ runtime) is the author's proprietary technology developed from first principles. It is not open-source for public redistribution, but full source code access and developer tooling are actively shared for joint research collaborations, hardware integrations, and commercial licensing.
 
 ---
 
@@ -95,9 +117,9 @@ In avionics, robotics, and medical devices, model behavior must remain bounded. 
 
 ---
 
-## 💻 Edge C++ SDK Demonstrations
+## 💻 Edge C++ SDK Demonstrations (Black-Box Evaluation)
 
-To test the architecture easily, this repository includes pre-compiled, standalone C++ binaries. **No Python, PyTorch, or CUDA installation is required.**
+To test the architecture easily without needing source builds, this repository includes pre-compiled, standalone black-box C++ binaries. **No Python, PyTorch, or CUDA installation is required.**
 
 | Demo Module | Modality | macOS (Apple Silicon) | Linux (x86_64) | Windows (x64) | Engine |
 |---|---|:---:|:---:|:---:|:---:|
@@ -198,6 +220,16 @@ chmod +x hsru_drone
 
 ---
 
-## 📄 Evaluation Terms
+## 📄 Intellectual Property and Evaluation Terms
 
-The pre-compiled binary engines, model weights, and technical whitepapers in this release are provided for evaluation, peer review, and technical due diligence. If you are interested in commercial licensing, hardware integration, or access to training pipelines and CUDA kernels, feel free to reach out directly.
+* **Proprietary Technology:** The HSRU architecture design, PyTorch training pipelines, custom fused CUDA kernels, and native C++ engine source are the proprietary intellectual property of Sameer Humagain.
+* **Permitted Evaluation Use:** The pre-compiled binary engines, model weights, and technical whitepapers in this public repository are provided strictly for evaluation, benchmarking, peer review, and technical verification. Reverse engineering, decompilation, or unauthorized commercial redistribution is not permitted.
+* **Source Code Access & Collaboration:** The underlying source code is not published openly in this repository, but it is available upon request for:
+  * **Academic & Research Collaborations:** Joint research, benchmark reproductions, and grant-backed investigations.
+  * **Hardware & Pilot Integrations:** Testing HSRU on custom flight controllers (Pixhawk / PX4), edge DSPs, wearables, or embedded accelerators.
+  * **Commercial Licensing:** Production deployments and specialized adaptations.
+
+If you are interested in reviewing the source code, running custom training runs, or collaborating on scaling the architecture, please reach out directly:
+
+* **Email:** [hsameernp@gmail.com](mailto:hsameernp@gmail.com?subject=HSRU%20Source%20Code%20Access%20and%20Collaboration)
+* **GitHub:** [@hsameerc](https://github.com/hsameerc)
