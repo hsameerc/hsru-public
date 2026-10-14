@@ -22,7 +22,7 @@ PyTorch weights for researchers: [hsameer/hsru-small](https://huggingface.co/hsa
 |---|---|
 | Best validation loss | 1.23 (perplexity ~3.4) at step 16,000 |
 | C++ generation speed | ~120 to 130 tokens/s on an Apple Silicon CPU |
-| Inference memory | Fixed-size recurrent state, no KV cache |
+| Inference memory | Fixed-size recurrent state (~6 MB flat PKM grid, zero KV cache) |
 
 Perplexity depends on the tokenizer, so these numbers are only directly comparable with models that use the same GPT-2 tokenizer. Planned comparisons:
 

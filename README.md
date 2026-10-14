@@ -171,7 +171,7 @@ Output h[t]
 * **Model scale.** Public demo binaries are bundled at lightweight edge scale (26M to 83M) for instant local testing. While the architecture has been trained up to 536M parameters on FineWeb-Edu and Wikipedia (24,400 steps, stable 2.53 validation loss), behaviour at multi-billion parameter frontier scale (7B+) has not been evaluated.
 * **Long-range exact recall** (needle-in-a-haystack tasks) is a known weakness of fixed-state models and has not been evaluated yet.
 * **Drone false-alarm evidence is thin:** 0 false alarms on 3 held-out normal flights. Rotating the held-out flights (cross-validation over all 19 normal flights) is next phase.
-* **Platform coverage is partial** (see the demo table).
+* **Bundled demo selection:** Public git downloads include a curated subset of platforms to keep repository size lean; other target binaries are available upon request rather than pre-packaged in git.
 * The papers in `Whitepapers/` are self-published and have not been peer reviewed.
 
 ---
@@ -183,8 +183,8 @@ Output h[t]
 * EnCodec comparison at 6 and 12 kbps on a standard speech/music test set (SNR, mel distance, ViSQOL/PESQ)
 * Leave-flights-out cross-validation for drone false-alarm rates
 * On-device timing on microcontrollers (STM32 / Pixhawk) and Raspberry Pi
-* x86_64 Linux and Windows builds for all demos
-* Scaling beyond 100M parameters and long-context recall tests
+* Packaging standalone release artifacts for all remaining desktop and edge platforms
+* Scaling to multi-billion parameter scale (1B to 7B+) and formal needle-in-a-haystack associative recall tests
 
 ---
 
