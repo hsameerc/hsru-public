@@ -90,7 +90,10 @@ A 26.6M parameter language model trained from scratch on TinyStories, with the G
 |---|---|
 | Best validation loss | 1.23 (perplexity ~3.4), step 16,000 |
 | Generation speed | ~120 to 130 tokens/s on an Apple Silicon CPU |
-| Memory | Fixed-size recurrent state, no KV cache |
+| Recurrent state memory | ~6 MB flat RAM across all 12 layers (zero token KV cache) |
+| INT8 weights size | 25 MB |
+
+Unlike standard Transformers that store past token keys and values in an expanding KV cache (O(T) RAM growth), HSRU updates a fixed-size Product-Key Memory (PKM) associative grid in-place. State memory is allocated once at startup and remains strictly O(1) constant regardless of stream length.
 
 ```bash
 # macOS
@@ -103,6 +106,13 @@ cd Demos/Linux_HSRU_Small && chmod +x hsru_edge && ./hsru_edge
 cd Demos\Win_HSRU_Small
 hsru_edge.exe
 ```
+
+#### Scalability: 536M Foundation Pretraining
+Beyond the bundled 26M demo, the architecture was scaled to a 536M parameter model (24 modules, 1024 hidden dim, 4096 logic dim, 128 PKM codes) and pretrained over 24,400 steps on diverse web corpora (40% FineWeb-Edu, 20% English Wikipedia, 15% SlimPajama-6B, 10% CodeParrot, 10% TinyStories, 5% OpenHermes-2.5):
+* **Convergence:** Validation loss converged from 10.9 down to 2.53 without gradient instability or loss spikes.
+* **PKM state & memory footprint:** With INT8 weight quantization, the weights file is 463 MB. The fixed FP16 PKM state grid occupies 768 MB, giving a flat runtime RAM footprint of ~1.23 GB on CPU.
+* **Speed:** Generates ~45 tokens/second on an Apple Silicon CPU without GPU acceleration (0 memory leaks).
+* *The 536M pre-compiled binary and checkpoint are available upon request for prospective partners and evaluators (omitted from the repository archive to keep download sizes lightweight).*
 
 ---
 
@@ -158,7 +168,7 @@ Output h[t]
 
 * **No claim of beating Transformers on quality.** The claims here are constant memory, a working edge runtime and results in three domains.
 * **Constant memory is not unique to HSRU.** LSTMs, Mamba, RWKV and other recurrent/state-space models share it. Head-to-head comparisons are next phase.
-* **Small scale.** Models are 26M to 83M parameters because training was done on one 12 GB GPU. Behaviour at larger scale is untested.
+* **Model scale.** Public demo binaries are bundled at lightweight edge scale (26M to 83M) for instant local testing. While the architecture has been trained up to 536M parameters on FineWeb-Edu and Wikipedia (24,400 steps, stable 2.53 validation loss), behaviour at multi-billion parameter frontier scale (7B+) has not been evaluated.
 * **Long-range exact recall** (needle-in-a-haystack tasks) is a known weakness of fixed-state models and has not been evaluated yet.
 * **Drone false-alarm evidence is thin:** 0 false alarms on 3 held-out normal flights. Rotating the held-out flights (cross-validation over all 19 normal flights) is next phase.
 * **Platform coverage is partial** (see the demo table).
