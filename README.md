@@ -40,11 +40,11 @@ No Python, PyTorch or CUDA is needed to run them.
 
 | Demo | Modality | macOS (Apple Silicon) | Linux (ARM64: Raspberry Pi, Jetson) | Windows (x64) |
 |---|---|:---:|:---:|:---:|
-| **HSRU-Encodec** | 24 kHz neural audio codec | Yes | Not yet | Not yet |
+| **HSRU-Encodec** | 24 kHz neural audio codec | Yes | Available upon request | Available upon request |
 | **HSRU-Small** | 26M language model | Yes | Yes | Yes |
-| **HSRU-Drone** | IMU fault detection | Not yet | Yes | Not yet |
+| **HSRU-Drone** | IMU fault detection | Available upon request | Yes | Available upon request |
 
-Linux binaries are statically linked for **ARM64 (aarch64)**. x86_64 Linux builds are not included yet.
+The C++ inference runtime has zero external dependencies and compiles across macOS, Linux (x86_64 and ARM64), and Windows. Pre-compiled binaries for platforms not bundled in this public release (such as Drone for macOS/Windows, Audio for Linux/Windows, and Linux x86_64 builds) are available upon request to keep the initial repository clone lightweight.
 
 ### Verify the downloads
 
