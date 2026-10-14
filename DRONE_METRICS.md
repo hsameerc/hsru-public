@@ -8,16 +8,16 @@ This document contains the empirical evaluation benchmarks, fault severity scali
 
 Using high-frequency raw 6-DOF Inertial Measurement Unit (IMU) telemetry ($3\times$ gyro, $3\times$ accelerometer) sampled at 100 Hz, an unsupervised 4-layer Spiking HSRU forecaster was trained exclusively on healthy flight maneuvers to model the aircraft's aerodynamic and structural baseline.
 
-### 🎯 Key Performance Highlights
+### Key results
 
 | Metric | Result | Operational Significance |
 | :--- | :---: | :--- |
-| **Fault Flight Catch Rate ($K=3$)** | **100.0%** (80 / 80 flights) | **Zero missed structural emergencies** across all 1–4 broken propeller blade missions. |
-| **False Alarm Rate ($K=3$)** | **0.0%** (0 / 3 held-out test flights) | **Zero spurious aborts** during normal flight maneuvers, wind gusts, or aggressive banking. |
-| **Detection Latency (Time-to-Alarm)** | **18.5s** median ($\approx 1\text{--}2\text{s}$ post-takeoff) | Alarms immediately upon liftoff as the damaged blade generates asymmetric lift. |
-| **Prediction Error Surge Ratio** | **$51.3\times \longrightarrow 171.3\times$** | Monotonically scales with structural damage severity (Classes 1 through 4). |
-| **Edge Inference Latency (C++)** | **$< 25\,\mu\text{s}$** per frame | Executes at 100–1000 Hz on microcontrollers (Pixhawk / STM32) without GPU acceleration. |
-| **Edge Memory Footprint** | **$\mathcal{O}(1)$ Static Bounded Allocation** | Zero dynamic heap allocation (`malloc`/`new`) in the flight loop (FAA DO-178C certifiable). |
+| **Damaged flights detected ($K=3$)** | **80 / 80 flights** | All damaged flights (1 to 4 broken blades) were flagged. |
+| **False alarms ($K=3$)** | **0 / 3 held-out normal flights** | No false alarms on the held-out flights. This is a small sample; cross-validation over all 19 normal flights is planned. |
+| **Time to alarm** | **18.5 s median, from log start** | Logs begin with 15 to 20 s on the ground before takeoff, so this corresponds to roughly 1 to 2 s after liftoff. |
+| **Prediction error vs. normal** | **$51.3\times \longrightarrow 171.3\times$** | Increases with damage severity (1 to 4 broken blades). |
+| **C++ inference time** | **$< 25\,\mu\text{s}$ per frame** | Measured on CPU, no GPU. Microcontroller (STM32 / Pixhawk) timing is planned. |
+| **Memory** | **Fixed size, $\mathcal{O}(1)$** | No dynamic heap allocation in the per-frame loop. Designed with DO-178C-style constraints in mind; not certified. |
 
 ---
 
@@ -31,8 +31,8 @@ Evaluations were conducted on the peer-reviewed **UAV Realistic Fault Dataset (I
 * **Class 3:** 3 Broken Propeller Blades (20 flight missions)
 * **Class 4:** 4 Broken Propeller Blades (20 flight missions)
 
-### 🔬 Rigorous 3-Way Split (Zero Data Leakage)
-To prevent statistical leakage and ensure genuine generalization, the 19 normal flight missions were partitioned into three non-overlapping subsets:
+### Data split (by flight, no flight appears in more than one split)
+The 19 normal flight missions were split into three non-overlapping subsets:
 1. **13 Training Missions:** Used exclusively to train the unsupervised HSRU next-step predictor.
 2. **3 Calibration Missions:** Used strictly to calibrate the Six Sigma ($6\sigma$) anomaly threshold ($\tau_{6\sigma} = 1.5218$).
 3. **3 Held-Out Test Missions (1,081 windows):** Held strictly unseen to evaluate true operational False Alarm Rates.
@@ -44,7 +44,7 @@ To prevent statistical leakage and ensure genuine generalization, the 19 normal 
 
 ### A. Physical Damage Severity Scaling (Monotonic Error Surge)
 
-Prediction error scales monotonically with physical fracture severity, proving the model learns the true aerodynamic transfer function rather than arbitrary noise:
+Prediction error rises with the number of broken blades, which is consistent with the model tracking physical damage rather than noise:
 
 | Group | Evaluated Flights | Evaluated Windows (1s) | Mean MSE | Error Surge vs. Normal | AUROC | Flights Alarmed ($K=3$) | Status |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -54,7 +54,7 @@ Prediction error scales monotonically with physical fracture severity, proving t
 | **Class 3: 3 Broken Propellers** | 20 | 7,259 | 31.4259 | **$123.3\times$** | 0.8846 | **20 / 20** | **100% Caught** |
 | **Class 4: 4 Broken Propellers** | 20 | 7,149 | 43.6578 | **$171.3\times$** | 0.8879 | **20 / 20** | **100% Caught** |
 
-> **Aerospace Implication:** Mean MSE increases almost linearly with damaged blade count ($\approx +8\text{--}13$ MSE per fractured blade). This clean monotonicity confirms the model is grounded in rotor harmonic dynamics.
+> **Observation:** Mean MSE rises roughly linearly with the number of damaged blades (about +8 to +13 MSE per blade). Window-level AUROC is lower (0.87 to 0.89) because each log includes time on the ground, where a broken propeller produces no signal (see section C).
 
 ---
 
@@ -64,9 +64,9 @@ In flight control systems, triggering an emergency recovery protocol on a single
 
 | Persistence Filter ($K$) | False Alarm Rate (Held-Out Normal) | True Fault Detection Rate (Classes 1–4) | Median Time-to-Alarm | Max Time-to-Alarm | Operational Verdict |
 | :---: | :---: | :---: | :---: | :---: | :--- |
-| **$K = 1$ (Raw Single Window)** | 66.7% (2 / 3 flights) | 100.0% (80 / 80 flights) | 17.5s | 61.0s | **Too sensitive** (triggers on pilot jerks / hard touchdown). |
-| **$K = 3$ (3 Consecutive Seconds)** | **0.0% (0 / 3 flights)** | **100.0% (80 / 80 flights)** | **18.5s** | **62.0s** | **Optimal avionics configuration** (zero false alarms, 100% catch). |
-| **$K = 5$ (5 Consecutive Seconds)** | **0.0% (0 / 3 flights)** | **100.0% (80 / 80 flights)** | 19.5s | 63.0s | Conservative mode (adds 2s delay). |
+| **$K = 1$ (Raw Single Window)** | 2 / 3 flights | 80 / 80 flights | 17.5s | 61.0s | Too sensitive (triggers on hard manoeuvres / touchdown). |
+| **$K = 3$ (3 Consecutive Seconds)** | **0 / 3 flights** | **80 / 80 flights** | **18.5s** | **62.0s** | **Chosen setting.** |
+| **$K = 5$ (5 Consecutive Seconds)** | 0 / 3 flights | 80 / 80 flights | 19.5s | 63.0s | More conservative (adds about 1 s). |
 
 ---
 
@@ -101,20 +101,20 @@ The drone model is instantiated via `HSRUBlock` using the **Full Spiking** confi
 * **Spike Quantization:** $k\_dims = 1$ (Binary Leaky Integrate-and-Fire threshold)
 * **Synaptic Reasoning:** Intermediate Logic MLP dimension $= 16$
 
-### Why Full Spiking Outperforms Hybrid/Continuous for Telemetry
+### Why the full-spiking configuration was chosen
 1. **Autoregressive Extrapolation Stability:**
    * Full Spiking achieves **0.043 MSE** on 50-step autoregressive extrapolation rollouts, compared to **0.102 MSE** for hybrid/continuous models.
    * In continuous recurrent states, small prediction errors accumulate into runaway drift. Leaky Integrate-and-Fire (LIF) subtractive voltage resets act as physical shock absorbers, resetting membrane potentials back to baseline.
-2. **Massive Anomaly Signal-to-Noise Ratio:**
+2. **Strong anomaly signal:**
    * Healthy flight induces sparse firing ($\approx 6.8\%$). Damaged rotor vibration hammers the threshold, triggering synchronized firing bursts that increase MSE by **$51\times\text{--}171\times$**.
-3. **Bit-Exact C++ Edge Parity:**
-   * Verified bit-exact parity between PyTorch float32, compiled CUDA kernels (`hsru_cuda`), and the standalone embedded C++ engine (`hsru.cpp` / `hsru_fxp.cpp`). Maximum absolute divergence across 6,000 parameters is $\le 0.0011$ (floating point rounding).
+3. **C++ / PyTorch numerical parity:**
+   * PyTorch float32, the CUDA kernels and the standalone C++ engines (`hsru.cpp` / `hsru_fxp.cpp`) agree to within a maximum absolute difference of $0.0011$.
 
 ---
 
-## 5. Summary & Avionics Readiness
+## 5. Summary
 
-The Spiking HSRU architecture delivers:
-* **Zero False Alarms** under dynamic pilot flight maneuvers via $K=3$ persistence filtering.
-* **100% Catch Rate** across 80 real damaged flight missions.
-* **$<25\,\mu\text{s}$ execution latency** in static $O(1)$ memory, suitable for hard real-time integration into Pixhawk / PX4 / ArduPilot flight controllers.
+On this dataset:
+* **0 / 3 false alarms** on held-out normal flights with $K=3$ persistence (small sample).
+* **80 / 80 damaged flights detected.**
+* **$<25\,\mu\text{s}$ per frame on CPU** with fixed memory. Flight-controller integration (PX4 / ArduPilot) and on-microcontroller timing are next phase.
