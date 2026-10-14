@@ -121,7 +121,7 @@ In avionics, robotics, and medical devices, model behavior must remain bounded. 
 
 To test the architecture easily without needing source builds, this repository includes pre-compiled, standalone black-box C++ binaries. **No Python, PyTorch, or CUDA installation is required.**
 
-| Demo Module | Modality | macOS (Apple Silicon) | Linux (x86_64) | Windows (x64) | Engine |
+| Demo Module | Modality | macOS (Apple Silicon) | Linux (ARM64 / SBC) | Windows (x64) | Engine |
 |---|---|:---:|:---:|:---:|:---:|
 | **HSRU-Encodec** | 24 kHz Neural Audio | ✅ Current | 🔄 In SDK | 🔄 In SDK | **GGML + GGUF v3** |
 | **HSRU-Small** | 26M Autoregressive Text | ✅ Current | ✅ Current | ✅ Current | **Native C++ v1** |
@@ -216,7 +216,7 @@ chmod +x hsru_drone
   ```bash
   chmod +x hsru_edge hsru_drone
   ```
-* **CPU Architecture:** Pre-compiled Linux binaries are built for `x86_64` (AVX2/FMA). For ARM Linux (Raspberry Pi, Jetson), source compilation is available upon request.
+* **CPU Architecture:** Pre-compiled Linux binaries are statically linked for **ARM64 (aarch64)** edge platforms (Raspberry Pi 3/4/5, NVIDIA Jetson, ARM SBCs) with zero external dependencies. macOS binaries are built for **Apple Silicon (arm64)**. Windows binaries are built for **x64** (Intel/AMD). For x86_64 Linux desktop builds, contact the author.
 
 ---
 
