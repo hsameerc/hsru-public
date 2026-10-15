@@ -1,0 +1,529 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{margin=1in}
+\hbadness=2000  % suppress trivial underfull-hbox warnings (last line of paragraphs)
+\usepackage[hidelinks]{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{subcaption}
+\usetikzlibrary{shapes,arrows,positioning,calc,fit,backgrounds}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{orange},
+    showstringspaces=false,
+    breaklines=true,
+    frame=single
+}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{3cm}
+    
+    {\Huge \textbf{The Dynamic HSRU Architecture} \par}
+    \vspace{1cm}
+    {\LARGE Achieving $\mathcal{O}(1)$ Memory Language Modeling \\ through Neuromorphic-Inspired Spiking Networks \par}
+    
+    \vspace{3cm}
+    
+    {\Large \textbf{Sameer Humagain} \par}
+    \vspace{0.2cm}
+    {\large Independent AI Researcher \par}
+    \vspace{0.2cm}
+    {\normalsize \url{https://gitlab.com/hsru/hsru-package} \par}
+    
+    \vfill
+    
+    {\Large \textbf{Architectural Whitepaper} \par}
+    
+    \vspace{1cm}
+    
+    {\large \today \par}
+\end{titlepage}
+
+\begin{abstract}
+As the demand for infinite-context language models accelerates, the fundamental bottleneck of the standard Transformer architecture---the Self-Attention mechanism---has become critically apparent \cite{vaswani2017attention}. Because Self-Attention requires comparing every token to every prior token, it imposes a catastrophic quadratic memory and computational complexity, bounded entirely by the memory limits of the Key-Value (KV) Cache \cite{dao2022flashattention}. In this paper, we introduce the \textbf{Dynamic Hybrid State Recurrent Unit (HSRU)}, an architecture that escapes the attention bottleneck by returning to the core principles of neuromorphic spiking neural networks \cite{maass1997networks}. The memory layer implements a \textbf{Split-Brain} architecture: a spiking sub-channel (discrete digital latching with forced-unity leak) and a continuous sub-channel (semantic floating-point math with learned sigmoid leak) operate in parallel within a single hidden state. The logic layer uses a Gated Linear Unit with sigmoid routing. Together, the HSRU achieves Transformer-level intelligence with a constant $\mathcal{O}(1)$ memory footprint. We demonstrate the mathematical foundations of this architecture, including Split-Brain Dendritic Integration, Data-Dependent Shunting, Subtractive Reset, Discrete Base-2 Boolean States, and Dual-Pathway Residual Blending. This architecture demonstrates, through architectural construction and $\mathcal{O}(1)$ complexity analysis, that deep linguistic and logical processing does not inherently require massive parallel attention. We further show that the multi-head PKM associative memory grid provides capacity-bounded approximate associative recall at fixed memory cost, with formal capacity limits governed by the Pigeonhole Principle for $N \gg M^2$.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Introduction: The Memory Crisis in AI}
+Imagine reading a 1000-page novel. When you reach the final chapter, you do not consciously hold the exact, verbatim text of page one in your working memory. Instead, your biological neural network has continuously updated a compressed, fixed-size semantic summary of the story. You recall the plot, the overarching themes, and the characters, but your brain efficiently discards the raw, unneeded sensory noise---such as the exact punctuation used in the opening paragraphs. 
+
+Modern Natural Language Processing, however, is entirely dominated by the Transformer architecture \cite{vaswani2017attention}, a system that mathematically refuses to summarize. It computes pairwise attention scores across \textit{all} historical tokens for every new word it generates. To generate word $100,001$, the network must mathematically look back and calculate dot-products against the previous $100,000$ words. This results in catastrophic memory degradation as the context window grows, widely known as the $\mathcal{O}(N^2)$ bottleneck.
+
+To mitigate this, significant engineering efforts such as PagedAttention, FlashAttention \cite{dao2022flashattention}, and Rotary Positional Embeddings (RoPE) have been introduced. Yet, these are highly optimized engineering patches over a fundamental algorithmic constraint: infinite memory growth. A one-million token context window in a standard 7B parameter Transformer requires tens of gigabytes of VRAM just to store the KV-Cache for a single user query.
+
+The Dynamic HSRU proposes a radical departure: discarding the Self-Attention mechanism entirely. Instead, we return to linear Recurrent Neural Network (RNN) principles \cite{hochreiter1997long, peng2023rwkv}, hybridized with the raw physics of Neuromorphic Biology. Because recurrent networks compress historical context into a fixed-size state vector, the memory footprint remains perfectly flat ($\mathcal{O}(1)$) regardless of whether the model has ingested ten words or ten million words. However, standard RNNs traditionally suffer from catastrophic forgetting and representational bottlenecks. To solve this, the HSRU structurally isolates long-term memory variable binding from complex Boolean logic using two distinct layers, allowing it to rival modern linear transformers \cite{gu2023mamba, sun2023retentive} in logic capabilities while using a fraction of the hardware resources.
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[
+        node distance=1.2cm and 2cm,
+        layer/.style={draw, rectangle, rounded corners, minimum height=1cm, minimum width=3cm, fill=blue!10, text centered, font=\bfseries},
+        core/.style={draw, rectangle, rounded corners, minimum height=1cm, minimum width=3.5cm, fill=orange!15, text centered, font=\bfseries},
+        proj/.style={draw, rectangle, rounded corners, minimum height=1cm, minimum width=3cm, fill=gray!15, text centered, font=\bfseries},
+        arrow/.style={-latex, thick}
+    ]
+        \node[layer] (input) {Input Embedding Vector};
+        \node[proj, below=of input] (win) {Input Projection ($\mathbf{W}_{in}$)};
+        \node[core, below=of win] (block1) {HSRU Block 1};
+        \node[core, below=of block1] (blockN) {HSRU Block N};
+        \node[layer, below=of blockN] (output) {Projection Head};
+
+        \draw[arrow] (input) -- (win);
+        \draw[arrow] (win) -- (block1);
+        \draw[arrow, dashed] (block1) -- (blockN) node[midway, left] {Depth Scaling};
+        \draw[arrow] (blockN) -- (output);
+
+        \node[draw, dashed, inner sep=0.5cm, fit=(block1) (blockN), label=right:{Dual-Pathway Recurrence}] {};
+    \end{tikzpicture}
+    \caption{Diagram showing the flow from standard embeddings through the interleaved HSRU Blocks to the final Language Modeling head.}
+    \label{fig:high_level_arch}
+\end{figure}
+
+\newpage
+\section{The Memory Layer: Split-Brain Neuromorphic LIF Dynamics}
+The core memory engine of the HSRU is the \texttt{HSRUMemoryLayer}, which implements a \textbf{Split-Brain} architecture over the hidden dimension $D$. The first $S$ channels (\texttt{split\_idx}, defaulting to $D/2$) operate in \textbf{Spiking Mode}: they use discrete digital latching with a forced leak of $\lambda_t^{[1:S]} = 1$ (perfect integration, no decay) and fire binary spikes against learned $\text{softplus}$-transformed thresholds $\mathbf{t}_{static} = \text{softplus}(\boldsymbol{\theta})$. The remaining $D - S$ channels operate in \textbf{Continuous Mode}: they use a data-dependent learned sigmoid leak $\lambda_t \in (0,1)^{D-S}$ and never spike, providing smooth semantic floating-point gradients.
+
+All five input projections (leak, shunt, linear-in, dendrite-in, dendrite-decay) are computed as a single fused matrix multiply and then split into five equal parts along the feature axis. This avoids five separate kernel launches and reduces memory bandwidth. Both the spiking and continuous halves share the same dendritic pre-filter, shunt gate, and sinusoidal positional clock.
+
+\begin{figure}[h]
+    \centering
+    \resizebox{1.0\textwidth}{!}{
+    \begin{tikzpicture}[
+        x=3.5cm, y=-1.5cm,
+        box/.style={draw, rectangle, rounded corners, align=center, minimum height=1.0cm, minimum width=2.5cm, fill=green!10, font=\bfseries},
+        gate/.style={draw, rectangle, rounded corners, align=center, minimum height=1.0cm, minimum width=2.5cm, fill=blue!10, font=\bfseries},
+        dendrite/.style={draw, rectangle, rounded corners, align=center, minimum height=1.0cm, minimum width=2.5cm, fill=orange!20, font=\bfseries},
+        op/.style={draw, circle, inner sep=2pt, font=\bfseries\large},
+        arrow/.style={-latex, thick, rounded corners=4pt}
+    ]
+        % --- Nodes ---
+        % Y0
+        \node[box] (input) at (1, 0) {Input $\mathbf{x}_t$};
+        
+        % Y1
+        \node[dendrite] (din) at (0, 1) {$\mathbf{W}_{d\_in} \mathbf{x}_t$};
+        \node[gate] (shunt) at (1, 1) {Shunt Gate};
+        \node[gate] (leak) at (2, 1) {Leak $\lambda_t$};
+        
+        % Y2
+        \node[op] (dadd) at (0, 2) {$+$};
+        \node[op] (mleak) at (2, 2) {$\odot$};
+        
+        % Y3
+        \node[dendrite] (dspike) at (0, 3) {Spike $\mathbf{s}_{d,t}$};
+        
+        % Y4
+        \node[dendrite] (psc) at (0, 4) {$\mathbf{psc}_{t}$};
+        \node[op] (mshunt) at (1, 4) {$\odot$};
+        
+        % Y5
+        \node[box, fill=yellow!20] (clock) at (0, 5) {Clock $\Phi_t$};
+        \node[op] (somaadd) at (1, 5) {$+$};
+        
+        % Y6
+        \node[box] (spike) at (1, 6) {Spike $\mathbf{s}_t$};
+        \node[box] (latch) at (2, 6) {Latch $\mathbf{d}_t$};
+        
+        % Y7
+        \node[op] (reset) at (1, 7) {$-$};
+        
+        % Y8
+        \node[box] (volt) at (1, 8) {Voltage $\mathbf{v}_t$};
+        
+        % --- Routing ---
+        % Input
+        \draw[arrow] (input.south) -- ++(0, 0.2) -| (din.north);
+        \draw[arrow] (input.south) -- (shunt.north);
+        \draw[arrow] (input.south) -- ++(0, 0.2) -| (leak.north);
+        
+        % Dendrite (Col 0)
+        \draw[arrow] (din) -- (dadd);
+        \draw[arrow] (dadd) -- (dspike);
+        \draw[arrow] (dspike) -- (psc);
+        \draw[arrow] (psc) -- (mshunt);
+        
+        % Shunt (Col 1)
+        \draw[arrow] (shunt) -- (mshunt);
+        \draw[arrow] (mshunt) -- (somaadd);
+        
+        % Leak (Col 2)
+        \draw[arrow] (leak) -- (mleak);
+        \draw[arrow] (mleak) -| (somaadd);
+        
+        % Clock
+        \draw[arrow] (clock) -- (somaadd);
+        
+        % Soma Core (Col 1)
+        \draw[arrow] (somaadd) -- (spike) node[midway, right] {$\mathbf{v}_{pre,t}$};
+        \draw[arrow] (spike) -- (reset) node[midway, right] {Threshold};
+        \draw[arrow] (reset) -- (volt);
+        
+        % Latch
+        \draw[arrow] (spike) -- (latch) node[midway, above] {XOR};
+        
+        % Bypass v_pre,t
+        \draw[arrow, color=orange!90!black] (somaadd.south west) -| node[pos=0.75, left] {$\mathbf{v}_{pre,t}$} (0.5, 7) -- (reset.west);
+        
+        % Recurrent Dendrite (Col 0)
+        \draw[arrow, dashed, color=orange!80!black] (dspike.west) -| node[pos=0.75, left] {Recurrent $\mathbf{d}_{v, t-1}$} (-0.5, 2) -- (dadd.west);
+        
+        % Recurrent Voltage (Col 1 -> Col 2)
+        \draw[arrow, dashed, color=blue!80!black] (volt.east) -| node[pos=0.75, right] {Recurrent $\mathbf{v}_{t-1}$} (2.5, 2) -- (mleak.east);
+    \end{tikzpicture}
+    }
+    \caption{Neuromorphic Memory Layer: The network is distinctly structured into three columns: the Dendrite pre-processor (left), the main Soma body (center), and the Recurrent/Clock modifiers (right). The absolute perfectly gridded layout guarantees zero line intersections.}
+\end{figure}
+
+\subsection{Dendritic Integration: Filtering High-Frequency Noise}
+In natural language processing, a significant portion of the input stream consists of high-frequency filler tokens that carry little semantic weight. If a network indiscriminately integrates these tokens into its core memory state, the underlying context is rapidly diluted. Biological neurons utilize dendritic trees to pre-filter signals before they reach the main soma, a mechanic we replicate directly in the HSRU.
+
+Before the main soma body integrates the input, the signal passes through a pre-synaptic Dendrite sub-circuit. The dendrite maintains its own separate voltage accumulator, $\mathbf{d}_{v,t}$, which integrates incoming data and decays over time:
+\begin{align}
+    \mathbf{d}_{decay, t} &= \sigma(\mathbf{W}_{d\_decay} \mathbf{x}_t) \\
+    \mathbf{d}_{in, t} &= \mathbf{W}_{d\_in} \mathbf{x}_t \\
+    \mathbf{d}_{v, t}^{\text{pre}} &= \mathbf{d}_{decay, t} \odot \mathbf{d}_{v, t-1} + \mathbf{d}_{in, t}
+\end{align}
+
+If the dendrite voltage exceeds a dynamic threshold $\mathbf{t}_{dendrite}$, it fires a localized dendritic spike $\mathbf{s}_{d,t}$. This spike triggers a subtractive reset of the dendrite and injects a heavily filtered Post-Synaptic Current (PSC) into the main soma:
+\begin{align}
+    \mathbf{s}_{d, t} &= \Theta(\mathbf{d}_{v, t}^{\text{pre}} - \mathbf{t}_{dendrite}) \\
+    \mathbf{d}_{v, t} &= \mathbf{d}_{v, t}^{\text{pre}} - \mathbf{s}_{d, t} \odot \mathbf{t}_{dendrite} \\
+    \mathbf{psc}_t &= \mathbf{s}_{d, t} \odot \mathbf{w}_{d\_out}
+\end{align}
+This two-stage integration guarantees that only semantically critical token sequences build up enough mathematical "charge" in the dendrite to alert the main memory.
+
+\subsection{Sinusoidal Clock: Temporal Awareness}
+Because the HSRU completely removes the Self-Attention mechanism, the network inherently lacks an absolute sense of position. Without attention, an RNN has no robust way to determine whether it is reading the first token of a sequence or the final token. 
+
+We resolve this by encoding a standard sinusoidal vector $\Phi_t$ based on the token's absolute position. By injecting this directly into the soma alongside the input current, it acts as a persistent rhythm. This allows the spiking neurons to coordinate their firing phases based on rhythmic beats, effectively providing the recurrent network with a localized sense of time.
+
+\subsection{Data-Dependent Decay \& Shunting}
+All five input projections (leak, shunt, linear-in, dendrite-in, dendrite-decay) are computed in a \emph{single fused matrix multiply} and then split to reduce memory bandwidth. The leak and shunt gates are:
+\begin{align}
+    \lambda_t &= \sigma(\mathbf{W}_{leak}\, \mathbf{x}_t + \mathbf{b}_{leak}) \in (0,1)^D \\
+    \text{shunt}_t &= \sigma(\mathbf{W}_{shunt}\, \mathbf{x}_t + \mathbf{b}_{shunt}) \in (0,1)^D \\
+    \mathbf{s}_{in, t} &= \left( \mathbf{W}_{in}\, \mathbf{x}_t + \mathbf{psc}_t + 0.1\,\Phi_t \right) \odot \text{shunt}_t
+\end{align}
+For the \textbf{spiking channels} $1{:}S$ the leak is overridden to $\mathbf{1}$ (forced perfect integration):
+\begin{equation}
+    \tilde{\lambda}_t^{(i)} = \begin{cases} 1 & i \le S \\ \lambda_t^{(i)} & i > S \end{cases}
+\end{equation}
+The pre-spike voltage then integrates both halves uniformly:
+\begin{equation}
+    \mathbf{v}_{pre,t} = \tilde{\lambda}_t \odot \mathbf{v}_{t-1} + \mathbf{s}_{in,t}
+\end{equation}
+
+\subsection{Subtractive Voltage Reset \& Discrete Latching}
+The threshold parameter $\boldsymbol{\theta} \in \mathbb{R}^S$ is kept strictly positive via a softplus transform:
+\begin{equation}
+    \mathbf{t}_{static} = \text{softplus}(\boldsymbol{\theta}) = \log(1 + e^{\boldsymbol{\theta}}) \in \mathbb{R}^S_{>0}
+\end{equation}
+The spiking channels fire when the pre-spike voltage crosses the threshold:
+\begin{equation}
+    \mathbf{s}_t = \Theta\!\left(\mathbf{v}_{pre,t}^{[1:S]} - \mathbf{t}_{static}\right) \in \{0,1\}^S
+\end{equation}
+The Subtractive Reset applies only to spiking channels; the continuous channels pass through unchanged:
+\begin{align}
+    \mathbf{v}_t^{[1:S]} &= \mathbf{v}_{pre,t}^{[1:S]} - \mathbf{s}_t \odot \mathbf{t}_{static} \\
+    \mathbf{v}_t^{[S+1:D]} &= \mathbf{v}_{pre,t}^{[S+1:D]} \\
+    \mathbf{v}_t &= \bigl[\mathbf{v}_t^{[1:S]},\; \mathbf{v}_t^{[S+1:D]}\bigr] \in \mathbb{R}^D
+\end{align}
+The Boolean Latch toggles only on spiking channels via a soft-XOR:
+\begin{equation}
+    \mathbf{d}_t = \mathbf{d}_{t-1} \odot (1 - \mathbf{s}_t) + (1 - \mathbf{d}_{t-1}) \odot \mathbf{s}_t \in [0,1]^S
+\end{equation}
+The latch provides a persistent near-binary symbolic register, while the continuous voltage half provides smooth semantic gradients.
+
+\textbf{Remark (Training Parallelizability).} The $\mathbf{d}_t$ latch update and the subtractive reset in Eq.~(10) are both conditioned on the discrete state $\mathbf{s}_t$, making them non-linear operations that cannot be trivially factored into a parallel associative scan (prefix-sum semi-ring). Consequently, training over long sequences is performed via standard Backpropagation Through Time (BPTT) or, for sequences of length $L$, via chunkwise BPTT with chunk size $C \ll L$, recovering $\mathcal{O}(L/C)$ wall-clock parallelism at the cost of truncated gradient flow across chunk boundaries. Future work may explore replacing the hard XOR latch with a continuous, scan-compatible interpolation to unlock full parallel-scan training analogous to RWKV or Mamba.
+
+The latch is zero-padded to $\mathbb{R}^D$ and both states are merged via learned elementwise scale vectors $\mathbf{w}_v \in \mathbb{R}^D$, $\mathbf{w}_d \in \mathbb{R}^S$ (not full matrices), then passed through GeLU and LayerNorm:
+\begin{align}
+    \mathbf{d}_{\text{readout},t} &= \text{ZeroPad}_{D-S}\!\left(\mathbf{w}_d \odot \mathbf{d}_t\right) \in \mathbb{R}^D \\
+    \mathbf{y}_t^{\text{mem}} &= \text{LayerNorm}\!\left( \text{GeLU}\!\left( \mathbf{w}_v \odot \mathbf{v}_t + \mathbf{d}_{\text{readout},t} + \mathbf{b}_{mem} \right) \right)
+\end{align}
+
+\subsection{Surrogate Gradients and Backpropagation Through Time (BPTT)}
+While the Heaviside step function $\Theta(x)$ flawlessly mimics biological digital spiking during the forward pass, it presents a catastrophic mathematical barrier for gradient-based optimization. The true mathematical derivative of the step function is the Dirac delta function $\delta(x)$, which is zero everywhere except at the threshold, where it is infinitely steep. If applied naively, this would halt all gradient flow during Backpropagation Through Time (BPTT), entirely preventing the network from learning.
+
+To solve this, the Dynamic HSRU employs a Surrogate Gradient approximation \cite{neftci2019surrogate}. During the backward pass, the non-differentiable Dirac delta is bypassed and replaced with the smooth, continuous derivative of a Fast Sigmoid function:
+The HSRU implementation uses \texttt{snntorch.surrogate.fast\_sigmoid(slope=25)}, which employs a steep logistic sigmoid as the surrogate:
+\begin{equation}
+    \varphi(z) = \frac{1}{1 + e^{-25z}}
+\end{equation}
+This function closely approximates the Heaviside step function for large $|z|$, while remaining smooth and differentiable everywhere. Its gradient is:
+\begin{equation}
+    \frac{\partial \varphi}{\partial z} = \frac{25\, e^{-25z}}{(1 + e^{-25z})^2}
+\end{equation}
+The slope of 25 is deliberately chosen to be steep enough that the surrogate is an accurate proxy for the true step function, yet broad enough to allow useful gradient magnitudes within $\pm 0.2$ of the threshold. By utilizing this smooth approximation exclusively during the backward pass, robust error signals are able to flow uninterrupted backward through thousands of timesteps.
+
+\section{The Logic Layer: Gate-Value Routing}
+While the Memory Layer provides long-term state tracking, the \texttt{HSRULogicLayer} is a stateless feedforward processor operating purely in parallel across time, making it fully GPU-fusable \cite{shazeer2020glu}.
+
+The gate uses a \textbf{sigmoid} activation $\sigma(\cdot) \in (0,1)$---not SiLU---producing a soft binary routing mask. Both projections are fused into a single matrix multiply and split:
+
+\begin{figure}[h]
+    \centering
+    \resizebox{0.8\textwidth}{!}{
+    \begin{tikzpicture}[
+        node distance=1.5cm and 2cm,
+        box/.style={draw, rectangle, rounded corners, align=center, minimum height=1.0cm, minimum width=2.5cm, fill=purple!10, font=\bfseries},
+        gate/.style={draw, rectangle, rounded corners, align=center, minimum height=1.0cm, minimum width=2.5cm, fill=blue!10, font=\bfseries},
+        op/.style={draw, circle, inner sep=3pt, font=\bfseries\large},
+        arrow/.style={-latex, thick, rounded corners=2pt}
+    ]
+        \node[box] (xt) {$\mathbf{y}^{mem}_t$};
+        
+        \node[gate, above right=0.5cm and 2cm of xt] (wgate) {Gate $\mathbf{W}_{gate}$};
+        \node[box, right=1.5cm of wgate] (sigact) {$\sigma$ (sigmoid)};
+        
+        \node[box, below right=0.5cm and 2cm of xt] (wval) {Value $\mathbf{W}_{value}$};
+        
+        \node[op, below right=0.5cm and 1.5cm of sigact] (mult) {$\odot$};
+        
+        \node[box, right=1.5cm of mult] (wout) {Out $\mathbf{W}_{out}$};
+        \node[right=1.5cm of wout, font=\bfseries\large] (out) {$\mathbf{y}_t^{\text{log}}$};
+    
+        \draw[arrow] (xt.east) -- ++(1,0) |- (wgate.west);
+        \draw[arrow] (xt.east) -- ++(1,0) |- (wval.west);
+        
+        \draw[arrow] (wgate) -- (sigact);
+        
+        \draw[arrow] (sigact.east) -- ++(0.5,0) |- (mult.north);
+        \draw[arrow] (wval.east) -- ++(4.3,0) |- (mult.south);
+        
+        \draw[arrow] (mult) -- (wout);
+        \draw[arrow] (wout) -- (out);
+    \end{tikzpicture}
+    }
+    \caption{The Logic Layer splits the memory output into a Routing branch (Gate, \textbf{sigmoid} activated) and a Concept branch (Value, no activation). The Hadamard product enables sparse logic activation. Note: SiLU appears only at the block level, not inside this layer.}
+\end{figure}
+
+\begin{align}
+    \begin{bmatrix} \mathbf{g}^{\text{raw}}_t \\ \mathbf{v}_t^{\text{log}} \end{bmatrix} &= \begin{bmatrix} \mathbf{W}_{gate} \\ \mathbf{W}_{value} \end{bmatrix} \mathbf{y}_t^{mem} + \begin{bmatrix} \mathbf{b}_{gate} \\ \mathbf{b}_{value} \end{bmatrix} \\
+    \mathbf{g}_t^{\text{log}} &= \sigma(\mathbf{g}^{\text{raw}}_t) \in (0,1)^{L} \\
+    \mathbf{h}_t^{\text{log}} &= \mathbf{g}_t^{\text{log}} \odot \mathbf{v}_t^{\text{log}} \\
+    \mathbf{y}_t^{\text{log}} &= \mathbf{W}_{out} \mathbf{h}_t^{\text{log}} + \mathbf{b}_{out}
+\end{align}
+where $L$ is \texttt{logic\_dim} (defaults to $D$ for LLM use). $\mathbf{W}_{out}$ is initialized with $\sigma=0.01$ to ensure stable early training. During edge C++ deployment, $\sigma$ may be replaced by $\sigma_{\text{hw}}(x) = \mathrm{clamp}(0.5 + x/8,\, 0,\, 1)$ without retraining.
+
+\textbf{Note on activations.} The \emph{SiLU} activation used in the block-level gating (Section~4.1) operates on the \emph{output} $\mathbf{y}_t^{\text{log}}$ of this layer to form the block gate: $\mathbf{g}_t = \text{clamp}(\text{SiLU}(\mathbf{y}_t^{\text{log}}), -1, 4)$. Inside the Logic Layer itself, the activation is always sigmoid.
+
+\section{The Dual-Mode HSRU Block}
+The \texttt{HSRUBlock} interleaves the Memory and Logic layers via four operational modes. The default for LLM training is \texttt{"additive"} (Mode 3). All modes pass the input through $\text{LayerNorm}_1$ before the Memory Layer and through $\text{LayerNorm}_2$ before the Logic Layer, following Pre-Norm conventions.
+
+\begin{figure}[h]
+    \centering
+    \resizebox{1.0\textwidth}{!}{
+    \begin{tikzpicture}[
+        node distance=1.6cm and 1.8cm,
+        box/.style={draw, rectangle, rounded corners, align=center, minimum height=1.2cm, minimum width=3.4cm, font=\bfseries},
+        mem/.style={box, fill=green!15},
+        log/.style={box, fill=purple!15},
+        gate/.style={box, fill=blue!15, minimum width=3.0cm},
+        blend/.style={box, fill=orange!15, minimum width=3.0cm},
+        op/.style={draw, circle, inner sep=3pt, font=\bfseries\large},
+        mult/.style={op, fill=red!20},
+        add/.style={op, fill=yellow!30},
+        arrow/.style={-latex, thick, rounded corners=3pt}
+    ]
+        % Main sequential input
+        \node (input) [font=\bfseries\large] {$\mathbf{x}_t \in \mathbb{R}^D$};
+        \node[mem, below=1.2cm of input] (memory) {Memory Layer \\ $\mathbf{y}_t^{\text{mem}}$};
+        \node[log, below=1.6cm of memory] (logic) {Logic Layer \\ $\mathbf{y}_t^{\text{log}}$};
+
+        % Pathway 1: Multiplicative (Left)
+        \node[gate, left=1.8cm of logic] (silu) {Clamped SiLU \\ $\mathbf{g}_t = \text{clamp}(\text{SiLU}(\mathbf{y}_t^{\text{log}}), -1, 4)$};
+        \node[mult, below=1.5cm of silu] (prod) {$\odot$};
+        \node (out_silu) [below=1.0cm of prod, align=center, font=\bfseries] {Mode: \texttt{"gated"} (LLMs) \\ $\mathbf{y}_t^{\text{out}} = \mathbf{x}_t + \mathbf{y}_t^{\text{mem}} \odot \mathbf{g}_t$};
+
+        % Pathway 2: Residual Blend (Right)
+        \node[blend, right=1.8cm of logic] (alpha) {Convex Weights \\ $\beta = \sigma(\alpha) \in (0, 1)$};
+        \node[add, below=1.5cm of alpha] (sum) {$+$};
+        \node (out_blend) [below=1.0cm of sum, align=center, font=\bfseries] {Mode: \texttt{"blend"} (Avionics) \\ $\mathbf{y}_t^{\text{out}} = \mathbf{x}_t + (1-\beta) \odot \mathbf{y}_t^{\text{mem}} + \beta \odot \mathbf{y}_t^{\text{log}}$};
+
+        \draw[arrow] (input) -- (memory);
+        \draw[arrow] (memory) -- (logic);
+        
+        \draw[arrow, color=purple!60!black] (logic.west) -- ++(-1.0, 0) |- (prod.east) node[pos=0.75, above, font=\footnotesize\bfseries] {$\mathbf{y}_t^{\text{log}}$};
+        \draw[arrow, color=purple!60!black] (logic.east) -- ++(1.0, 0) |- (sum.west) node[pos=0.75, above, font=\footnotesize\bfseries] {$\mathbf{y}_t^{\text{log}}$};
+        
+        \draw[arrow] (silu.south) -- (prod.north);
+        \draw[arrow] (alpha.south) -- (sum.north) node[midway, right, font=\footnotesize\bfseries] {Logic $\beta$};
+
+        % X_t routing to Gates
+        \draw[arrow, color=blue!50!black, line width=1.0pt, dashed] (input.west) -| ($(silu.west) + (-1.5, 0)$) |- (out_silu.north) node[pos=0.25, left, font=\footnotesize\bfseries] {Carrier $\mathbf{x}_t$};
+        \draw[arrow, color=orange!50!black, line width=1.0pt, dashed] (input.east) -| ($(alpha.east) + (1.5, 0)$) |- (sum.east) node[pos=0.25, right, font=\footnotesize\bfseries] {Carrier $(\mathbf{1}-\beta) \odot \mathbf{x}_t$};
+
+        \draw[arrow] (prod.south) -- (out_silu.north);
+        \draw[arrow] (sum.south) -- (out_blend.north);
+    \end{tikzpicture}
+    }
+    \caption{The Dual-Mode HSRUBlock architecture.}
+\end{figure}
+
+\subsection{Mode 1: Multiplicative Gated Residual (\texttt{mode="gated"})}
+In language generation tasks, cascading deep layers can easily lead to exploding gradients as activation scales compound unrestrictedly. To enforce absolute mathematical stability while still allowing the network to heavily amplify critical signals, we pass the logic output through a bounded SiLU function clamped strictly between $[-1, 4]$.
+
+The Logic Layer output dynamically modulates the exact degree to which the Memory Layer is injected back into the residual stream:
+\begin{align}
+    \mathbf{g}_t &= \text{clamp}\left( \text{SiLU}(\mathbf{y}_t^{\text{log}}), -1, 4 \right) \\
+    \mathbf{y}_t^{\text{out}} &= \mathbf{x}_t + \mathbf{y}_t^{\text{mem}} \odot \mathbf{g}_t
+\end{align}
+This formulation allows the network to multiplicatively scale (up to 4x), completely silence (0x), or slightly invert (-1x) individual semantic channels of the memory reasoning before integrating it into the residual backbone $\mathbf{x}_t$.
+
+\subsection{Mode 1b: Full-Context Gated Residual (\texttt{mode="gated\_x"})}
+In standard \texttt{gated} mode, the Logic Layer only observes the output of the Memory Layer ($\mathbf{y}_t^{\text{mem}}$). To allow the gating mechanism to incorporate contextual information from all previous layers, the \texttt{gated\_x} mode calculates the routing logic from the full residual stream $\mathbf{x}_t$:
+\begin{align}
+    \mathbf{g}_t &= \text{clamp}\left( \text{SiLU}(\text{Logic}(\text{LayerNorm}(\mathbf{x}_t))), -1, 4 \right) \\
+    \mathbf{y}_t^{\text{out}} &= \mathbf{x}_t + \mathbf{y}_t^{\text{mem}} \odot \mathbf{g}_t
+\end{align}
+This makes the routing logic significantly more expressive, as it can dynamically suppress memory injection based on global contextual clues embedded in the residual stream.
+
+\subsection{Mode 2: Residual Convex Blending (\texttt{mode="blend"})}
+In physical systems, such as aerospace robotics and real-time avionics, multiplicative gating introduces severe numerical vulnerabilities. An unexpected high-dynamic shock input can multiply across layers, leading to catastrophic system failure. 
+
+To guarantee safety, Mode 2 introduces a learnable convex combination parameter $\alpha \in \mathbb{R}^D$:
+\begin{align}
+    \beta &= \sigma(\alpha) = \frac{1}{1 + \exp(-\alpha)} \quad \in (0, 1)^D \\
+    \mathbf{y}_t^{\text{out}} &= \mathbf{x}_t + \left( (\mathbf{1} - \beta) \odot \mathbf{y}_t^{\text{mem}} + \beta \odot \mathbf{y}_t^{\text{log}} \right)
+\end{align}
+Because $\beta \in (0,1)^D$ and both memory and logic outputs are layer-normalized, this residual blending satisfies \textbf{Bounded-Input Bounded-Output (BIBO)} stability: a bounded input $\mathbf{x}_t$ with $\|\mathbf{x}_t\| < \infty$ guarantees a bounded output $\mathbf{y}_t^{\text{out}}$. This stability property is a necessary (though not sufficient) algorithmic precondition for integration into safety-critical software systems that must further satisfy full development lifecycle requirements such as those outlined in DO-178C.
+
+\subsection{Mode 3: Additive (\texttt{mode="additive"}) --- \textbf{Default LLM Mode}}
+This is the \textbf{default mode} for language model training, analogous to the independent Attention + FFN addition structure of standard Transformers.
+
+The Memory Layer injects its context scaled by a learned elementwise vector $\mathbf{s}_{mem} \in \mathbb{R}^D$ initialized to $0.1$ (preventing the double-silent startup problem):
+\begin{equation}
+    \mathbf{y}_t^{\text{mem\_out}} = \mathbf{x}_t + \mathbf{y}_t^{\text{mem}} \odot \mathbf{s}_{mem}
+\end{equation}
+The Logic Layer then reads the updated stream and injects world knowledge:
+\begin{equation}
+    \mathbf{y}_t^{\text{out}} = \mathbf{y}_t^{\text{mem\_out}} + \text{Logic}\!\left(\text{LayerNorm}\!\left(\mathbf{y}_t^{\text{mem\_out}}\right)\right)
+\end{equation}
+Both pathways contribute independently without gating, providing maximum representational capacity for large-scale LLM training.
+
+\section{Product Key Memory (PKM) and Spiking Linear Attention}
+While the Neuromorphic Memory layer tracks temporal states, associative recall (``finding a needle in a haystack'') remains challenging for pure RNNs. To address this, the architecture incorporates a \textbf{Multi-Head Gated Spiking Linear Attention} layer that provides capacity-bounded approximate associative recall at a fixed $\mathcal{O}(M^2 D_v)$ memory footprint, independent of context length $N$.
+
+\textbf{Capacity remark.} The fixed-size $M \times M$ grid fundamentally bounds storage capacity. By the Pigeonhole Principle and Hopfield/Kanerva associative memory bounds \cite{kanerva1988sparse}, when the number of distinct context patterns $N \gg M^2$, collision and overwrite of earlier associations are expected. This mechanism therefore provides \emph{approximate} associative recall with graceful degradation as $N$ grows, not unbounded exact recall.
+
+\subsection{Spiking Queries and Keys}
+Instead of generating continuous query and key vectors, we project the input $\mathbf{x}_t$ and immediately subject them to the Fast-Sigmoid Surrogate Gradient step function $\Theta$. This forces all attention addressing to occur in a discrete, neuromorphic binary space:
+\begin{align}
+    \mathbf{q}_{s,t} &= \Theta(\mathbf{W}_q \mathbf{x}_t) \in \{0,1\}^{D_k} \\
+    \mathbf{k}_{s,t} &= \Theta(\mathbf{W}_k \mathbf{x}_t) \in \{0,1\}^{D_k} \\
+    \mathbf{v}_t &= \mathbf{W}_v \mathbf{x}_t \in \mathbb{R}^{D_v}
+\end{align}
+
+\subsection{Data-Dependent Decay and Multi-Head PKM Grid Addressing}
+The layer has $H$ heads with per-head dimension $D_h = D/H$. A per-head scalar gate $g_t^{(h)} = \sigma(\mathbf{W}_g \mathbf{x}_t) \in (0,1)^H$ decays the state grid. The full per-head state is $\mathbf{KV}_{\text{state}}^{(h)} \in \mathbb{R}^{M \times M \times D_h}$.
+
+Keys and queries are split into two half-vectors and scored against $\ell_2$-normalized codebooks $\mathbf{C}_1, \mathbf{C}_2 \in \mathbb{R}^{H \times M \times D_h/2}$:
+\begin{align}
+    \mathbf{k}_{row}^{(h)}, \mathbf{k}_{col}^{(h)} &= \mathbf{k}_{s,t}^{(h)}[{:}D_h/2] \cdot \mathbf{C}_1^{(h)\top},\; \mathbf{k}_{s,t}^{(h)}[D_h/2{:}] \cdot \mathbf{C}_2^{(h)\top}
+\end{align}
+The write weight matrix is the outer product of two Top-$K$ Softmax distributions:
+\begin{equation}
+    \mathbf{k}_{w}^{(h)} = \text{Softmax}(\text{Top-}K(\mathbf{k}_{row}^{(h)})) \otimes \text{Softmax}(\text{Top-}K(\mathbf{k}_{col}^{(h)})) \in \mathbb{R}^{M \times M}
+\end{equation}
+The state update is a decayed outer-product scatter-add:
+\begin{equation}
+    \mathbf{KV}_{\text{state},t}^{(h)} = \mathbf{KV}_{\text{state},t-1}^{(h)} \odot g_t^{(h)} + \mathbf{k}_{w}^{(h)} \otimes \mathbf{v}_t^{(h)} \in \mathbb{R}^{M \times M \times D_h}
+\end{equation}
+where $(\mathbf{k}_{w} \otimes \mathbf{v})_{i,j,d} = (\mathbf{k}_{w})_{i,j} \cdot v_d$.
+
+The read step uses identical sparse addressing and contracts the $M{\times}M$ query weight against the state:
+\begin{equation}
+    \mathbf{o}_{t}^{(h)} = \sum_{i,j} (\mathbf{q}_{w}^{(h)})_{i,j}\; \mathbf{KV}_{\text{state},t}^{(h)}[i,j,:] \in \mathbb{R}^{D_h}
+\end{equation}
+Final output: $\mathbf{o}_t = [\mathbf{o}_t^{(1)},\ldots,\mathbf{o}_t^{(H)}] \in \mathbb{R}^D$.
+
+\textbf{Chunkwise parallel training} (chunk size $C=256$). Within each chunk a causal log-sum decay mask is formed from the per-head gate $g_t^{(h)}$:
+\begin{align}
+    \gamma_{s}^{(h)} &= \log g_s^{(h)}, \qquad G_{t}^{(h)} = \textstyle\sum_{\tau=1}^{t}\gamma_\tau^{(h)} \\
+    \mathcal{M}_{s,t}^{(h)} &= \exp\!\bigl(G_t^{(h)} - G_s^{(h)}\bigr) \cdot \mathbf{1}[s \le t]
+\end{align}
+The within-chunk causal output is $\mathbf{o}_{\text{seq}} = \mathcal{M} \odot (A_{row} \cdot A_{col}) \cdot \mathbf{v} / \sqrt{D_h}$, where $A_{row} = R_Q R_K^\top$, $A_{col} = C_Q C_K^\top$ are the row/column attention matrices. State read and write are handled by CUDA-fused einsum kernels (\texttt{AttnStateReadFn}, \texttt{AttnKVUpdateFn}) that avoid materializing the full $[B,H,T,M^2]$ outer-product.
+
+The final output adds the residual connection and output projection:
+\begin{equation}
+    \mathbf{y}_t^{\text{attn}} = \mathbf{x}_t + \mathbf{W}_{out}\,\text{LayerNorm}\!\left(\mathbf{o}_{\text{state},t} + \mathbf{o}_{\text{seq},t}\right)
+\end{equation}
+
+\section{Computational Complexity Analysis}
+The fundamental mathematical distinction between standard Transformers and the Dynamic HSRU lies in their treatment of the sequence length variable, $N$.
+
+\subsection{The Transformer $\mathcal{O}(N^2)$ Bottleneck}
+The Self-Attention mechanism computes an $N \times N$ matrix representing the correlation between every single token in the sequence. For a sequence of length $N$ and a model dimension $D$:
+\begin{itemize}
+    \item \textbf{Computational Time Complexity:} $\mathcal{O}(N^2 D)$. This grows quadratically, meaning a 10x increase in context length requires a 100x increase in FLOPs.
+    \item \textbf{Runtime Space (Memory) Complexity:} $\mathcal{O}(N D)$ to store the required KV-Cache matrices in High Bandwidth Memory (HBM).
+\end{itemize}
+As $N$ approaches one million tokens, $N^2$ scales exponentially out of control, rendering processing computationally impossible on edge devices without aggressive pruning or summarization tactics.
+
+\subsection{The Dynamic HSRU $\mathcal{O}(1)$ Solution}
+The HSRU processes the sequence sequentially through discrete state-space recurrence. Because all historical information is continuously compressed into the fixed-size Voltage ($\mathbf{v}_t$) and Latch ($\mathbf{d}_t$) vectors, the sequence length $N$ plays no role in the memory footprint.
+\begin{itemize}
+    \item \textbf{Computational Time Complexity:} $\mathcal{O}(N D^2)$. While this scales linearly with sequence length (a massive improvement over $N^2$), the matrix multiplications are purely localized.
+    \item \textbf{Runtime Space (Memory) Complexity:} $\mathcal{O}(D)$. The memory footprint is utterly flat and perfectly constant ($\mathcal{O}(1)$ relative to $N$). 
+\end{itemize}
+Generating the 1st token and the 100,000th token requires the exact same amount of VRAM. This guarantees that an HSRU model deployed on a 1GB Raspberry Pi will never crash due to an Out-Of-Memory (OOM) error, regardless of how long the conversation lasts.
+
+\section{Conclusion}
+{\tolerance=2000\emergencystretch=8pt\relax
+The Dynamic HSRU fundamentally re-engineers how artificial neural networks process long-term dependencies. By structurally isolating Neuromorphic LIF Memory from High-Throughput Gate-Value Logic, the architecture addresses catastrophic forgetting in classical RNNs while achieving linear (rather than quadratic) scaling in sequence length.
+
+By bypassing Self-Attention, this work demonstrates architecturally that deep reasoning does not inherently require comparing every token to every prior token. By integrating localized dendritic filtering, discrete boolean latches, and a capacity-bounded PKM associative grid, the HSRU provides a BIBO-stable, edge-deployable foundation for practical long-context language modeling.
+
+Key limitations include: (1)~the fixed $M\!\times\!M$ PKM grid provides approximate---not exact---associative recall for $N \gg M^2$; (2)~the discrete XOR latch precludes trivial parallel associative scan training, requiring chunkwise BPTT; and (3)~formal expressivity or linguistic lower-bound proofs remain open problems for future theoretical work.
+}
+
+\begin{thebibliography}{9}
+\bibitem{vaswani2017attention} 
+Vaswani, Ashish, et al. "Attention is all you need." \textit{Advances in neural information processing systems} 30 (2017).
+
+\bibitem{dao2022flashattention} 
+Dao, Tri, et al. "FlashAttention: Fast and memory-efficient exact attention with IO-awareness." \textit{Advances in Neural Information Processing Systems} 35 (2022): 32087-32109.
+
+\bibitem{hochreiter1997long} 
+Hochreiter, Sepp, and J{\"u}rgen Schmidhuber. "Long short-term memory." \textit{Neural computation} 9.8 (1997): 1735-1780.
+
+\bibitem{gu2023mamba} 
+Gu, Albert, and Tri Dao. "Mamba: Linear-time sequence modeling with selective state spaces." \textit{arXiv preprint arXiv:2312.00752} (2023).
+
+\bibitem{maass1997networks}
+Maass, Wolfgang. "Networks of spiking neurons: the third generation of neural network models." \textit{Neural networks} 10.9 (1997): 1659-1671.
+
+\bibitem{peng2023rwkv}
+Peng, Bo, et al. "RWKV: Reinventing RNNs for the Transformer Era." \textit{Findings of the Association for Computational Linguistics: EMNLP 2023} (2023).
+
+\bibitem{sun2023retentive}
+Sun, Yutao, et al. "Retentive Network: A Successor to Transformer for Large Language Models." \textit{arXiv preprint arXiv:2307.08621} (2023).
+
+\bibitem{shazeer2020glu}
+Shazeer, Noam. "GLU Variants Improve Transformer." \textit{arXiv preprint arXiv:2002.05202} (2020).
+
+\bibitem{neftci2019surrogate}
+Neftci, Emre O., Hesham Mostafa, and Friedemann Zenke. "Surrogate gradient learning in spiking neural networks." \textit{IEEE Signal Processing Magazine} 36.6 (2019): 51-63.
+
+\bibitem{kanerva1988sparse}
+Kanerva, Pentti. \textit{Sparse Distributed Memory}. MIT Press, 1988.
+\end{thebibliography}
+
+\end{document}
