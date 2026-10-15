@@ -419,7 +419,7 @@ The Logic Layer then reads the updated stream and injects world knowledge:
 Both pathways contribute independently without gating, providing maximum representational capacity for large-scale LLM training.
 
 \section{Product Key Memory (PKM) and Spiking Linear Attention}
-While the Neuromorphic Memory layer tracks temporal states, associative recall (``finding a needle in a haystack'') remains challenging for pure RNNs. To address this, the architecture incorporates a \textbf{Multi-Head Gated Spiking Linear Attention} layer that provides capacity-bounded approximate associative recall at a fixed $\mathcal{O}(M^2 D_v)$ memory footprint, independent of context length $N$.
+While the Neuromorphic Memory layer tracks temporal states, associative recall (``finding a needle in a haystack'') remains challenging for pure RNNs. To address this, the architecture incorporates a \textbf{Multi-Head Gated Spiking Linear Attention} layer. Building upon the 2D factored key addressing introduced in Product Key Memory (PKM) by Lample et al.~\cite{lample2019large}, we integrate Cartesian product keys directly into a recurrent associative grid with data-dependent causal decay. This provides capacity-bounded approximate associative recall at a fixed $\mathcal{O}(M^2 D_v)$ memory footprint, independent of context length $N$.
 
 \textbf{Capacity remark.} The fixed-size $M \times M$ grid fundamentally bounds storage capacity. By the Pigeonhole Principle and Hopfield/Kanerva associative memory bounds \cite{kanerva1988sparse}, when the number of distinct context patterns $N \gg M^2$, collision and overwrite of earlier associations are expected. This mechanism therefore provides \emph{approximate} associative recall with graceful degradation as $N$ grows, not unbounded exact recall.
 
@@ -494,7 +494,7 @@ By bypassing Self-Attention, this work demonstrates architecturally that deep re
 Key limitations include: (1)~the fixed $M\!\times\!M$ PKM grid provides approximate---not exact---associative recall for $N \gg M^2$; (2)~the discrete XOR latch precludes trivial parallel associative scan training, requiring chunkwise BPTT; and (3)~formal expressivity or linguistic lower-bound proofs remain open problems for future theoretical work.
 }
 
-\begin{thebibliography}{9}
+\begin{thebibliography}{99}
 \bibitem{vaswani2017attention} 
 Vaswani, Ashish, et al. "Attention is all you need." \textit{Advances in neural information processing systems} 30 (2017).
 
@@ -524,6 +524,9 @@ Neftci, Emre O., Hesham Mostafa, and Friedemann Zenke. "Surrogate gradient learn
 
 \bibitem{kanerva1988sparse}
 Kanerva, Pentti. \textit{Sparse Distributed Memory}. MIT Press, 1988.
+
+\bibitem{lample2019large}
+Lample, Guillaume, et al. "Large memory layers with product keys." \textit{Advances in Neural Information Processing Systems} 32 (2019).
 \end{thebibliography}
 
 \end{document}
