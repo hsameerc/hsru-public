@@ -5,7 +5,7 @@
 ---
 
 ### 🚨 Something New Is Coming.
-**Official Unveiling on Hacker News next Wednesday.**
+**Official Unveiling Coming Soon.**
 
 We are finalizing the public launch of **HSRU 2.0**, introducing a novel **Predictive Plastic Synaptic Attention** architecture paired with neuromorphic recurrence.
 
@@ -42,9 +42,9 @@ Trained from scratch on **0.52 Billion tokens** across 16,000 steps on consumer 
 
 ---
 
-## 📜 Full Release: Unveiling Next Wednesday
+## 📜 Full Release Coming Soon
 
-The complete mathematical whitepapers, formal contractive stability proofs, and full architectural specifications **will be unveiled alongside our official Hacker News launch next Wednesday**.
+The complete mathematical whitepapers, formal contractive stability proofs, and full architectural specifications **will be unveiled alongside the official HSRU 2.0 release**.
 
 ### 🔒 Exclusive Research Pilots & Early Previews
 Prior to the public launch, early foundation checkpoints (`.pt`), raw training logs, and edge-compiled binaries (`.fxp`) are being made available selectively to:
@@ -52,7 +52,7 @@ Prior to the public launch, early foundation checkpoints (`.pt`), raw training l
 - Silicon co-design teams (ASIC / FPGA / NPU acceleration)
 - Edge AI & real-time embedded engineering groups
 
-**To request exclusive preview access before next Wednesday:**
+**To request exclusive preview access:**
 * ✉️ **Contact:** Sameer Humagain ([im@hsameer.com.np](mailto:im@hsameer.com.np?subject=HSRU%202.0%20Exclusive%20Preview))
 * 🌐 **Public Release Hub:** [https://github.com/hsameerc/hsru-public](https://github.com/hsameerc/hsru-public)
 * 🔬 **Research Updates:** [https://gitlab.com/hsru/hsru-package](https://gitlab.com/hsru/hsru-package)
