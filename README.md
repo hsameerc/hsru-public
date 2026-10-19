@@ -24,6 +24,7 @@ All models in this repository were trained on a **single 12 GB consumer NVIDIA G
 | Component | Status | Location |
 |---|:---:|---|
 | Mathematical derivations and stability analysis | Open | [Whitepapers/](Whitepapers/) |
+| Upcoming HSRU 2.0 PKM Delta Attention & Pretraining Benchmarks | Preview | [UPCOMING.md](UPCOMING.md) |
 | Pre-compiled demo binaries + model weights | Public, for evaluation | [Demos/](Demos/) |
 | Benchmark logs and metrics | Open | [DRONE_METRICS.md](DRONE_METRICS.md), [TRAINING_METRICS.md](TRAINING_METRICS.md), [Metrics/](Metrics/) |
 | PyTorch training framework | Proprietary | Available to research and pilot partners |
